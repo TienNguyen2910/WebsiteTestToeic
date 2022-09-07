@@ -10,7 +10,7 @@ namespace WebsiteTestToeic.Domain.Models
             QuizzesList = new List<Quiz>();
         }
         public int Id { get; set; }
-        public DateTime ExamTime { get; set; }
+        public TimeSpan ExamTime { get; set; }
         public string TypeTest { get; set; }
         public int NumQuestion { get; set; }
         [JsonIgnore]

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebsiteTestToeic.Database.DatabaseContext;
 
@@ -11,9 +12,10 @@ using WebsiteTestToeic.Database.DatabaseContext;
 namespace WebsiteTestToeic.Database.Migrations
 {
     [DbContext(typeof(TestToeicDbContext))]
-    partial class TestToeicDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220906155558_One")]
+    partial class One
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -215,9 +217,9 @@ namespace WebsiteTestToeic.Database.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<TimeSpan>("ExamTime")
+                    b.Property<DateTime>("ExamTime")
                         .IsUnicode(false)
-                        .HasColumnType("time");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("NumQuestion")
                         .HasColumnType("int");
