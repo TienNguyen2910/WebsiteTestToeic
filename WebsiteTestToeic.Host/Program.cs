@@ -1,6 +1,10 @@
+using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using WebsiteTestToeic.Database.DatabaseContext;
+using Autofac;
+using WebsiteTestToeic.Host.Autofac;
+using Autofac.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +17,19 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<TestToeicDbContext>(Options
     => Options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")));
+// Register Object
+//builder.Services.AddScoped<ITestRepository, TestRepository>();
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
+    .ConfigureContainer<ContainerBuilder>(builder =>
+    {
+        builder.RegisterModule(new AutofacBusinessModule());
+    });
+
+builder.Services.AddAuthentication(
+        CertificateAuthenticationDefaults.AuthenticationScheme)
+    .AddCertificate();
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
