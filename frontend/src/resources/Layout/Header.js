@@ -3,7 +3,10 @@ import "./Layout.css";
 function Header() {
     return (
         <header>
-            <nav className="navbar navbar-expand-lg navbar-dark d-none d-lg-block" style={{ zIndex: 2000 }}>
+            <nav
+                className="container d-none d-lg-block navbar navbar-expand-lg navbar-light bg-light"
+                style={{ zIndex: 2000 }}
+            >
                 <div className="container-fluid">
                     <a className="navbar-brand nav-link" target="_blank" href="https://mdbootstrap.com/docs/standard/">
                         <strong>MDB</strong>
@@ -89,7 +92,7 @@ function Header() {
                 </div>
             </nav>
 
-            <div id="intro" className="bg-image vh-100 shadow-1-strong">
+            {/* <div id="intro" className="bg-image vh-100 shadow-1-strong">
                 <video style={{ minWidth: "100%", minHeight: "100%" }} playsInline autoPlay muted loop>
                     <source className="h-100" src="https://mdbootstrap.com/img/video/Lines.mp4" type="video/mp4" />
                 </video>
@@ -118,7 +121,7 @@ function Header() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </header>
     );
 }
