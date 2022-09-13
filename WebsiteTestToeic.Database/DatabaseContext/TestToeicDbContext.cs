@@ -36,7 +36,7 @@ namespace WebsiteTestToeic.Database.DatabaseContext
             modelBuilder.Entity<Role>(entity =>
             {
                 entity.ToTable("Role");
-                entity.HasKey("Id");
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
                 entity.Property("RoleName")
                       .HasMaxLength(50)
                       .IsUnicode(false);
@@ -45,7 +45,7 @@ namespace WebsiteTestToeic.Database.DatabaseContext
             modelBuilder.Entity<User>(entity =>
             {
                 entity.ToTable("User");
-                entity.HasKey("Id");
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
                 entity.Property(e => e.UserName)
                       .HasMaxLength(100)
                       .IsUnicode(false);
@@ -68,7 +68,7 @@ namespace WebsiteTestToeic.Database.DatabaseContext
             modelBuilder.Entity<Test>(entity =>
             {
                 entity.ToTable("Test");
-                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Id).ValueGeneratedOnAdd() ;
 
                 entity.Property(e => e.ExamTime)
                       .IsUnicode(false);
@@ -80,7 +80,7 @@ namespace WebsiteTestToeic.Database.DatabaseContext
             modelBuilder.Entity<Quiz>(entity =>
             {
                 entity.ToTable("Quiz");
-                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
                 entity.Property(e => e.Title)
                       .HasMaxLength(50)
                       .IsUnicode(false);
@@ -99,7 +99,7 @@ namespace WebsiteTestToeic.Database.DatabaseContext
             modelBuilder.Entity<Question>(entity =>
             {
                 entity.ToTable("Question");
-                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.Image)
                       .HasMaxLength(100)
@@ -123,7 +123,7 @@ namespace WebsiteTestToeic.Database.DatabaseContext
             modelBuilder.Entity<Answer>(entity =>
             {
                 entity.ToTable("Answer");
-                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
                 entity.HasOne(q => q.Question)
                       .WithMany(a => a.Answers)
@@ -139,7 +139,7 @@ namespace WebsiteTestToeic.Database.DatabaseContext
             modelBuilder.Entity<Result>(entity => 
             {
                 entity.ToTable("Result");
-                entity.HasKey(r => r.Id);
+                entity.Property(r => r.Id).ValueGeneratedOnAdd();
 
                 entity.HasOne(u => u.User)
                       .WithMany(r => r.ResultsList)
