@@ -3,11 +3,8 @@ import "./Layout.css";
 function Header() {
     return (
         <header>
-            <nav
-                className="container d-none d-lg-block navbar navbar-expand-lg navbar-light bg-light"
-                style={{ zIndex: 2000 }}
-            >
-                <div className="container-fluid">
+            <nav className="d-none d-lg-block navbar navbar-expand-lg navbar-light bg-light" style={{ zIndex: 2000 }}>
+                <div className="container">
                     <a className="navbar-brand nav-link" target="_blank" href="https://mdbootstrap.com/docs/standard/">
                         <strong>MDB</strong>
                     </a>

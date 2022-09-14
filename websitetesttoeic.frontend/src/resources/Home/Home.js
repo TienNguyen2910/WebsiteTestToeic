@@ -5,14 +5,10 @@ function Home() {
         <>
             <header>
                 <nav className="navbar navbar-expand-lg navbar-dark d-none d-lg-block" style={{ zIndex: 2000 }}>
-                    <div className="container-fluid">
-                        <a
-                            className="navbar-brand nav-link"
-                            target="_blank"
-                            href="https://mdbootstrap.com/docs/standard/"
-                        >
+                    <div className="container">
+                        <Link className="navbar-brand nav-link" to="./">
                             <strong>TOEIC</strong>
-                        </a>
+                        </Link>
                         <button
                             className="navbar-toggler"
                             type="button"
@@ -32,23 +28,9 @@ function Home() {
                                     </Link>
                                 </li>
                                 <li className="nav-item active">
-                                    <a
-                                        className="nav-link "
-                                        href="https://www.youtube.com/channel/UC5CF7mLQZhvx8O5GODZAhdA"
-                                        rel="nofollow"
-                                        target="_blank"
-                                    >
+                                    <Link className="nav-link" to="./test" rel="nofollow">
                                         Thi thử
-                                    </a>
-                                </li>
-                                <li className="nav-item active">
-                                    <a
-                                        className="nav-link"
-                                        href="https://mdbootstrap.com/docs/standard/"
-                                        target="_blank"
-                                    >
-                                        Download MDB UI KIT
-                                    </a>
+                                    </Link>
                                 </li>
                             </ul>
 
@@ -73,7 +55,7 @@ function Home() {
                         <div className="container d-flex align-items-center justify-content-center text-center h-100">
                             <div className="text-white">
                                 <h1 className="mb-3">ONLINE TOEIC TEST</h1>
-                                <h5 className="mb-4">The best choice to study and practice toeic</h5>
+                                <h5 className="mb-4">The best choice to study and practice toeic !!!</h5>
                                 <a
                                     className="btn btn-outline-light btn-lg m-2"
                                     href="https://www.youtube.com/watch?v=c9B4TPnak1A"

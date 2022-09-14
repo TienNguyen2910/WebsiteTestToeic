@@ -11,7 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebsiteTestToeic.Domain", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebsiteTestToeic.Database", "WebsiteTestToeic.Database\WebsiteTestToeic.Database.csproj", "{DBAAEDB3-3849-412A-8D24-E6CA9B6B7E76}"
 EndProject
+<<<<<<< HEAD
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "websitetesttoeic.frontend", "WebsiteTestToeic.FrontEnd\websitetesttoeic.frontend.esproj", "{11B2AF0D-D152-4B8F-95B4-336E05D8FF54}"
+=======
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "websitetesttoeic.frontend", "websitetesttoeic.frontend\websitetesttoeic.frontend.esproj", "{AE10A15A-47EF-42D8-9786-3DD7B91BB1AA}"
+>>>>>>> origin/master
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,12 +39,21 @@ Global
 		{DBAAEDB3-3849-412A-8D24-E6CA9B6B7E76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DBAAEDB3-3849-412A-8D24-E6CA9B6B7E76}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DBAAEDB3-3849-412A-8D24-E6CA9B6B7E76}.Release|Any CPU.Build.0 = Release|Any CPU
+<<<<<<< HEAD
 		{11B2AF0D-D152-4B8F-95B4-336E05D8FF54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{11B2AF0D-D152-4B8F-95B4-336E05D8FF54}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11B2AF0D-D152-4B8F-95B4-336E05D8FF54}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{11B2AF0D-D152-4B8F-95B4-336E05D8FF54}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11B2AF0D-D152-4B8F-95B4-336E05D8FF54}.Release|Any CPU.Build.0 = Release|Any CPU
 		{11B2AF0D-D152-4B8F-95B4-336E05D8FF54}.Release|Any CPU.Deploy.0 = Release|Any CPU
+=======
+		{AE10A15A-47EF-42D8-9786-3DD7B91BB1AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE10A15A-47EF-42D8-9786-3DD7B91BB1AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE10A15A-47EF-42D8-9786-3DD7B91BB1AA}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{AE10A15A-47EF-42D8-9786-3DD7B91BB1AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE10A15A-47EF-42D8-9786-3DD7B91BB1AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE10A15A-47EF-42D8-9786-3DD7B91BB1AA}.Release|Any CPU.Deploy.0 = Release|Any CPU
+>>>>>>> origin/master
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
