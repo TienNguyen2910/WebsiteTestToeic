@@ -28,18 +28,14 @@ function Home() {
                                     </Link>
                                 </li>
                                 <li className="nav-item active">
-                                    <Link className="nav-link" to="./test" rel="nofollow">
+                                    <Link className="nav-link" to="./dashboard" rel="nofollow">
                                         Thi thử
                                     </Link>
                                 </li>
                             </ul>
 
                             <div className="navbar-nav d-flex flex-row">
-                                <Link
-                                    className="btn btn-outline-light"
-                                    to="https://mdbootstrap.com/docs/standard/"
-                                    role="button"
-                                >
+                                <Link className="btn btn-outline-light" to="./login" role="button">
                                     LOGIN
                                 </Link>
                             </div>
@@ -56,15 +52,14 @@ function Home() {
                             <div className="text-white">
                                 <h1 className="mb-3">ONLINE TOEIC TEST</h1>
                                 <h5 className="mb-4">The best choice to study and practice toeic !!!</h5>
-                                <a
+                                <Link
                                     className="btn btn-outline-light btn-lg m-2"
-                                    href="https://www.youtube.com/watch?v=c9B4TPnak1A"
+                                    to="./dashboard"
                                     role="button"
                                     rel="nofollow"
-                                    target="_blank"
                                 >
                                     Start here
-                                </a>
+                                </Link>
                             </div>
                         </div>
                     </div>

@@ -8,7 +8,7 @@ import Footer from "./resources/Layout/Footer";
 // Body
 import Home from "./resources/Home/Home";
 import Login from "./resources/Login/Login";
-import Test from "./resources/Test/Test";
+import Dashboard from "./resources/Dashboard/Dashboard";
 import "./App.css";
 
 function App() {
@@ -21,7 +21,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
-                <Route path="/test" element={<Test />} />
+                <Route path="/dashboard" element={<Dashboard />} />
             </Routes>
 
             {/* Footer */}
