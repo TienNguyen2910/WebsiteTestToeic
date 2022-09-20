@@ -9,6 +9,7 @@ namespace WebsiteTestToeic.Host.Autofac
         protected  override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<TestRepository>().As<ITestRepository>().SingleInstance();
+            builder.RegisterType<UserRepository>().As<IUserRepository>().SingleInstance();
         }
     }
 }
