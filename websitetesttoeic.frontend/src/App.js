@@ -9,6 +9,7 @@ import Footer from "./resources/Layout/Footer";
 import Home from "./resources/Home/Home";
 import Login from "./resources/Login/Login";
 import Dashboard from "./resources/Dashboard/Dashboard";
+import Register from "./resources/Register/Register";
 import "./App.css";
 
 function App() {
@@ -18,11 +19,14 @@ function App() {
             <Header />
 
             {/* Body */}
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-            </Routes>
+            <div className="container">
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/register" element={<Register />} />
+                </Routes>
+            </div>
 
             {/* Footer */}
             {/* <Footer /> */}

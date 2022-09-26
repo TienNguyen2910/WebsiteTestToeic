@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 
 function Header() {
     return (
-        <header>
-            <nav className="d-none d-lg-block navbar navbar-expand-lg navbar-light bg-light" style={{ zIndex: 2000 }}>
+        <header style={{ zIndex: 10 }}>
+            <nav className="d-none d-lg-block navbar navbar-expand-lg navbar-light bg-light">
                 <div className="container">
                     <Link className="navbar-brand nav-link" to="./">
                         <strong>TOEIC</strong>
@@ -37,7 +37,7 @@ function Header() {
                         <ul className="navbar-nav d-flex flex-row">
                             <li className="nav-item me-3 me-lg-0">
                                 <Link className="btn btn-primary" to="./login" rel="nofollow">
-                                    Login
+                                    Đăng nhập
                                 </Link>
                             </li>
                         </ul>

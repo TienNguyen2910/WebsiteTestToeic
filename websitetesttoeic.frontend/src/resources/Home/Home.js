@@ -36,7 +36,7 @@ function Home() {
 
                             <div className="navbar-nav d-flex flex-row">
                                 <Link className="btn btn-outline-light" to="./login" role="button">
-                                    LOGIN
+                                    Đăng nhập
                                 </Link>
                             </div>
                         </div>
