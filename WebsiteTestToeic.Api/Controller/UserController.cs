@@ -35,18 +35,21 @@ namespace WebsiteTestToeic.Api.Controller
             CreatePasswordHash(password, out byte[] passwordHash);
             password = Convert.ToBase64String(passwordHash);
             var user = await _userRepository.Login(email, password);
-            var token = CreateToken(user);
             if(user != null)
+            {
+                var token = CreateToken(user);
                 return Ok(token);
+            }
             return null;
         }
-        private string CreateToken(User user)
+        private string CreateToken(UserRole user)
         {
             List<Claim> claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Name, user.UserName)
-
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.DateOfBirth,user.DateOfBirth),
+                new Claim(ClaimTypes.Role, user.RoleName)
             };
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("Appsettings:Token").Value));
             var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
