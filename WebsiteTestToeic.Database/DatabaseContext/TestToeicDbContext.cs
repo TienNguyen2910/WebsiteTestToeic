@@ -27,7 +27,7 @@ namespace WebsiteTestToeic.Database.DatabaseContext
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("server=DESKTOP-R84VEJN\\SQLEXPRESS;database=TestToeicDB;Trusted_Connection=true;");
+                optionsBuilder.UseSqlServer("server=LAPTOP-7D6S6BK0\\SQLEXPRESS;database=TestToeicDB;Trusted_Connection=true;");
             }
         }
 

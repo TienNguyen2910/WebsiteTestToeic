@@ -10,7 +10,6 @@ function Footer() {
                         className="btn btn-primary m-1"
                         role="button"
                         rel="nofollow"
-                        target="_blank"
                     >
                         <i className="fab fa-youtube" />
                     </a>
@@ -19,7 +18,6 @@ function Footer() {
                         className="btn btn-primary m-1"
                         role="button"
                         rel="nofollow"
-                        target="_blank"
                     >
                         <i className="fab fa-facebook-f" />
                     </a>
@@ -28,7 +26,6 @@ function Footer() {
                         className="btn btn-primary m-1"
                         role="button"
                         rel="nofollow"
-                        target="_blank"
                     >
                         <i className="fab fa-twitter" />
                     </a>
@@ -37,7 +34,6 @@ function Footer() {
                         className="btn btn-primary m-1"
                         role="button"
                         rel="nofollow"
-                        target="_blank"
                     >
                         <i className="fab fa-github" />
                     </a>

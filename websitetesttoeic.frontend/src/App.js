@@ -1,9 +1,9 @@
-import logo from "./logo.svg";
+// import logo from "./logo.svg";
 import { Routes, Route } from "react-router-dom";
 
 // Layout
 import Header from "./resources/Layout/Header";
-import Footer from "./resources/Layout/Footer";
+// import Footer from "./resources/Layout/Footer";
 
 // Body
 import Home from "./resources/Home/Home";

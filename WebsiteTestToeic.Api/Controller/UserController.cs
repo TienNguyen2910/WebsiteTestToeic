@@ -22,23 +22,25 @@ namespace WebsiteTestToeic.Api.Controller
             _configuration = configuration;
         }
         [HttpPost("Register")]
-        public async Task<ActionResult<User>> Register(User request)
+        public async Task<ActionResult<User>> Register(User user)
         {
-            CreatePasswordHash(request.Password, out byte[] passwordHash);
-            request.Password = Convert.ToBase64String(passwordHash);
-            return Ok(await _userRepository.AddUser(request));
+            CreatePasswordHash(user.Password, out byte[] passwordHash);
+            user.Password = Convert.ToBase64String(passwordHash);
+            return Ok(await _userRepository.AddUser(user));
         }
 
-        [HttpPost("Login/{email},{password}")]
+        [HttpPost("Login")]
         public async Task<ActionResult<string>> Login(string email, string password)
         {
             CreatePasswordHash(password, out byte[] passwordHash);
             password = Convert.ToBase64String(passwordHash);
             var user = await _userRepository.Login(email, password);
-            var token = CreateToken(user);
             if(user != null)
+            {
+                var token = CreateToken(user);
                 return Ok(token);
-            return null;
+            } else
+                return null;
         }
         private string CreateToken(User user)
         {

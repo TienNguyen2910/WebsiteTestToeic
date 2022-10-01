@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
+// const { REACT_APP_SERVER } = process.env;
 
 function Home() {
+    // console.log(process.env.REACT_APP_SERVER);
+
     return (
         <>
             <header>
@@ -44,9 +47,14 @@ function Home() {
                 </nav>
 
                 <div id="intro" className="bg-image vh-100 shadow-1-strong">
-                    <video style={{ minWidth: "100%", minHeight: "100%" }} playsInline autoPlay muted loop>
+                    {/* <video style={{ minWidth: "100%", minHeight: "100%" }} playsInline autoPlay muted loop>
                         <source className="h-100" src="https://mdbootstrap.com/img/video/Lines.mp4" type="video/mp4" />
-                    </video>
+                    </video> */}
+                    <img
+                        src="https://wallpaper.dog/large/20498061.jpg"
+                        alt="Girl in a jacket"
+                        style={{ backgroundSize: "cover" }}
+                    />
                     <div className="mask">
                         <div className="container d-flex align-items-center justify-content-center text-center h-100">
                             <div className="text-white">
