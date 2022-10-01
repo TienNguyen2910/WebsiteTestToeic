@@ -29,8 +29,20 @@ function Header() {
                             </li>
                             <li className="nav-item active">
                                 <Link className="nav-link" to="./dashboard" rel="nofollow">
-                                    Thi Thử
+                                    Luyện tập
                                 </Link>
+                            </li>
+
+                            <li className="nav-item active">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Thi Thử
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <Link class="dropdown-item" href="#"></Link>
+                                        
+                                    </div>
+                                </div>
                             </li>
                         </ul>
 

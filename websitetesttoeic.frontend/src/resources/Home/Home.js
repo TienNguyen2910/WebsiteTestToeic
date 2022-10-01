@@ -59,7 +59,7 @@ function Home() {
                         <div className="container d-flex align-items-center justify-content-center text-center h-100">
                             <div className="text-white">
                                 <h1 className="mb-3">ONLINE TOEIC TEST</h1>
-                                <h5 className="mb-4">The best choice to study and practice toeic !!!</h5>
+                                <h5 className="mb-4">Hãy cố gắng mỗi ngày bạn sẽ đạt được mục tiêu !!!</h5>
                                 <Link
                                     className="btn btn-outline-light btn-lg m-2"
                                     to="./dashboard"
