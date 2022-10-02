@@ -1,9 +1,22 @@
+import axios from "axios";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 const { REACT_APP_SERVER } = process.env;
-
 function Home() {
-    // console.log(process.env.REACT_APP_SERVER);
+    const [listTest, setListTest] = useState([]);
 
+    useEffect(() => {
+        axios({
+            method: "get",
+            headers: {
+                accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            url: `${REACT_APP_SERVER}/Test`,
+        }).then((response) => {
+               setListTest(response.data);
+        });
+    },[])
     return (
         <>
             <header>
@@ -47,16 +60,13 @@ function Home() {
                                         Thi thử
                                     </Link>
                                     <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li>
-                                            <Link className="dropdown-item" to="#">
-                                                Action
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link className="dropdown-item" to="#">
-                                                Another action
-                                            </Link>
-                                        </li>
+                                        {listTest.map((test, index) => (
+                                            <li>
+                                                <Link className="dropdown-item" to="#" key={index}>
+                                                    {test.typeTest}
+                                                </Link>
+                                            </li>
+                                        ))}
                                     </ul>
                                 </li>
                             </ul>
@@ -83,7 +93,7 @@ function Home() {
                         <div className="container d-flex align-items-center justify-content-center text-center h-100">
                             <div className="text-white">
                                 <h1 className="mb-3">ONLINE TOEIC TEST</h1>
-                                <h5 className="mb-4">Hãy cố gắng mỗi ngày bạn sẽ đạt được mục tiêu !!!</h5>
+                                <h5 className="mb-4">Chào mừng các bạn đến với TOEIC Test Pro, trang web thi TOEIC miễn phí cung cấp cho người học các bài luyện tập theo từng part và đề thi thử. Bắt đầu hành trình chinh phục chứng chỉ TOEIC với các bài luyện tập trên trang web của chúng tôi ngay hôm nay!!!!</h5>
                                 <Link
                                     className="btn btn-outline-light btn-lg m-2"
                                     to="./dashboard"

@@ -1,7 +1,23 @@
 import "./Layout.css";
+import axios from "axios";
 import { Link } from "react-router-dom";
-
+import { useEffect, useState } from "react";
+const { REACT_APP_SERVER } = process.env;
 function Header() {
+    const [listTest, setListTest] = useState([]);
+    console.log(listTest);
+    useEffect(() => {
+        axios({
+            method: "get",
+            headers: {
+                accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            url: `${REACT_APP_SERVER}/Test`,
+        }).then((response) => {
+               setListTest(response.data);
+        });
+    },[])
     return (
         <header style={{ zIndex: 10 }}>
             <nav className="d-none d-lg-block navbar navbar-expand-lg navbar-light bg-light">
@@ -34,29 +50,26 @@ function Header() {
                             </li>
 
                             <li className="nav-item dropdown active">
-                                <Link
-                                    className="nav-link dropdown-toggle"
-                                    to="#"
-                                    id="navbarDropdown"
-                                    role="button"
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="false"
-                                >
-                                    Thi thử
-                                </Link>
-                                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li>
-                                        <Link className="dropdown-item" to="#">
-                                            Action
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link className="dropdown-item" to="#">
-                                            Another action
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </li>
+                                    <Link
+                                        className="nav-link dropdown-toggle"
+                                        to="#"
+                                        id="navbarDropdown"
+                                        role="button"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false"
+                                    >
+                                        Thi thử
+                                    </Link>
+                                    <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        {listTest.map((test, index) => (
+                                            <li>
+                                                <Link className="dropdown-item" to="#" key={index}>
+                                                    {test.typeTest}
+                                                </Link>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </li>
                         </ul>
 
                         <ul className="navbar-nav d-flex flex-row">
