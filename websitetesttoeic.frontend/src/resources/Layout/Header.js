@@ -33,16 +33,29 @@ function Header() {
                                 </Link>
                             </li>
 
-                            <li className="nav-item active">
-                                <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Thi Thử
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <Link class="dropdown-item" href="#"></Link>
-                                        
-                                    </div>
-                                </div>
+                            <li className="nav-item dropdown active">
+                                <Link
+                                    className="nav-link dropdown-toggle"
+                                    to="#"
+                                    id="navbarDropdown"
+                                    role="button"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                >
+                                    Thi thử
+                                </Link>
+                                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <Link className="dropdown-item" to="#">
+                                            Action
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link className="dropdown-item" to="#">
+                                            Another action
+                                        </Link>
+                                    </li>
+                                </ul>
                             </li>
                         </ul>
 

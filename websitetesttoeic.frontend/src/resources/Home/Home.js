@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-// const { REACT_APP_SERVER } = process.env;
+const { REACT_APP_SERVER } = process.env;
 
 function Home() {
     // console.log(process.env.REACT_APP_SERVER);
@@ -32,8 +32,32 @@ function Home() {
                                 </li>
                                 <li className="nav-item active">
                                     <Link className="nav-link" to="./dashboard" rel="nofollow">
+                                        Luyện tập
+                                    </Link>
+                                </li>
+                                <li className="nav-item dropdown active">
+                                    <Link
+                                        className="nav-link dropdown-toggle"
+                                        to="#"
+                                        id="navbarDropdown"
+                                        role="button"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false"
+                                    >
                                         Thi thử
                                     </Link>
+                                    <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <li>
+                                            <Link className="dropdown-item" to="#">
+                                                Action
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link className="dropdown-item" to="#">
+                                                Another action
+                                            </Link>
+                                        </li>
+                                    </ul>
                                 </li>
                             </ul>
 
