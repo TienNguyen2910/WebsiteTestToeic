@@ -38,7 +38,7 @@ namespace WebsiteTestToeic.Database.Implement
                 await _context.SaveChangesAsync();
                 result = true;
             }
-            return quiz;
+            return result;
         }
 
         public async Task<List<Quiz>> GetAllQuizs()
@@ -58,7 +58,7 @@ namespace WebsiteTestToeic.Database.Implement
         public async Task<Quiz> UpdateQuiz(Quiz quiz)
         {
             Quiz q = await _context.Quizzes.FindAsync(quiz.Id);
-            f(quiz != null){
+            if(quiz != null){
                 q.Title = quiz.Title;
                 q.TestId = quiz.TestId;
                 q.ActorId = quiz.ActorId;
