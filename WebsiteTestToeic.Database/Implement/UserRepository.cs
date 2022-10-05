@@ -43,6 +43,15 @@ namespace WebsiteTestToeic.Database.Implement
             return result;
         }
 
+        public async Task<bool> findUser(string email)
+        {
+            bool result = false;
+            User u = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            if (u != null)
+                result = true;
+            return result;
+        }
+
         public async Task<List<User>> GetAllUser()
         {
             return await _context.Users.ToListAsync();
