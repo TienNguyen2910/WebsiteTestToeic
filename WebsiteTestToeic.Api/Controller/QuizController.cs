@@ -26,10 +26,10 @@ namespace WebsiteTestToeic.Api.Controller
         {
             return Ok(await _quizRepository.GetQuiz(id));
         }
-        [HttpPost]
-        public async Task<ActionResult<Test>> AddQuiz(Quiz quiz)
+        [HttpPost("{title}, {testid:int}, {actorid:int}")]
+        public async Task<ActionResult<Test>> AddQuiz(string title, int testid, int actorid)
         {
-            return Ok(await _quizRepository.AddQuiz(quiz));
+            return Ok(await _quizRepository.AddQuiz(title, testid, actorid));
         }
         [HttpPut("{id:int}")]
         public async Task<ActionResult<Test>> UpdateQuiz(int id, Quiz quiz)

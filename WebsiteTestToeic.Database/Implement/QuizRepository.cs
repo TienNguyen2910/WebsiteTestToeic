@@ -15,13 +15,13 @@ namespace WebsiteTestToeic.Database.Implement
                 _context = TestToeicDbContextFactory.GetDbContext();
             else _context = context;
         }
-        public async Task<Quiz> AddQuiz(Quiz quiz)
+        public async Task<Quiz> AddQuiz(string title, int testid, int actorid)
         {
             Quiz q = new Quiz()
             {
-                Title = quiz.Title,
-                TestId = quiz.TestId,
-                ActorId = quiz.ActorId
+                Title = title,
+                TestId = testid,
+                ActorId = actorid
             };
             await _context.Quizzes.AddAsync(q);
             await _context.SaveChangesAsync();
