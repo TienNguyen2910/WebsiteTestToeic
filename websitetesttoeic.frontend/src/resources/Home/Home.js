@@ -14,7 +14,7 @@ function Home() {
             },
             url: `${REACT_APP_SERVER}/Test`,
         }).then((response) => {
-               setListTest(response.data);
+            setListTest(response.data);
         });
     },[])
     return (
@@ -61,8 +61,8 @@ function Home() {
                                     </Link>
                                     <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                                         {listTest.map((test, index) => (
-                                            <li>
-                                                <Link className="dropdown-item" to="#" key={index}>
+                                            <li key={index}>
+                                                <Link className="dropdown-item" to="#">
                                                     {test.typeTest}
                                                 </Link>
                                             </li>
@@ -93,7 +93,12 @@ function Home() {
                         <div className="container d-flex align-items-center justify-content-center text-center h-100">
                             <div className="text-white">
                                 <h1 className="mb-3">ONLINE TOEIC TEST</h1>
-                                <h5 className="mb-4">Chào mừng các bạn đến với TOEIC Test Pro, trang web thi TOEIC miễn phí cung cấp cho người học các bài luyện tập theo từng part và đề thi thử. Bắt đầu hành trình chinh phục chứng chỉ TOEIC với các bài luyện tập trên trang web của chúng tôi ngay hôm nay!!!!</h5>
+                                <h5 className="mb-4">
+                                    Chào mừng các bạn đến với TOEIC Test Pro, trang web thi TOEIC miễn phí cung cấp cho
+                                    người học các bài luyện tập theo từng part và đề thi thử. Bắt đầu hành trình chinh
+                                    phục chứng chỉ TOEIC với các bài luyện tập trên trang web của chúng tôi ngay hôm
+                                    nay!!!!
+                                </h5>
                                 <Link
                                     className="btn btn-outline-light btn-lg m-2"
                                     to="./dashboard"

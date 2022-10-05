@@ -28,17 +28,15 @@ function Login() {
                     accept: "application/json",
                     "Content-Type": "application/json",
                 },
-                data: {
-                    email: email,
-                    password: password,
-                },
-                url: `${REACT_APP_SERVER}/User/Login`,
+                url: `${REACT_APP_SERVER}/User/Login?email=${email}&password=${password}`,
             })
                 .then((response) => {
                     if (response.data != null) {
+                        sessionStorage.setItem("token", response.data);
+                        sessionStorage.setItem("email", email);
                         loginSuccess.current.hidden = false;
                         loginFailed.current.hidden = true;
-                        navigate("/login");
+                        navigate("/dashboard");
                     } else {
                         loginSuccess.current.hidden = true;
                         loginFailed.current.hidden = false;

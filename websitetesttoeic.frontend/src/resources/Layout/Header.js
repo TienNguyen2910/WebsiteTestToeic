@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 const { REACT_APP_SERVER } = process.env;
 function Header() {
     const [listTest, setListTest] = useState([]);
-    console.log(listTest);
     useEffect(() => {
         axios({
             method: "get",
@@ -15,7 +14,7 @@ function Header() {
             },
             url: `${REACT_APP_SERVER}/Test`,
         }).then((response) => {
-               setListTest(response.data);
+            setListTest(response.data);
         });
     },[])
     return (
@@ -50,26 +49,26 @@ function Header() {
                             </li>
 
                             <li className="nav-item dropdown active">
-                                    <Link
-                                        className="nav-link dropdown-toggle"
-                                        to="#"
-                                        id="navbarDropdown"
-                                        role="button"
-                                        data-bs-toggle="dropdown"
-                                        aria-expanded="false"
-                                    >
-                                        Thi thử
-                                    </Link>
-                                    <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        {listTest.map((test, index) => (
-                                            <li>
-                                                <Link className="dropdown-item" to="#" key={index}>
-                                                    {test.typeTest}
-                                                </Link>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </li>
+                                <Link
+                                    className="nav-link dropdown-toggle"
+                                    to="#"
+                                    id="navbarDropdown"
+                                    role="button"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                >
+                                    Thi thử
+                                </Link>
+                                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    {listTest.map((test, index) => (
+                                        <li key={index}>
+                                            <Link className="dropdown-item" to="#">
+                                                {test.typeTest}
+                                            </Link>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </li>
                         </ul>
 
                         <ul className="navbar-nav d-flex flex-row">

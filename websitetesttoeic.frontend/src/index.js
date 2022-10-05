@@ -8,11 +8,11 @@ import "mdb-react-ui-kit/dist/css/mdb.min.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-    <React.StrictMode>
-        <BrowserRouter>
-            <Redirect />
-        </BrowserRouter>
-    </React.StrictMode>
+    // <React.StrictMode>
+    <BrowserRouter>
+        <Redirect />
+    </BrowserRouter>
+    // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

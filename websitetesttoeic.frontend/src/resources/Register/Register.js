@@ -8,31 +8,42 @@ function Register() {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [rePassword, setRePassword] = useState("");
     const [dateOfBirth, setDateOfBirth] = useState("");
     const loginSuccess = useRef();
     const loginFailed = useRef();
+    const refRePassword = useRef();
+    const refAlertRePassword = useRef();
     let navigate = useNavigate();
 
     const handleUsername = (e) => {
         setUsername(e.target.value);
     };
-
     const handleEmail = (e) => {
         setEmail(e.target.value);
     };
-
     const handlePassword = (e) => {
         setPassword(e.target.value);
     };
-
+    const handleRePassword = (e) => {
+        setRePassword(e.target.value);
+        if (e.target.value !== password) {
+            refRePassword.current.classList.add("border-danger");
+        } else {
+            refRePassword.current.classList.remove("border-danger");
+        }
+    };
     const handleDateOfBirth = (e) => {
         setDateOfBirth(e.target.value);
     };
 
     // Submit
     const submitRegister = (e) => {
+        if (password !== rePassword) {
+            refAlertRePassword.current.hidden = false;
+        }
         e.preventDefault();
-        if (username !== "" && email !== "" && password !== "") {
+        if (username !== "" && email !== "" && password !== "" && password === rePassword) {
             axios({
                 method: "post",
                 headers: {
@@ -134,6 +145,23 @@ function Register() {
                                                 onChange={handlePassword}
                                                 required
                                             />
+                                        </div>
+                                        <div className="mb-3">
+                                            <label htmlFor="rePassword" className="form-label">
+                                                Nhập lại mật khẩu:
+                                            </label>
+                                            <input
+                                                type="password"
+                                                className="form-control"
+                                                id="rePassword"
+                                                placeholder="*******"
+                                                onChange={handleRePassword}
+                                                required
+                                                ref={refRePassword}
+                                            />
+                                            <div className="text-danger small mt-2" hidden ref={refAlertRePassword}>
+                                                Mật khẩu nhập lại chưa trùng. Vui lòng thử lại!!!
+                                            </div>
                                         </div>
                                         <div className="alert alert-success" role="alert" hidden ref={loginSuccess}>
                                             Đăng ký tài khoản thành công!
