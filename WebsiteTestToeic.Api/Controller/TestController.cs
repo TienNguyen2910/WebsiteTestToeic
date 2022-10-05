@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebsiteTestToeic.Database.Interface;
 using WebsiteTestToeic.Domain.Models;
@@ -25,12 +26,12 @@ namespace WebsiteTestToeic.Api.Controller
         {
             return Ok(await _testRepository.GetTest(id));
         }
-        [HttpPost]
+        [HttpPost, Authorize(Roles = "Admin")]
         public async Task<ActionResult<Test>> AddTest(Test test)
         {
             return Ok(await _testRepository.AddTest(test));
         }
-        [HttpPut("{id:int}")]
+        [HttpPut("{id:int}"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<Test>> UpdateTest(int id,Test test)
         {
             Test t = await _testRepository.GetTest(id);
@@ -38,7 +39,7 @@ namespace WebsiteTestToeic.Api.Controller
                 return NotFound("Test Id = {id} not found");
             return Ok(await _testRepository.UpdateTest(test));
         }
-        [HttpDelete("{id:int}")]
+        [HttpDelete("{id:int}"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<bool>> DeleteTest(int id)
         {
             Test t = await _testRepository.GetTest(id);

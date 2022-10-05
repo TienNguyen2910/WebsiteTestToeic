@@ -48,11 +48,24 @@ namespace WebsiteTestToeic.Database.Implement
             return await _context.Users.ToListAsync();
         }
 
-        public async Task<User> Login(string Email, string Password)
+        public async Task<UserRole> Login(string Email, string Password)
         {
-            User u = await _context.Users.Where(u => (u.Email == Email) && (u.Password == Password)).FirstOrDefaultAsync();
-            if (u != null)
-                return u;
+            //User u = await _context.Users.Where(u => (u.Email == Email) && (u.Password == Password)).FirstOrDefaultAsync();
+            UserRole user = (from u in _context.Users
+                         join r in _context.Roles on u.RoleId equals r.Id        
+                         where u.Email == Email && (u.Password == Password)
+                         select new UserRole
+                         {
+                              Id = u.Id,
+                              UserName = u.UserName,
+                              DateOfBirth = u.DateOfBirth,
+                              Email = u.Email,
+                              Password = u.Password,
+                              RoleId = u.RoleId,
+                              RoleName = r.RoleName
+                          }).FirstOrDefault();
+            if (user != null)
+                return user;
             return null;
         }
 

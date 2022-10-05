@@ -39,16 +39,17 @@ namespace WebsiteTestToeic.Api.Controller
             {
                 var token = CreateToken(user);
                 return Ok(token);
-            } else
-                return null;
+            }
+            return null;
         }
-        private string CreateToken(User user)
+        private string CreateToken(UserRole user)
         {
             List<Claim> claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Name, user.UserName)
-
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.DateOfBirth,user.DateOfBirth),
+                new Claim(ClaimTypes.Role, user.RoleName)
             };
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("Appsettings:Token").Value));
             var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
