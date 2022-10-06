@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -36,6 +37,16 @@ function Dashboard() {
             </div>
             <div className="col-4 shadow-5 my-4">
                 <h5>Bảng xếp hạng</h5>
+=======
+function Dashboard() {
+    return (
+        <div className="row d-flex justify-content-center">
+            <div className="col-8 shadow-5 my-4">
+                <h1>Lịch sử thi</h1>
+            </div>
+            <div className="col-4 shadow-5 my-4">
+                <h1>Xếp hạng</h1>
+>>>>>>> master
             </div>
         </div>
     );
