@@ -17,7 +17,7 @@ function Dashboard() {
             console.log(response.data);
             setListQuiz(response.data);
         });
-    }, [])
+    }, []);
     return (
         <div className="row d-flex justify-content-center">
             <div className="col-8 shadow-5 my-4">
@@ -25,14 +25,12 @@ function Dashboard() {
                     <h5>Full Test</h5>
                 </div>
                 {listQuiz.map((quiz, index) => (
-                    <div className="row">
-                        <Link className="btn btn-light text-left" to="#" key={index}>{quiz.Title}</Link>
+                    <div className="row" key={index}>
+                        <Link className="btn btn-light text-left mt-2 p-3" to="#" key={index}>
+                            {quiz.title}
+                        </Link>
                     </div>
                 ))}
-
-                <div className="row">
-                    <button className="btn btn-light text-left">Test 2</button>
-                </div>
             </div>
             <div className="col-4 shadow-5 my-4">
                 <h5>Bảng xếp hạng</h5>
