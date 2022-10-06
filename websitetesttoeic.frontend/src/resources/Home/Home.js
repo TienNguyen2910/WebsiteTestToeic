@@ -1,6 +1,22 @@
+import axios from "axios";
 import { Link } from "react-router-dom";
-
+import { useEffect, useState } from "react";
+const { REACT_APP_SERVER } = process.env;
 function Home() {
+    const [listTest, setListTest] = useState([]);
+
+    useEffect(() => {
+        axios({
+            method: "get",
+            headers: {
+                accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            url: `${REACT_APP_SERVER}/Test`,
+        }).then((response) => {
+            setListTest(response.data);
+        });
+    },[])
     return (
         <>
             <header>
@@ -28,19 +44,36 @@ function Home() {
                                     </Link>
                                 </li>
                                 <li className="nav-item active">
-                                    <Link className="nav-link" to="./test" rel="nofollow">
+                                    <Link className="nav-link" to="./dashboard" rel="nofollow">
+                                        Luyện tập
+                                    </Link>
+                                </li>
+                                <li className="nav-item dropdown active">
+                                    <Link
+                                        className="nav-link dropdown-toggle"
+                                        to="#"
+                                        id="navbarDropdown"
+                                        role="button"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false"
+                                    >
                                         Thi thử
                                     </Link>
+                                    <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        {listTest.map((test, index) => (
+                                            <li key={index}>
+                                                <Link className="dropdown-item" to="#">
+                                                    {test.typeTest}
+                                                </Link>
+                                            </li>
+                                        ))}
+                                    </ul>
                                 </li>
                             </ul>
 
                             <div className="navbar-nav d-flex flex-row">
-                                <Link
-                                    className="btn btn-outline-light"
-                                    to="https://mdbootstrap.com/docs/standard/"
-                                    role="button"
-                                >
-                                    LOGIN
+                                <Link className="btn btn-outline-light" to="./login" role="button">
+                                    Đăng nhập
                                 </Link>
                             </div>
                         </div>
@@ -48,23 +81,32 @@ function Home() {
                 </nav>
 
                 <div id="intro" className="bg-image vh-100 shadow-1-strong">
-                    <video style={{ minWidth: "100%", minHeight: "100%" }} playsInline autoPlay muted loop>
+                    {/* <video style={{ minWidth: "100%", minHeight: "100%" }} playsInline autoPlay muted loop>
                         <source className="h-100" src="https://mdbootstrap.com/img/video/Lines.mp4" type="video/mp4" />
-                    </video>
+                    </video> */}
+                    <img
+                        src="https://wallpaper.dog/large/20498061.jpg"
+                        alt="Girl in a jacket"
+                        style={{ backgroundSize: "cover" }}
+                    />
                     <div className="mask">
                         <div className="container d-flex align-items-center justify-content-center text-center h-100">
                             <div className="text-white">
                                 <h1 className="mb-3">ONLINE TOEIC TEST</h1>
-                                <h5 className="mb-4">The best choice to study and practice toeic !!!</h5>
-                                <a
+                                <h5 className="mb-4">
+                                    Chào mừng các bạn đến với TOEIC Test Pro, trang web thi TOEIC miễn phí cung cấp cho
+                                    người học các bài luyện tập theo từng part và đề thi thử. Bắt đầu hành trình chinh
+                                    phục chứng chỉ TOEIC với các bài luyện tập trên trang web của chúng tôi ngay hôm
+                                    nay!!!!
+                                </h5>
+                                <Link
                                     className="btn btn-outline-light btn-lg m-2"
-                                    href="https://www.youtube.com/watch?v=c9B4TPnak1A"
+                                    to="./dashboard"
                                     role="button"
                                     rel="nofollow"
-                                    target="_blank"
                                 >
                                     Start here
-                                </a>
+                                </Link>
                             </div>
                         </div>
                     </div>
