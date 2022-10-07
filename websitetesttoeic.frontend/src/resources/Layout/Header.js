@@ -3,6 +3,8 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 const { REACT_APP_SERVER } = process.env;
+var slug = require("slug");
+
 function Header() {
     const [listTest, setListTest] = useState([]);
     useEffect(() => {
@@ -14,7 +16,7 @@ function Header() {
             },
             url: `${REACT_APP_SERVER}/Test`,
         }).then((response) => {
-            console.log(response.data);
+            // console.log(response.data);
             setListTest(response.data);
         });
     }, []);
@@ -63,7 +65,7 @@ function Header() {
                                 <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                                     {listTest.map((test, index) => (
                                         <li key={index}>
-                                            <Link className="dropdown-item" to="#">
+                                            <Link className="dropdown-item" to={`/${test.id}`}>
                                                 {test.typeTest}
                                             </Link>
                                         </li>

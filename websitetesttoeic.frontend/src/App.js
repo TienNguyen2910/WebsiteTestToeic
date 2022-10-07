@@ -11,6 +11,7 @@ import Login from "./resources/Login/Login";
 import Dashboard from "./resources/Dashboard/Dashboard";
 import Register from "./resources/Register/Register";
 import "./App.css";
+import Exam from "./resources/Exam/Exam";
 
 function App() {
     return (
@@ -23,8 +24,11 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/login" element={<Login />} />
-                    <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/register" element={<Register />} />
+
+                    <Route path="/:idTest" element={<Dashboard />} />
+
+                    <Route path="/:idTest/:id" element={<Exam />} />
                 </Routes>
             </div>
 
