@@ -16,7 +16,7 @@ function Home() {
         }).then((response) => {
             setListTest(response.data);
         });
-    },[])
+    }, []);
     return (
         <>
             <header>
@@ -62,7 +62,7 @@ function Home() {
                                     <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                                         {listTest.map((test, index) => (
                                             <li key={index}>
-                                                <Link className="dropdown-item" to="#">
+                                                <Link className="dropdown-item" to={`/${test.id}`}>
                                                     {test.typeTest}
                                                 </Link>
                                             </li>
