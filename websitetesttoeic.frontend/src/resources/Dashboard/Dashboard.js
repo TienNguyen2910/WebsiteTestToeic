@@ -25,7 +25,7 @@ function Dashboard() {
                 <div className="row mb-3">{params.idTest === "1" ? <h5>Full Test</h5> : <h5>Mini Test</h5>}</div>
                 {listQuiz.map((quiz, index) => (
                     <div className="row" key={index}>
-                        <Link className="btn btn-light text-left mt-2 p-3" to={`/${quiz.id}`} key={index}>
+                        <Link className="btn btn-light text-left mt-2 p-3" to={`./${quiz.id}`} key={index}>
                             {quiz.title}
                         </Link>
                     </div>
