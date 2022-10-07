@@ -9,7 +9,7 @@ namespace WebsiteTestToeic.Database.Interface
 {
     public interface IQuizRepository
     {
-        public Task<List<Quiz>> GetAllQuizs();
+        public Task<List<Quiz>> GetAllQuizs(int testId);
         public Task<Quiz> GetQuiz(int id);
         public Task<Quiz> AddQuiz(string title, int testid, int actorid);
         public Task<Quiz> UpdateQuiz(Quiz quiz);

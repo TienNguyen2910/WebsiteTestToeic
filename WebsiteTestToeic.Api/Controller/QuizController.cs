@@ -17,9 +17,9 @@ namespace WebsiteTestToeic.Api.Controller
             _quizRepository = quizRepository;
         }
         [HttpGet]
-        public async Task<ActionResult<List<Quiz>>> GetAllQuizs()
+        public async Task<ActionResult<List<Quiz>>> GetAllQuizs(int TestId)
         {
-            return Ok(await _quizRepository.GetAllQuizs());
+            return Ok(await _quizRepository.GetAllQuizs(TestId));
         }
         [HttpGet("{id:int}")]
         public async Task<ActionResult<Test>> GetQuiz(int id)

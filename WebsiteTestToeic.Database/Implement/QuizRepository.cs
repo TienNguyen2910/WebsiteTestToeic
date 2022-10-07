@@ -41,9 +41,9 @@ namespace WebsiteTestToeic.Database.Implement
             return result;
         }
 
-        public async Task<List<Quiz>> GetAllQuizs()
+        public async Task<List<Quiz>> GetAllQuizs(int testId)
         {
-            List<Quiz> listQuiz = await _context.Quizzes.ToListAsync();
+            List<Quiz> listQuiz = await _context.Quizzes.Where(q => q.TestId == testId).ToListAsync();
             return listQuiz;
         }
 
