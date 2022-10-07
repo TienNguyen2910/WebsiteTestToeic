@@ -14,9 +14,10 @@ function Header() {
             },
             url: `${REACT_APP_SERVER}/Test`,
         }).then((response) => {
+            console.log(response.data);
             setListTest(response.data);
         });
-    },[])
+    }, []);
     return (
         <header style={{ zIndex: 10 }}>
             <nav className="d-none d-lg-block navbar navbar-expand-lg navbar-light bg-light">
