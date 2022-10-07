@@ -21,6 +21,13 @@ namespace WebsiteTestToeic.Api.Controller
             _userRepository = userRepository;
             _configuration = configuration;
         }
+
+        [HttpPost("checkDuplicateEmail")]
+        public async Task<ActionResult<string>> CheckDuplicateEmail(string email)
+        {
+            return Ok( await _userRepository.findUser(email));
+        }
+
         [HttpPost("Register")]
         public async Task<ActionResult<User>> Register(User user)
         {
