@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 const { REACT_APP_SERVER } = process.env;
-var slug = require("slug");
+// var slug = require("slug");
 
 function Header() {
     const [listTest, setListTest] = useState([]);

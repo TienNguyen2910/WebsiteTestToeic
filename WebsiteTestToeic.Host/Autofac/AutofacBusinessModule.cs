@@ -8,6 +8,7 @@ namespace WebsiteTestToeic.Host.Autofac
     {
         protected  override void Load(ContainerBuilder builder)
         {
+            builder.RegisterType<QuestionRepository>().As<IQuestionRepository>().InstancePerLifetimeScope();
             builder.RegisterType<TestRepository>().As<ITestRepository>().SingleInstance();
             builder.RegisterType<UserRepository>().As<IUserRepository>().SingleInstance();
             builder.RegisterType<QuizRepository>().As<IQuizRepository>().InstancePerLifetimeScope();
