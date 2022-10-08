@@ -96,8 +96,23 @@ function Exam() {
                     })}
                 </div>
                 <h4 className="my-3">PART 5</h4>
+                <div className="row">
+                    {listQuestions.slice(100, 130).map((question, index) => {
+                        return <Questions Questions={question} index={index + 101} key={index} />;
+                    })}
+                </div>
                 <h4 className="my-3">PART 6</h4>
+                <div className="row">
+                    {listQuestions.slice(130, 146).map((question, index) => {
+                        return <Questions Questions={question} index={index + 131} key={index} />;
+                    })}
+                </div>
                 <h4 className="my-3">PART 7</h4>
+                <div className="row">
+                    {listQuestions.slice(146, 200).map((question, index) => {
+                        return <Questions Questions={question} index={index + 147} key={index} />;
+                    })}
+                </div>
             </>
         );
 }
