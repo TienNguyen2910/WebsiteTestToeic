@@ -5,7 +5,7 @@ function Questions(props) {
     if (props.Questions)
         return (
             <div className="col-6">
-                <p className="m-1">{`${props.Questions.id}.  ${
+                <p className="m-1">{`${props.index}.  ${
                     props.Questions.contentQuestion ? props.Questions.contentQuestion : ""
                 }`}</p>
                 {props.Questions.image ? (

@@ -64,7 +64,7 @@ function Exam() {
                 <div className="d-flex justify-content-center align-items-center my-4">
                     <audio controls autoPlay>
                         <source
-                            src={`${REACT_APP_CLIENT}/LuanVan_Demo/File audio/${listQuestions[0].audioFile}`}
+                            src={`${REACT_APP_CLIENT}/LuanVan_Demo/${listQuestions[0].audioFile}`}
                             type="audio/mp3"
                         />
                         Your browser does not support the audio element.
@@ -74,25 +74,25 @@ function Exam() {
                 <h4 className="my-3">PART 1</h4>
                 <div className="row">
                     {listQuestions.slice(0, 6).map((question, index) => {
-                        return <Questions Questions={question} key={index} />;
+                        return <Questions Questions={question} index={index + 1} key={index} />;
                     })}
                 </div>
                 <h4 className="my-3">PART 2</h4>
                 <div className="row">
                     {listQuestions.slice(6, 31).map((question, index) => {
-                        return <Questions Questions={question} key={index} />;
+                        return <Questions Questions={question} index={index + 7} key={index} />;
                     })}
                 </div>
                 <h4 className="my-3">PART 3</h4>
                 <div className="row">
                     {listQuestions.slice(31, 70).map((question, index) => {
-                        return <Questions Questions={question} key={index} />;
+                        return <Questions Questions={question} index={index + 32} key={index} />;
                     })}
                 </div>
                 <h4 className="my-3">PART 4</h4>
                 <div className="row">
                     {listQuestions.slice(70, 100).map((question, index) => {
-                        return <Questions Questions={question} key={index} />;
+                        return <Questions Questions={question} index={index + 71} key={index} />;
                     })}
                 </div>
                 <h4 className="my-3">PART 5</h4>
