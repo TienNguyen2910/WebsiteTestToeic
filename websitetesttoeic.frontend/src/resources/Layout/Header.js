@@ -2,10 +2,12 @@ import "./Layout.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Nav from "../Component/Nav";
+
 const { REACT_APP_SERVER } = process.env;
 // var slug = require("slug");
 
-function Header() {
+function Header(props) {
     const [listTest, setListTest] = useState([]);
     useEffect(() => {
         axios({
@@ -20,10 +22,11 @@ function Header() {
             setListTest(response.data);
         });
     }, []);
+
     return (
         <header style={{ zIndex: 10 }}>
             <nav className="d-none d-lg-block navbar navbar-expand-lg navbar-light bg-light">
-                <div className="container">
+                <div className="container p-0">
                     <Link className="navbar-brand nav-link" to="./">
                         <strong>TOEIC</strong>
                     </Link>
@@ -73,14 +76,7 @@ function Header() {
                                 </ul>
                             </li>
                         </ul>
-
-                        <ul className="navbar-nav d-flex flex-row">
-                            <li className="nav-item me-3 me-lg-0">
-                                <Link className="btn btn-primary" to="./login" rel="nofollow">
-                                    Đăng nhập
-                                </Link>
-                            </li>
-                        </ul>
+                        <Nav getCookie={props.getCookie} className="btn btn-primary" />
                     </div>
                 </div>
             </nav>

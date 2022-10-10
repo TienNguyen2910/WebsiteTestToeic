@@ -6,24 +6,22 @@ import Header from "./resources/Layout/Header";
 // import Footer from "./resources/Layout/Footer";
 
 // Body
-import Home from "./resources/Home/Home";
 import Login from "./resources/Login/Login";
 import Dashboard from "./resources/Dashboard/Dashboard";
 import Register from "./resources/Register/Register";
 import "./App.css";
 import Exam from "./resources/Exam/Exam";
 
-function App() {
+function App(props) {
     return (
         <div className="App">
             {/* Header */}
-            <Header />
+            <Header getCookie={props.getCookie} />
 
             {/* Body */}
             <div className="container">
                 <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/login" element={<Login />} />
+                    <Route path="/login" element={<Login setCookie={props.setCookie} />} />
                     <Route path="/register" element={<Register />} />
 
                     <Route path="/:idTest" element={<Dashboard />} />

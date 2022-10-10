@@ -29,10 +29,7 @@ function Exam() {
 
     useEffect(() => {
         window.onscroll = function () {
-            if (
-                document.body.scrollTop > 20 ||
-                document.documentElement.scrollTop > 20
-            ) {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
                 myBtnRef.current.style.display = "block";
             } else {
                 myBtnRef.current.style.display = "none";
@@ -77,41 +74,31 @@ function Exam() {
                 <h4 className="my-3">PART 1</h4>
                 <div className="row">
                     {listQuestions.slice(0, 6).map((question, index) => {
-                        return (
-                            <Questions Questions={question} index={index + 1} key={index} />
-                        );
+                        return <Questions Questions={question} index={index + 1} key={index} />;
                     })}
                 </div>
                 <h4 className="my-3">PART 2</h4>
                 <div className="row">
                     {listQuestions.slice(6, 31).map((question, index) => {
-                        return (
-                            <Questions Questions={question} index={index + 7} key={index} />
-                        );
+                        return <Questions Questions={question} index={index + 7} key={index} />;
                     })}
                 </div>
                 <h4 className="my-3">PART 3</h4>
                 <div className="row">
                     {listQuestions.slice(31, 70).map((question, index) => {
-                        return (
-                            <Questions Questions={question} index={index + 32} key={index} />
-                        );
+                        return <Questions Questions={question} index={index + 32} key={index} />;
                     })}
                 </div>
                 <h4 className="my-3">PART 4</h4>
                 <div className="row">
                     {listQuestions.slice(70, 100).map((question, index) => {
-                        return (
-                            <Questions Questions={question} index={index + 71} key={index} />
-                        );
+                        return <Questions Questions={question} index={index + 71} key={index} />;
                     })}
                 </div>
                 <h4 className="my-3">PART 5</h4>
                 <div className="row">
                     {listQuestions.slice(100, 130).map((question, index) => {
-                        return (
-                            <Questions Questions={question} index={index + 101} key={index} />
-                        );
+                        return <Questions Questions={question} index={index + 101} key={index} />;
                     })}
                 </div>
                 <h4 className="my-3">PART 6</h4>
@@ -120,13 +107,14 @@ function Exam() {
                         return (
                             <>
                                 <div className="col-6">
-                                    <p  id="contentScipt" dangerouslySetInnerHTML={{ __html: `${question.contentScript === null ? "" : question.contentScript}` }}></p>
+                                    <p
+                                        id="contentScipt"
+                                        dangerouslySetInnerHTML={{
+                                            __html: `${question.contentScript === null ? "" : question.contentScript}`,
+                                        }}
+                                    ></p>
                                 </div>
-                                <Questions
-                                    Questions={question}
-                                    index={index + 131}
-                                    key={index}
-                                />
+                                <Questions Questions={question} index={index + 131} key={index} />
                             </>
                         );
                     })}
@@ -134,17 +122,18 @@ function Exam() {
                 <h4 className="my-3">PART 7</h4>
                 <div className="row">
                     {listQuestions.slice(146, 200).map((question, index) => {
-                        console.log(question.id, question.contentScript);
+                        // console.log(question.id, question.contentScript);
                         return (
                             <>
                                 <div className="col-12">
-                                    <p  id="contentScipt" dangerouslySetInnerHTML={{ __html: `${question.contentScript === null ? "" : question.contentScript}` }}></p>
+                                    <p
+                                        id="contentScipt"
+                                        dangerouslySetInnerHTML={{
+                                            __html: `${question.contentScript === null ? "" : question.contentScript}`,
+                                        }}
+                                    ></p>
                                 </div>
-                                <Questions
-                                    Questions={question}
-                                    index={index + 147}
-                                    key={index}
-                                />
+                                <Questions Questions={question} index={index + 147} key={index} />
                             </>
                         );
                     })}

@@ -1,8 +1,9 @@
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Nav from "../Component/Nav";
 const { REACT_APP_SERVER } = process.env;
-function Home() {
+function Home(props) {
     const [listTest, setListTest] = useState([]);
 
     useEffect(() => {
@@ -71,11 +72,7 @@ function Home() {
                                 </li>
                             </ul>
 
-                            <div className="navbar-nav d-flex flex-row">
-                                <Link className="btn btn-outline-light" to="./login" role="button">
-                                    Đăng nhập
-                                </Link>
-                            </div>
+                            <Nav getCookie={props.getCookie} />
                         </div>
                     </div>
                 </nav>

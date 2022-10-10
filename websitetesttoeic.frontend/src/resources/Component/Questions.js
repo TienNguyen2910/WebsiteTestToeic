@@ -17,7 +17,11 @@ function Questions(props) {
                 </p>
                 {props.Questions.image ? (
                     <span>
-                        <img className="p1-image" src={`${REACT_APP_CLIENT}/LuanVan_Demo/${props.Questions.image}`} alt={`${REACT_APP_CLIENT}/LuanVan_Demo/${props.Questions.image}`} />
+                        <img
+                            className="p1-image"
+                            src={`${REACT_APP_CLIENT}/LuanVan_Demo/${props.Questions.image}`}
+                            alt={`${REACT_APP_CLIENT}/LuanVan_Demo/${props.Questions.image}`}
+                        />
                     </span>
                 ) : ""}
 
