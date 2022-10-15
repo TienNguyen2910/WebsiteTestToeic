@@ -45,13 +45,7 @@ function Exam() {
     if (Object.keys(listQuestions).length !== 0)
         return (
             <>
-                <button
-                    onClick={topFunction}
-                    id="myBtnTop"
-                    className="btn btn-success"
-                    title="Go to top"
-                    ref={myBtnRef}
-                >
+                <button onClick={topFunction} id="myBtnTop" className="btn btn-sm" title="Go to top" ref={myBtnRef}>
                     Top
                 </button>
                 {params.idTest === "1" ? (
@@ -59,7 +53,6 @@ function Exam() {
                 ) : (
                     <h3 className="text-center my-3">MINI TEST</h3>
                 )}
-
                 <h3 className="text-center my-3">{location.state.title}</h3>
                 <div className="d-flex justify-content-center align-items-center my-4">
                     <audio controls autoPlay>
@@ -70,70 +63,102 @@ function Exam() {
                         Your browser does not support the audio element.
                     </audio>
                 </div>
-
                 <h4 className="my-3">PART 1</h4>
                 <div className="row">
                     {listQuestions.slice(0, 6).map((question, index) => {
-                        return <Questions Questions={question} index={index + 1} key={index} />;
+                        return (
+                            <div className="col-6">
+                                <Questions Questions={question} index={index + 1} key={index} />
+                            </div>
+                        );
                     })}
                 </div>
                 <h4 className="my-3">PART 2</h4>
                 <div className="row">
                     {listQuestions.slice(6, 31).map((question, index) => {
-                        return <Questions Questions={question} index={index + 7} key={index} />;
+                        return (
+                            <div className="col-6">
+                                <Questions Questions={question} index={index + 7} key={index} />
+                            </div>
+                        );
                     })}
                 </div>
                 <h4 className="my-3">PART 3</h4>
                 <div className="row">
                     {listQuestions.slice(31, 70).map((question, index) => {
-                        return <Questions Questions={question} index={index + 32} key={index} />;
+                        return (
+                            <div className="col-6">
+                                <Questions Questions={question} index={index + 32} key={index} />
+                            </div>
+                        );
                     })}
                 </div>
                 <h4 className="my-3">PART 4</h4>
                 <div className="row">
                     {listQuestions.slice(70, 100).map((question, index) => {
-                        return <Questions Questions={question} index={index + 71} key={index} />;
+                        return (
+                            <div className="col-6">
+                                <Questions Questions={question} index={index + 71} key={index} />
+                            </div>
+                        );
                     })}
                 </div>
                 <h4 className="my-3">PART 5</h4>
                 <div className="row">
                     {listQuestions.slice(100, 130).map((question, index) => {
-                        return <Questions Questions={question} index={index + 101} key={index} />;
+                        return (
+                            <div className="col-6">
+                                <Questions Questions={question} index={index + 101} key={index} />
+                            </div>
+                        );
                     })}
                 </div>
                 <h4 className="my-3">PART 6</h4>
                 <div className="row">
                     {listQuestions.slice(130, 146).map((question, index) => {
-                        return (
+                        return question.contentScript === null ? (
+                            <div className="col-6">
+                                <Questions Questions={question} index={index + 131} key={index} />
+                            </div>
+                        ) : (
                             <>
-                                <div className="col-6">
+                                <div className="col-12">
                                     <p
+                                        className="p-3"
                                         id="contentScipt"
                                         dangerouslySetInnerHTML={{
                                             __html: `${question.contentScript === null ? "" : question.contentScript}`,
                                         }}
                                     ></p>
                                 </div>
-                                <Questions Questions={question} index={index + 131} key={index} />
+                                <div className="col-6">
+                                    <Questions Questions={question} index={index + 131} key={index} />
+                                </div>
                             </>
                         );
                     })}
                 </div>
                 <h4 className="my-3">PART 7</h4>
                 <div className="row">
-                    {listQuestions.slice(146, 200).map((question, index) => {
-                        // console.log(question.id, question.contentScript);
-                        return (
+                    {listQuestions.slice(130, 146).map((question, index) => {
+                        return question.contentScript === null ? (
+                            <div className="col-6">
+                                <Questions Questions={question} index={index + 147} key={index} />
+                            </div>
+                        ) : (
                             <>
                                 <div className="col-12">
                                     <p
+                                        className="p-3"
                                         id="contentScipt"
                                         dangerouslySetInnerHTML={{
                                             __html: `${question.contentScript === null ? "" : question.contentScript}`,
                                         }}
                                     ></p>
                                 </div>
-                                <Questions Questions={question} index={index + 147} key={index} />
+                                <div className="col-6">
+                                    <Questions Questions={question} index={index + 147} key={index} />
+                                </div>
                             </>
                         );
                     })}

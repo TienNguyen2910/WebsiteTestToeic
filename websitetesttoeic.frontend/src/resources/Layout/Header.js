@@ -48,12 +48,6 @@ function Header(props) {
                                     Trang chủ
                                 </Link>
                             </li>
-                            <li className="nav-item active">
-                                <Link className="nav-link" to="./dashboard" rel="nofollow">
-                                    Luyện tập
-                                </Link>
-                            </li>
-
                             <li className="nav-item dropdown active">
                                 <Link
                                     className="nav-link dropdown-toggle"
