@@ -122,11 +122,13 @@ function Exam() {
                 <h4 className="my-3">PART 7</h4>
                 <div className="row">
                     {listQuestions.slice(146, 200).map((question, index) => {
-                        // console.log(question.id, question.contentScript);
-                        return (
+                        return question.contentScript === null ? (
+                            <Questions Questions={question} index={index + 147} key={index} />
+                        ) : (
                             <>
                                 <div className="col-12">
                                     <p
+                                        className="p-3"
                                         id="contentScipt"
                                         dangerouslySetInnerHTML={{
                                             __html: `${question.contentScript === null ? "" : question.contentScript}`,

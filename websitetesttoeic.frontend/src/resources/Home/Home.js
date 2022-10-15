@@ -44,11 +44,11 @@ function Home(props) {
                                         Trang chủ
                                     </Link>
                                 </li>
-                                <li className="nav-item active">
+                                {/* <li className="nav-item active">
                                     <Link className="nav-link" to="./dashboard" rel="nofollow">
                                         Luyện tập
                                     </Link>
-                                </li>
+                                </li> */}
                                 <li className="nav-item dropdown active">
                                     <Link
                                         className="nav-link dropdown-toggle"
@@ -96,12 +96,7 @@ function Home(props) {
                                     phục chứng chỉ TOEIC với các bài luyện tập trên trang web của chúng tôi ngay hôm
                                     nay!!!!
                                 </h5>
-                                <Link
-                                    className="btn btn-outline-light btn-lg m-2"
-                                    to="./dashboard"
-                                    role="button"
-                                    rel="nofollow"
-                                >
+                                <Link className="btn btn-outline-light btn-lg m-2" to="./" role="button" rel="nofollow">
                                     Start here
                                 </Link>
                             </div>

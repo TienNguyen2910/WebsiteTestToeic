@@ -40,7 +40,7 @@ function Login(props) {
                         props.setCookie("token", response.data, 5);
                         loginSuccess.current.hidden = false;
                         loginFailed.current.hidden = true;
-                        window.location.replace("/dashboard");
+                        window.location.replace("/");
                     } else {
                         console.log("login failed");
                         loginSuccess.current.hidden = true;
