@@ -4,15 +4,17 @@ function Questions(props) {
     // console.log(props);
     if (props.Questions)
         return (
-            <div>
-                <p
-                    className="m-1"
+            <div className="col-6">
+                <p 
+                    className="m-1" 
                     dangerouslySetInnerHTML={{
-                        __html: `${props.index}.  ${
-                            props.Questions.contentQuestion ? props.Questions.contentQuestion : ""
-                        }`,
+                        __html: 
+                            `${props.index}.  ${
+                                props.Questions.contentQuestion ? props.Questions.contentQuestion : ""
+                            }`
                     }}
-                ></p>
+                >
+                </p>
                 {props.Questions.image ? (
                     <span>
                         <img
@@ -21,13 +23,11 @@ function Questions(props) {
                             alt={`${REACT_APP_CLIENT}/LuanVan_Demo/${props.Questions.image}`}
                         />
                     </span>
-                ) : (
-                    ""
-                )}
+                ) : ""}
 
                 <div className="m-2">
                     {/* Group of default radios - option 1 */}
-                    <div className="custom-control custom-radio m-1">
+                    <div className="custom-control custom-radio">
                         <input
                             type="radio"
                             className="custom-control-input"
@@ -39,7 +39,7 @@ function Questions(props) {
                         </label>
                     </div>
                     {/* Group of default radios - option 2 */}
-                    <div className="custom-control custom-radio m-1">
+                    <div className="custom-control custom-radio">
                         <input
                             type="radio"
                             className="custom-control-input"
@@ -51,7 +51,7 @@ function Questions(props) {
                         </label>
                     </div>
                     {/* Group of default radios - option 3 */}
-                    <div className="custom-control custom-radio m-1">
+                    <div className="custom-control custom-radio">
                         <input
                             type="radio"
                             className="custom-control-input"
@@ -63,7 +63,7 @@ function Questions(props) {
                         </label>
                     </div>
                     {/* Group of default radios - option 4 */}
-                    <div className="custom-control custom-radio m-1">
+                    <div className="custom-control custom-radio">
                         <input
                             type="radio"
                             className="custom-control-input"

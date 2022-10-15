@@ -23,7 +23,9 @@ function App(props) {
                 <Routes>
                     <Route path="/login" element={<Login setCookie={props.setCookie} />} />
                     <Route path="/register" element={<Register />} />
+
                     <Route path="/:idTest" element={<Dashboard />} />
+
                     <Route path="/:idTest/:id" element={<Exam />} />
                 </Routes>
             </div>
