@@ -4,10 +4,6 @@ namespace WebsiteTestToeic.Domain.Models
 {
     public class Result 
     {
-        public Result()
-        {
-            ResultDetailsList = new List<ResultDetail>();
-        }
         public int Id { get; set; }
         public int? UserId { get; set; }
         public int? QuizId { get; set; }
@@ -16,7 +12,6 @@ namespace WebsiteTestToeic.Domain.Models
         public int Score { get; set; }
         public virtual User User { get; set; }
         public virtual Quiz Quiz { get; set; }
-        [JsonIgnore]
-        public virtual ICollection<ResultDetail> ResultDetailsList { get; set; }
+        public IList<ResultDetail>? ResultDetailsList { get; set; }
     }
 }
