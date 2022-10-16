@@ -296,7 +296,7 @@ function Exam() {
                 </div>
             </div>
         );
-    else return <h3 className="text-center mt-4">Đề đang cập nhật. Vui lòng chọn mã đề khác (^.^)!</h3>;
+    else return <h3 className="text-center mt-4">Đề đang cập nhật...</h3>;
 }
 
 export default Exam;
