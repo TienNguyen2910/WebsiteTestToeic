@@ -47,7 +47,7 @@ function Nav(props) {
                     <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
                         <li>
                             <Link className="dropdown-item" to="#" onClick={logOut}>
-                                <i class="fa-solid fa-right-from-bracket me-3"></i> Đăng xuất
+                                <i className="fa-solid fa-right-from-bracket me-3"></i> Đăng xuất
                             </Link>
                         </li>
                     </ul>
