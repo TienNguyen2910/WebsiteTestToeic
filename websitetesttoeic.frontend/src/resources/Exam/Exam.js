@@ -1,6 +1,6 @@
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import axios from "axios";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import Questions from "../Component/Questions";
 import "./Exam.css";
 import Countdown from "react-countdown";
@@ -9,9 +9,8 @@ const { REACT_APP_CLIENT, REACT_APP_SERVER } = process.env;
 
 function Exam() {
     const [listQuestions, setListQuestions] = useState({});
+    const [location, setLocation] = useState({});
     const params = useParams();
-    const location = useLocation();
-    const myBtnRef = useRef();
 
     useEffect(() => {
         axios({
@@ -28,14 +27,18 @@ function Exam() {
     }, [params.id]);
 
     useEffect(() => {
-        window.onscroll = function () {
-            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-                myBtnRef.current.style.display = "block";
-            } else {
-                myBtnRef.current.style.display = "none";
-            }
-        };
-    }, []);
+        axios({
+            method: "get",
+            headers: {
+                accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            url: `${REACT_APP_SERVER}/Quiz/${params.idTest}`,
+        }).then((response) => {
+            console.log(response.data);
+            setLocation(response.data);
+        });
+    }, [params.idTest]);
 
     const renderer = ({ hours, minutes, seconds, completed }) => {
         if (completed) {
@@ -59,7 +62,7 @@ function Exam() {
                             <h3 className="text-center my-3">MINI TEST</h3>
                         )}
                         <h3 className="text-center my-3">
-                            {location.state.title ? location.state.title : window.location.replace(`/${params.idTest}`)}
+                            {location.title ? location.title : window.location.replace(`/${params.idTest}`)}
                         </h3>
                         <div className="d-flex justify-content-center align-items-center my-4">
                             <audio controls autoPlay>
@@ -161,11 +164,10 @@ function Exam() {
                         />
                         <h6 className="mt-2">Part 1:</h6>
                         {listQuestions.slice(0, 6).map((element, index) => (
-                            <button
+                            <Link
                                 key={`${index}Question`}
                                 type="button"
                                 className="btn btn-outline-dark btn-sm"
-                                // style={{ padding: "2px 10px", margin: "5px 5px" }}
                                 style={{
                                     display: "inline-flex",
                                     height: 30,
@@ -174,9 +176,10 @@ function Exam() {
                                     alignItems: "center",
                                     margin: 5,
                                 }}
+                                to="#"
                             >
                                 {index + 1}
-                            </button>
+                            </Link>
                         ))}
                         <h6 className="mt-2">Part 2:</h6>
                         {listQuestions.slice(6, 31).map((element, index) => (
@@ -292,6 +295,7 @@ function Exam() {
                                 {index + 147}
                             </button>
                         ))}
+                        <button className="my-3 btn btn-outline-primary d-flex ml-auto mr-2"> Nộp bài </button>
                     </div>
                 </div>
             </div>
