@@ -45,7 +45,7 @@ namespace WebsiteTestToeic.Database.Implement
 
         public async Task<List<Question>> GetAllQuestions(int QuizId)
         {
-            List<Question> questionList = await _context.Questions.Where(q => q.QuizId == QuizId).ToListAsync();
+            List<Question> questionList =  _context.Questions.Include(answer => answer.Answers).Where(q => q.QuizId == QuizId).ToList();
             return questionList;
         }
 
