@@ -35,8 +35,13 @@ function Questions(props) {
                                     id={`${answer.id}`}
                                     name={props.Questions.id}
                                 />
-                                <label className="custom-control-label" htmlFor={`A${answer.id}`}>
-                                    {` ${answer.contentAnswer}`}
+                                <label className="custom-control-label" htmlFor={`${answer.id}`}
+                                    dangerouslySetInnerHTML={{
+                                        __html: `${
+                                            answer.contentAnswer
+                                        }`,
+                                    }}
+                                >
                                 </label>
                             </div>
                         );
