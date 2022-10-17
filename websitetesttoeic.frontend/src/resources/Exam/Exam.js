@@ -7,10 +7,24 @@ import Countdown from "react-countdown";
 
 const { REACT_APP_CLIENT, REACT_APP_SERVER } = process.env;
 
-function Exam() {
+function Exam(props) {
     const [listQuestions, setListQuestions] = useState({});
     const [location, setLocation] = useState({});
     const params = useParams();
+    const [result, setResult] = useState({
+        IdUser: Object.values(JSON.parse(props.getCookie("user")))[0],
+        IdQuiz: null,
+        StartedAt: new Date().toISOString(),
+        EndedAt: null,
+        Score: null,
+    });
+
+    console.log(result);
+
+    const addHours = (numOfHours, date = new Date()) => {
+        date.setTime(date.getTime() + numOfHours * 60 * 60 * 1000);
+        return date.toISOString();
+    };
 
     useEffect(() => {
         axios({
@@ -24,6 +38,7 @@ function Exam() {
             // console.log(response.data);
             setListQuestions(response.data);
         });
+        setResult({ ...result, IdQuiz: params.id, EndedAt: addHours(2) });
     }, [params.id]);
 
     useEffect(() => {
@@ -35,7 +50,7 @@ function Exam() {
             },
             url: `${REACT_APP_SERVER}/Quiz/${params.idTest}`,
         }).then((response) => {
-            console.log(response.data);
+            // console.log(response.data);
             setLocation(response.data);
         });
     }, [params.idTest]);
@@ -183,7 +198,7 @@ function Exam() {
                         ))}
                         <h6 className="mt-2">Part 2:</h6>
                         {listQuestions.slice(6, 31).map((element, index) => (
-                            <button
+                            <Link
                                 key={`${index}Question`}
                                 type="button"
                                 className="btn btn-outline-dark btn-sm"
@@ -196,13 +211,14 @@ function Exam() {
                                     alignItems: "center",
                                     margin: 5,
                                 }}
+                                to="#"
                             >
                                 {index + 7}
-                            </button>
+                            </Link>
                         ))}
                         <h6 className="mt-2">Part 3:</h6>
                         {listQuestions.slice(31, 70).map((element, index) => (
-                            <button
+                            <Link
                                 key={`${index}Question`}
                                 type="button"
                                 className="btn btn-outline-dark btn-sm"
@@ -215,13 +231,14 @@ function Exam() {
                                     alignItems: "center",
                                     margin: 5,
                                 }}
+                                to="#"
                             >
                                 {index + 32}
-                            </button>
+                            </Link>
                         ))}
                         <h6 className="mt-2">Part 4:</h6>
                         {listQuestions.slice(70, 100).map((element, index) => (
-                            <button
+                            <Link
                                 key={`${index}Question`}
                                 type="button"
                                 className="btn btn-outline-dark btn-sm"
@@ -234,13 +251,14 @@ function Exam() {
                                     alignItems: "center",
                                     margin: 5,
                                 }}
+                                to="#"
                             >
                                 {index + 71}
-                            </button>
+                            </Link>
                         ))}
                         <h6 className="mt-2">Part 5:</h6>
                         {listQuestions.slice(100, 130).map((element, index) => (
-                            <button
+                            <Link
                                 key={`${index}Question`}
                                 type="button"
                                 className="btn btn-outline-dark btn-sm"
@@ -253,13 +271,14 @@ function Exam() {
                                     alignItems: "center",
                                     margin: 5,
                                 }}
+                                to="#"
                             >
                                 {index + 101}
-                            </button>
+                            </Link>
                         ))}
                         <h6 className="mt-2">Part 6:</h6>
                         {listQuestions.slice(130, 146).map((element, index) => (
-                            <button
+                            <Link
                                 key={`${index}Question`}
                                 type="button"
                                 className="btn btn-outline-dark btn-sm"
@@ -272,13 +291,14 @@ function Exam() {
                                     alignItems: "center",
                                     margin: 5,
                                 }}
+                                to="#"
                             >
                                 {index + 131}
-                            </button>
+                            </Link>
                         ))}
                         <h6 className="mt-2">Part 7:</h6>
                         {listQuestions.slice(146, 200).map((element, index) => (
-                            <button
+                            <Link
                                 key={`${index}Question`}
                                 type="button"
                                 className="btn btn-outline-dark btn-sm"
@@ -291,9 +311,10 @@ function Exam() {
                                     alignItems: "center",
                                     margin: 5,
                                 }}
+                                to="#"
                             >
                                 {index + 147}
-                            </button>
+                            </Link>
                         ))}
                         <button className="my-3 btn btn-outline-primary d-flex ml-auto mr-2"> Nộp bài </button>
                     </div>

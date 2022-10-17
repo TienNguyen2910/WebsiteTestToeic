@@ -31,7 +31,7 @@ function App(props) {
             {/* don't use container (Bootstrap) */}
             <div className="container-fluid">
                 <Routes>
-                    <Route path="/:idTest/:id" element={<Exam />} />
+                    <Route path="/:idTest/:id" element={<Exam getCookie={props.getCookie} />} />
                 </Routes>
             </div>
 

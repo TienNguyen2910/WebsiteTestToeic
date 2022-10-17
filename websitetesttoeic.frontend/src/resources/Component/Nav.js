@@ -42,7 +42,7 @@ function Nav(props) {
                             alt="Portrait of a Woman"
                             loading="lazy"
                         />
-                        <span className="mx-2">{Object.values(JSON.parse(props.getCookie("user")))[1]}</span>
+                        <span className="mx-2">{Object.values(JSON.parse(props.getCookie("user")))[2]}</span>
                     </a>
                     <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
                         <li>
