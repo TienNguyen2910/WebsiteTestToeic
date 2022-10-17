@@ -7,6 +7,7 @@ namespace WebsiteTestToeic.Database.Interface
     {
         public Task<User> AddUser(User user);
         public Task<bool> DeleteUser(int Id);
+        public Task<bool> findUser(string email);
         public Task<User> UpdateUser(User user);
         public Task<UserRole> Login(string Email, string Password);
         public Task<List<User>> GetAllUser();

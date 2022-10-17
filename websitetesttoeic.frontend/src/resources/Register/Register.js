@@ -13,7 +13,9 @@ function Register() {
     const loginSuccess = useRef();
     const loginFailed = useRef();
     const refRePassword = useRef();
+    const refEmail = useRef();
     const refAlertRePassword = useRef();
+    const refAlertDuplicateEmail = useRef();
     let navigate = useNavigate();
 
     const handleUsername = (e) => {
@@ -21,6 +23,22 @@ function Register() {
     };
     const handleEmail = (e) => {
         setEmail(e.target.value);
+        axios({
+            method: "post",
+            headers: {
+                accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            url: `${REACT_APP_SERVER}/User/checkDuplicateEmail?email=${e.target.value ? e.target.value : "default"}`,
+        }).then((response) => {
+            if (response.data) {
+                refEmail.current.classList.add("border-danger");
+                refAlertDuplicateEmail.current.hidden = false;
+            } else {
+                refEmail.current.classList.remove("border-danger");
+                refAlertDuplicateEmail.current.hidden = true;
+            }
+        });
     };
     const handlePassword = (e) => {
         setPassword(e.target.value);
@@ -43,7 +61,13 @@ function Register() {
             refAlertRePassword.current.hidden = false;
         }
         e.preventDefault();
-        if (username !== "" && email !== "" && password !== "" && password === rePassword) {
+        if (
+            username !== "" &&
+            email !== "" &&
+            password !== "" &&
+            password === rePassword &&
+            refAlertDuplicateEmail.current.hidden === true
+        ) {
             axios({
                 method: "post",
                 headers: {
@@ -120,7 +144,7 @@ function Register() {
                                                 required
                                             />
                                         </div>
-                                        <div className="mb-3">
+                                        <div>
                                             <label htmlFor="email" className="form-label ">
                                                 Email:
                                             </label>
@@ -131,9 +155,13 @@ function Register() {
                                                 placeholder="name@example.com"
                                                 onChange={handleEmail}
                                                 required
+                                                ref={refEmail}
                                             />
                                         </div>
-                                        <div className="mb-3">
+                                        <div className="text-danger small mt-2" hidden ref={refAlertDuplicateEmail}>
+                                            Email đã tồn tại. Vui lòng thử lại
+                                        </div>
+                                        <div className="my-3">
                                             <label htmlFor="password" className="form-label ">
                                                 Mật khẩu:
                                             </label>
