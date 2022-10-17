@@ -5,11 +5,6 @@ namespace WebsiteTestToeic.Domain.Models
 {
     public class User
     {
-        public User()
-        {
-            ResultsList = new List<Result>();
-            QuizzesList = new List<Quiz>();
-        }
         public int Id { get; set; }
         public string UserName { get; set; }    
         public string DateOfBirth { get; set; }
@@ -18,8 +13,7 @@ namespace WebsiteTestToeic.Domain.Models
         public int? RoleId { get; set; }
 
         public virtual Role Role { get; set; }
-        [JsonIgnore]
-        public virtual ICollection<Result> ResultsList { get; set; }
-        public virtual ICollection<Quiz> QuizzesList { get; set; }
+        public IList<Result>? ResultsList { get; set; }
+        public IList<Quiz>? QuizzesList { get; set; }
     }
 }

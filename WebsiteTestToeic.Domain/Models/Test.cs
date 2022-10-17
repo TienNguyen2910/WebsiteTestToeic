@@ -5,15 +5,10 @@ namespace WebsiteTestToeic.Domain.Models
 {
     public class Test
     {
-        public Test()
-        {
-            QuizzesList = new List<Quiz>();
-        }
         public int Id { get; set; }
         public TimeSpan ExamTime { get; set; }
         public string TypeTest { get; set; }
         public int NumQuestion { get; set; }
-        [JsonIgnore]
-        public ICollection<Quiz> QuizzesList { get; set; }   
+        public IList<Quiz>? QuizzesList { get; set; }   
     }
 }

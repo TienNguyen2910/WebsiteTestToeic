@@ -1,8 +1,9 @@
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Nav from "../Component/Nav";
 const { REACT_APP_SERVER } = process.env;
-function Home() {
+function Home(props) {
     const [listTest, setListTest] = useState([]);
 
     useEffect(() => {
@@ -43,11 +44,11 @@ function Home() {
                                         Trang chủ
                                     </Link>
                                 </li>
-                                <li className="nav-item active">
+                                {/* <li className="nav-item active">
                                     <Link className="nav-link" to="./dashboard" rel="nofollow">
                                         Luyện tập
                                     </Link>
-                                </li>
+                                </li> */}
                                 <li className="nav-item dropdown active">
                                     <Link
                                         className="nav-link dropdown-toggle"
@@ -71,11 +72,7 @@ function Home() {
                                 </li>
                             </ul>
 
-                            <div className="navbar-nav d-flex flex-row">
-                                <Link className="btn btn-outline-light" to="./login" role="button">
-                                    Đăng nhập
-                                </Link>
-                            </div>
+                            <Nav getCookie={props.getCookie} />
                         </div>
                     </div>
                 </nav>
@@ -99,12 +96,7 @@ function Home() {
                                     phục chứng chỉ TOEIC với các bài luyện tập trên trang web của chúng tôi ngay hôm
                                     nay!!!!
                                 </h5>
-                                <Link
-                                    className="btn btn-outline-light btn-lg m-2"
-                                    to="./dashboard"
-                                    role="button"
-                                    rel="nofollow"
-                                >
+                                <Link className="btn btn-outline-light btn-lg m-2" to="./" role="button" rel="nofollow">
                                     Start here
                                 </Link>
                             </div>

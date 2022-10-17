@@ -1,0 +1,9 @@
+#contentScipt {
+    background-color: #f0f8ff;
+}
+
+.scroll {
+    max-height: 90vh;
+    scroll-behavior: smooth;
+    overflow-y: scroll;
+}

@@ -15,7 +15,7 @@ function Dashboard() {
             },
             url: `${REACT_APP_SERVER}/Quiz?TestId=${params.idTest}`,
         }).then((response) => {
-            console.log(response.data);
+            // console.log(response.data);
             setListQuiz(response.data);
         });
     }, [params.idTest]);

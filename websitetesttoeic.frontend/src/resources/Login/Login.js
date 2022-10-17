@@ -1,15 +1,16 @@
 import axios from "axios";
 import { useState, useRef } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 
 const { REACT_APP_SERVER } = process.env;
 
-function Login() {
+function Login(props) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const loginSuccess = useRef();
     const loginFailed = useRef();
-    let navigate = useNavigate();
+    // let navigate = useNavigate();
 
     const handleEmail = (e) => {
         setEmail(e.target.value);
@@ -31,13 +32,17 @@ function Login() {
                 url: `${REACT_APP_SERVER}/User/Login?email=${email}&password=${password}`,
             })
                 .then((response) => {
-                    if (response.data != null) {
+                    if (response.data !== "") {
                         sessionStorage.setItem("token", response.data);
-                        sessionStorage.setItem("email", email);
+                        var token = jwt_decode(response.data);
+                        // console.log(token);
+                        props.setCookie("user", JSON.stringify(token), 5);
+                        props.setCookie("token", response.data, 5);
                         loginSuccess.current.hidden = false;
                         loginFailed.current.hidden = true;
-                        navigate("/dashboard");
+                        window.location.replace("/");
                     } else {
+                        console.log("login failed");
                         loginSuccess.current.hidden = true;
                         loginFailed.current.hidden = false;
                     }
