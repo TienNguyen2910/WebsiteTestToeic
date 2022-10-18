@@ -1,10 +1,22 @@
 const { REACT_APP_CLIENT } = process.env;
 
 function Questions(props) {
-    // console.log(props);
+
+    const setResult = (idAnswer) => {
+        props.setResultDetail((prev) => {
+            [...prev, {
+                Time: Date.now(),
+                IdAnswerSelected: idAnswer,
+                IdQuestion: props.Questions.id,
+                IdResult: null, // để tạm, tại hk bk ạ
+                IsAnswerTrue: null, // tạm luôn
+            }]
+        })
+    }
+
     if (props.Questions)
         return (
-            <div className="col-6">
+            <div className="col-6" id={props.Questions.id}>
                 <p
                     className="m-1"
                     dangerouslySetInnerHTML={{
@@ -34,6 +46,7 @@ function Questions(props) {
                                     className="custom-control-input"
                                     id={`${answer.id}`}
                                     name={props.Questions.id}
+                                    onClick = {() => setResult(answer.id)}
                                 />
                                 <label className="custom-control-label" htmlFor={`${answer.id}`}
                                     dangerouslySetInnerHTML={{

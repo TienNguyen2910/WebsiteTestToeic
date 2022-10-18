@@ -18,8 +18,9 @@ function Exam(props) {
         EndedAt: null,
         Score: null,
     });
+    const [resultDetail, setResultDetail] = useState([]);
 
-    console.log(result);
+    console.log(resultDetail);
 
     const addHours = (numOfHours, date = new Date()) => {
         date.setTime(date.getTime() + numOfHours * 60 * 60 * 1000);
@@ -35,7 +36,6 @@ function Exam(props) {
             },
             url: `${REACT_APP_SERVER}/Question/GetAllQuestion?QuizId=${params.id}`,
         }).then((response) => {
-            // console.log(response.data);
             setListQuestions(response.data);
         });
         setResult({ ...result, IdQuiz: params.id, EndedAt: addHours(2) });
@@ -50,7 +50,6 @@ function Exam(props) {
             },
             url: `${REACT_APP_SERVER}/Quiz/${params.idTest}`,
         }).then((response) => {
-            // console.log(response.data);
             setLocation(response.data);
         });
     }, [params.idTest]);
@@ -65,6 +64,19 @@ function Exam(props) {
             </h6>
         );
     };
+
+    const scrollToHash = (id) => {
+    
+        if(id) {
+            /* Find matching element by id */
+            const anchor = document.getElementById(id);
+    
+            if(anchor) {
+                /* Scroll to that element if present */
+                anchor.scrollIntoView();
+            }
+        }
+    }
 
     if (Object.keys(listQuestions).length !== 0)
         return (
@@ -91,7 +103,7 @@ function Exam(props) {
                         <h4 className="my-3">PART 1</h4>
                         <div className="row">
                             {listQuestions.slice(0, 6).map((question, index) => {
-                                return <Questions Questions={question} index={index + 1} key={index} />;
+                                return <Questions Questions={question} index={index + 1} key={index} setResultDetail={setResultDetail} />;
                             })}
                         </div>
                         <h4 className="my-3">PART 2</h4>
@@ -175,11 +187,12 @@ function Exam(props) {
                                     ? Date.now() + 120 * 1000 * 60
                                     : Date.now() + 60 * 1000 * 60
                             }
+
                             renderer={renderer}
                         />
                         <h6 className="mt-2">Part 1:</h6>
                         {listQuestions.slice(0, 6).map((element, index) => (
-                            <Link
+                            <button
                                 key={`${index}Question`}
                                 type="button"
                                 className="btn btn-outline-dark btn-sm"
@@ -191,14 +204,14 @@ function Exam(props) {
                                     alignItems: "center",
                                     margin: 5,
                                 }}
-                                to="#"
+                                onClick = {() => scrollToHash(element.id)}
                             >
                                 {index + 1}
-                            </Link>
+                            </button>
                         ))}
                         <h6 className="mt-2">Part 2:</h6>
                         {listQuestions.slice(6, 31).map((element, index) => (
-                            <Link
+                            <button
                                 key={`${index}Question`}
                                 type="button"
                                 className="btn btn-outline-dark btn-sm"
@@ -211,14 +224,14 @@ function Exam(props) {
                                     alignItems: "center",
                                     margin: 5,
                                 }}
-                                to="#"
+                                onClick = {() => scrollToHash(element.id)}
                             >
                                 {index + 7}
-                            </Link>
+                            </button>
                         ))}
                         <h6 className="mt-2">Part 3:</h6>
                         {listQuestions.slice(31, 70).map((element, index) => (
-                            <Link
+                            <button
                                 key={`${index}Question`}
                                 type="button"
                                 className="btn btn-outline-dark btn-sm"
@@ -231,14 +244,14 @@ function Exam(props) {
                                     alignItems: "center",
                                     margin: 5,
                                 }}
-                                to="#"
+                                onClick = {() => scrollToHash(element.id)}
                             >
                                 {index + 32}
-                            </Link>
+                            </button>
                         ))}
                         <h6 className="mt-2">Part 4:</h6>
                         {listQuestions.slice(70, 100).map((element, index) => (
-                            <Link
+                            <button
                                 key={`${index}Question`}
                                 type="button"
                                 className="btn btn-outline-dark btn-sm"
@@ -251,14 +264,14 @@ function Exam(props) {
                                     alignItems: "center",
                                     margin: 5,
                                 }}
-                                to="#"
+                                onClick = {() => scrollToHash(element.id)}
                             >
                                 {index + 71}
-                            </Link>
+                            </button>
                         ))}
                         <h6 className="mt-2">Part 5:</h6>
                         {listQuestions.slice(100, 130).map((element, index) => (
-                            <Link
+                            <button
                                 key={`${index}Question`}
                                 type="button"
                                 className="btn btn-outline-dark btn-sm"
@@ -271,14 +284,14 @@ function Exam(props) {
                                     alignItems: "center",
                                     margin: 5,
                                 }}
-                                to="#"
+                                onClick = {() => scrollToHash(element.id)}
                             >
                                 {index + 101}
-                            </Link>
+                            </button>
                         ))}
                         <h6 className="mt-2">Part 6:</h6>
                         {listQuestions.slice(130, 146).map((element, index) => (
-                            <Link
+                            <button
                                 key={`${index}Question`}
                                 type="button"
                                 className="btn btn-outline-dark btn-sm"
@@ -291,14 +304,14 @@ function Exam(props) {
                                     alignItems: "center",
                                     margin: 5,
                                 }}
-                                to="#"
+                                onClick = {() => scrollToHash(element.id)}
                             >
                                 {index + 131}
-                            </Link>
+                            </button>
                         ))}
                         <h6 className="mt-2">Part 7:</h6>
                         {listQuestions.slice(146, 200).map((element, index) => (
-                            <Link
+                            <button
                                 key={`${index}Question`}
                                 type="button"
                                 className="btn btn-outline-dark btn-sm"
@@ -311,10 +324,10 @@ function Exam(props) {
                                     alignItems: "center",
                                     margin: 5,
                                 }}
-                                to="#"
+                                onClick = {() => scrollToHash(element.id)}
                             >
                                 {index + 147}
-                            </Link>
+                            </button>
                         ))}
                         <button className="my-3 btn btn-outline-primary d-flex ml-auto mr-2"> Nộp bài </button>
                     </div>
