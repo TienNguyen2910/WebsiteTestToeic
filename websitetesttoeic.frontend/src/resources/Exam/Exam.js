@@ -1,6 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Questions from "../Component/Questions";
 import "./Exam.css";
 import Countdown from "react-countdown";
@@ -11,9 +11,10 @@ function Exam(props) {
     const [listQuestions, setListQuestions] = useState({});
     const [location, setLocation] = useState({});
     const params = useParams();
+    const startDate = useRef(Date.now());
     const [result, setResult] = useState({
         IdUser: Object.values(JSON.parse(props.getCookie("user")))[0],
-        IdQuiz: null,
+        IdQuiz: params.id,
         StartedAt: new Date().toISOString(),
         EndedAt: null,
         Score: null,
@@ -21,6 +22,27 @@ function Exam(props) {
     const [resultDetail, setResultDetail] = useState([]);
 
     console.log(resultDetail);
+
+    const setAnswer = (idAnswer, idQuestion, isAnswer) => {
+        // console.log(idQuestion);
+        document.getElementById(idQuestion + "Question").classList.add("active");
+        if (!resultDetail.some((element) => element.QuestionId === idQuestion))
+            setResultDetail([
+                ...resultDetail,
+                {
+                    QuestionId: idQuestion,
+                    ResultId: null, // để tạm, tại hk bk ạ
+                    AnswerSelectedId: idAnswer,
+                    IsAnswerTrue: isAnswer, // tạm luôn
+                },
+            ]);
+        else {
+            var index = resultDetail.findIndex((element) => element.QuestionId === idQuestion);
+            resultDetail[index].AnswerSelectedId = idAnswer;
+            resultDetail[index].IsAnswerTrue = isAnswer;
+            console.log(resultDetail);
+        }
+    };
 
     const addHours = (numOfHours, date = new Date()) => {
         date.setTime(date.getTime() + numOfHours * 60 * 60 * 1000);
@@ -66,17 +88,15 @@ function Exam(props) {
     };
 
     const scrollToHash = (id) => {
-    
-        if(id) {
-            /* Find matching element by id */
+        if (id) {
             const anchor = document.getElementById(id);
-    
-            if(anchor) {
-                /* Scroll to that element if present */
+            console.log(anchor);
+
+            if (anchor) {
                 anchor.scrollIntoView();
             }
         }
-    }
+    };
 
     if (Object.keys(listQuestions).length !== 0)
         return (
@@ -103,38 +123,78 @@ function Exam(props) {
                         <h4 className="my-3">PART 1</h4>
                         <div className="row">
                             {listQuestions.slice(0, 6).map((question, index) => {
-                                return <Questions Questions={question} index={index + 1} key={index} setResultDetail={setResultDetail} />;
+                                return (
+                                    <Questions
+                                        Questions={question}
+                                        index={index + 1}
+                                        key={index}
+                                        setAnswer={setAnswer}
+                                    />
+                                );
                             })}
                         </div>
                         <h4 className="my-3">PART 2</h4>
                         <div className="row">
                             {listQuestions.slice(6, 31).map((question, index) => {
-                                return <Questions Questions={question} index={index + 7} key={index} />;
+                                return (
+                                    <Questions
+                                        setAnswer={setAnswer}
+                                        Questions={question}
+                                        index={index + 7}
+                                        key={index}
+                                    />
+                                );
                             })}
                         </div>
                         <h4 className="my-3">PART 3</h4>
                         <div className="row">
                             {listQuestions.slice(31, 70).map((question, index) => {
-                                return <Questions Questions={question} index={index + 32} key={index} />;
+                                return (
+                                    <Questions
+                                        setAnswer={setAnswer}
+                                        Questions={question}
+                                        index={index + 32}
+                                        key={index}
+                                    />
+                                );
                             })}
                         </div>
                         <h4 className="my-3">PART 4</h4>
                         <div className="row">
                             {listQuestions.slice(70, 100).map((question, index) => {
-                                return <Questions Questions={question} index={index + 71} key={index} />;
+                                return (
+                                    <Questions
+                                        setAnswer={setAnswer}
+                                        Questions={question}
+                                        index={index + 71}
+                                        key={index}
+                                    />
+                                );
                             })}
                         </div>
                         <h4 className="my-3">PART 5</h4>
                         <div className="row">
                             {listQuestions.slice(100, 130).map((question, index) => {
-                                return <Questions Questions={question} index={index + 101} key={index} />;
+                                return (
+                                    <Questions
+                                        setAnswer={setAnswer}
+                                        Questions={question}
+                                        index={index + 101}
+                                        key={index}
+                                    />
+                                );
                             })}
                         </div>
                         <h4 className="my-3">PART 6</h4>
                         <div className="row">
                             {listQuestions.slice(130, 146).map((question, index) => {
                                 return question.contentScript === null ? (
-                                    <Questions Questions={question} index={index + 131} key={index} />
+                                    <Questions
+                                        setAnswer={setAnswer}
+                                        Questions={question}
+                                        index={index + 131}
+                                        key={index}
+                                    />
                                 ) : (
                                     <div key={index}>
                                         <div className="col-12 p-0">
@@ -148,7 +208,12 @@ function Exam(props) {
                                                 }}
                                             ></p>
                                         </div>
-                                        <Questions Questions={question} index={index + 131} key={index} />
+                                        <Questions
+                                            setAnswer={setAnswer}
+                                            Questions={question}
+                                            index={index + 131}
+                                            key={index}
+                                        />
                                     </div>
                                 );
                             })}
@@ -157,7 +222,12 @@ function Exam(props) {
                         <div className="row">
                             {listQuestions.slice(146, 200).map((question, index) => {
                                 return question.contentScript === null ? (
-                                    <Questions Questions={question} index={index + 147} key={index} />
+                                    <Questions
+                                        setAnswer={setAnswer}
+                                        Questions={question}
+                                        index={index + 147}
+                                        key={index}
+                                    />
                                 ) : (
                                     <div key={index}>
                                         <div className="col-12 p-0">
@@ -171,7 +241,12 @@ function Exam(props) {
                                                 }}
                                             ></p>
                                         </div>
-                                        <Questions Questions={question} index={index + 147} key={index} />
+                                        <Questions
+                                            setAnswer={setAnswer}
+                                            Questions={question}
+                                            index={index + 147}
+                                            key={index}
+                                        />
                                     </div>
                                 );
                             })}
@@ -184,15 +259,15 @@ function Exam(props) {
                         <Countdown
                             date={
                                 Object.keys(listQuestions).length === 200
-                                    ? Date.now() + 120 * 1000 * 60
-                                    : Date.now() + 60 * 1000 * 60
+                                    ? startDate.current + 120 * 1000 * 60
+                                    : startDate.current + 60 * 1000 * 60
                             }
-
                             renderer={renderer}
                         />
                         <h6 className="mt-2">Part 1:</h6>
                         {listQuestions.slice(0, 6).map((element, index) => (
                             <button
+                                id={element.id + "Question"}
                                 key={`${index}Question`}
                                 type="button"
                                 className="btn btn-outline-dark btn-sm"
@@ -204,7 +279,7 @@ function Exam(props) {
                                     alignItems: "center",
                                     margin: 5,
                                 }}
-                                onClick = {() => scrollToHash(element.id)}
+                                onClick={() => scrollToHash(element.id)}
                             >
                                 {index + 1}
                             </button>
@@ -212,6 +287,7 @@ function Exam(props) {
                         <h6 className="mt-2">Part 2:</h6>
                         {listQuestions.slice(6, 31).map((element, index) => (
                             <button
+                                id={element.id + "Question"}
                                 key={`${index}Question`}
                                 type="button"
                                 className="btn btn-outline-dark btn-sm"
@@ -224,7 +300,7 @@ function Exam(props) {
                                     alignItems: "center",
                                     margin: 5,
                                 }}
-                                onClick = {() => scrollToHash(element.id)}
+                                onClick={() => scrollToHash(element.id)}
                             >
                                 {index + 7}
                             </button>
@@ -232,6 +308,7 @@ function Exam(props) {
                         <h6 className="mt-2">Part 3:</h6>
                         {listQuestions.slice(31, 70).map((element, index) => (
                             <button
+                                id={element.id + "Question"}
                                 key={`${index}Question`}
                                 type="button"
                                 className="btn btn-outline-dark btn-sm"
@@ -244,7 +321,7 @@ function Exam(props) {
                                     alignItems: "center",
                                     margin: 5,
                                 }}
-                                onClick = {() => scrollToHash(element.id)}
+                                onClick={() => scrollToHash(element.id)}
                             >
                                 {index + 32}
                             </button>
@@ -252,6 +329,7 @@ function Exam(props) {
                         <h6 className="mt-2">Part 4:</h6>
                         {listQuestions.slice(70, 100).map((element, index) => (
                             <button
+                                id={element.id + "Question"}
                                 key={`${index}Question`}
                                 type="button"
                                 className="btn btn-outline-dark btn-sm"
@@ -264,7 +342,7 @@ function Exam(props) {
                                     alignItems: "center",
                                     margin: 5,
                                 }}
-                                onClick = {() => scrollToHash(element.id)}
+                                onClick={() => scrollToHash(element.id)}
                             >
                                 {index + 71}
                             </button>
@@ -272,6 +350,7 @@ function Exam(props) {
                         <h6 className="mt-2">Part 5:</h6>
                         {listQuestions.slice(100, 130).map((element, index) => (
                             <button
+                                id={element.id + "Question"}
                                 key={`${index}Question`}
                                 type="button"
                                 className="btn btn-outline-dark btn-sm"
@@ -284,7 +363,7 @@ function Exam(props) {
                                     alignItems: "center",
                                     margin: 5,
                                 }}
-                                onClick = {() => scrollToHash(element.id)}
+                                onClick={() => scrollToHash(element.id)}
                             >
                                 {index + 101}
                             </button>
@@ -292,6 +371,7 @@ function Exam(props) {
                         <h6 className="mt-2">Part 6:</h6>
                         {listQuestions.slice(130, 146).map((element, index) => (
                             <button
+                                id={element.id + "Question"}
                                 key={`${index}Question`}
                                 type="button"
                                 className="btn btn-outline-dark btn-sm"
@@ -304,7 +384,7 @@ function Exam(props) {
                                     alignItems: "center",
                                     margin: 5,
                                 }}
-                                onClick = {() => scrollToHash(element.id)}
+                                onClick={() => scrollToHash(element.id)}
                             >
                                 {index + 131}
                             </button>
@@ -312,6 +392,7 @@ function Exam(props) {
                         <h6 className="mt-2">Part 7:</h6>
                         {listQuestions.slice(146, 200).map((element, index) => (
                             <button
+                                id={element.id + "Question"}
                                 key={`${index}Question`}
                                 type="button"
                                 className="btn btn-outline-dark btn-sm"
@@ -324,7 +405,7 @@ function Exam(props) {
                                     alignItems: "center",
                                     margin: 5,
                                 }}
-                                onClick = {() => scrollToHash(element.id)}
+                                onClick={() => scrollToHash(element.id)}
                             >
                                 {index + 147}
                             </button>

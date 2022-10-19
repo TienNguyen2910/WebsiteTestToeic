@@ -1,19 +1,6 @@
 const { REACT_APP_CLIENT } = process.env;
 
 function Questions(props) {
-
-    const setResult = (idAnswer) => {
-        props.setResultDetail((prev) => {
-            [...prev, {
-                Time: Date.now(),
-                IdAnswerSelected: idAnswer,
-                IdQuestion: props.Questions.id,
-                IdResult: null, // để tạm, tại hk bk ạ
-                IsAnswerTrue: null, // tạm luôn
-            }]
-        })
-    }
-
     if (props.Questions)
         return (
             <div className="col-6" id={props.Questions.id}>
@@ -44,18 +31,17 @@ function Questions(props) {
                                 <input
                                     type="radio"
                                     className="custom-control-input"
-                                    id={`${answer.id}`}
+                                    id={`${answer.id}Answer`}
                                     name={props.Questions.id}
-                                    onClick = {() => setResult(answer.id)}
+                                    onClick={() => props.setAnswer(answer.id, props.Questions.id, answer.isAnswer)}
                                 />
-                                <label className="custom-control-label" htmlFor={`${answer.id}`}
+                                <label
+                                    className="custom-control-label"
+                                    htmlFor={`${answer.id}Answer`}
                                     dangerouslySetInnerHTML={{
-                                        __html: `${
-                                            answer.contentAnswer
-                                        }`,
+                                        __html: `${answer.contentAnswer}`,
                                     }}
-                                >
-                                </label>
+                                ></label>
                             </div>
                         );
                     })}
