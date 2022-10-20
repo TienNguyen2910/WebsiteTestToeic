@@ -178,9 +178,6 @@ namespace WebsiteTestToeic.Database.DatabaseContext
                       .WithMany(e => e.ResultDetailsList)
                       .HasForeignKey(e => e.AnswerSelectedId)
                       .HasConstraintName("FK__ResultDetail_Answer");
-
-                entity.Property(e => e.IsAnswerTrue)
-                      .IsUnicode(false);
             });
         }
     }

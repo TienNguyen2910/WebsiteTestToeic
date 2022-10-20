@@ -10,8 +10,8 @@ namespace WebsiteTestToeic.Domain.Models
         public DateTime StartedAt { get; set; }
         public DateTime EndedAt { get; set; }
         public int Score { get; set; }
-        public virtual User User { get; set; }
-        public virtual Quiz Quiz { get; set; }
+        public virtual User? User { get; set; }
+        public virtual Quiz? Quiz { get; set; }
         public IList<ResultDetail>? ResultDetailsList { get; set; }
     }
 }
