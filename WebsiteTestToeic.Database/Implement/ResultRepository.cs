@@ -36,7 +36,7 @@ namespace WebsiteTestToeic.Database.Implement
 
         public async Task<List<Result>> GetAllResults()
         {
-            List<Result> results = _context.Results.ToList();
+            List<Result> results = _context.Results.Include(r => r.User).OrderByDescending(r => r.Score).ToList();
             return results;
         }
 
