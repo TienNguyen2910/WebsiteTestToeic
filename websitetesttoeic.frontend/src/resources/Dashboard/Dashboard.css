@@ -1,3 +1,6 @@
+.rating{
+  background-color: white;
+}
 .timeline-with-icons {
     border-left: 1px solid hsl(0, 0%, 90%);
     position: relative;
@@ -7,9 +10,7 @@
   .timeline-with-icons .timeline-item {
     position: relative;
   }
-  .timeline-with-icons .timeline-item:hover{
-    background-color: rgb(192, 191, 191);
-  }
+ 
   .timeline-with-icons .timeline-item .item-right{
     margin-left: 138px;
   }

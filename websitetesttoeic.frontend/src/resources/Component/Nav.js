@@ -50,6 +50,16 @@ function Nav(props) {
                                 <i className="fa-solid fa-right-from-bracket me-3"></i> Đăng xuất
                             </Link>
                         </li>
+                        <li>
+                            <Link className="dropdown-item" to="/admin">
+                                <i class="fa-solid fa-list-check me-3"></i> Quản lý thành viên
+                            </Link>
+                        </li>
+                        <li>
+                            <Link className="dropdown-item" to="/admin">
+                                <i class="fa-solid fa-bars-progress me-3"></i> Quản lý đề thi
+                            </Link>
+                        </li>
                     </ul>
                 </li>
             </div>

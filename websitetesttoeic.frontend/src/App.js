@@ -8,6 +8,7 @@ import Header from "./resources/Layout/Header";
 // Body
 import Login from "./resources/Login/Login";
 import Dashboard from "./resources/Dashboard/Dashboard";
+import Admin from "./resources/Admin/Admin";
 import Register from "./resources/Register/Register";
 import "./App.css";
 import Exam from "./resources/Exam/Exam";
@@ -25,6 +26,7 @@ function App(props) {
                     <Route path="/login" element={<Login setCookie={props.setCookie} />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/:idTest" element={<Dashboard />} />
+                    <Route path="/admin" element={<Admin />} />
                     {/* <Route path="/:idTest/:id" element={<Exam />} /> */}
                 </Routes>
             </div>

@@ -14,12 +14,12 @@ namespace WebsiteTestToeic.Api.Controller
         {
             _resultRepository = resultRepository;
         }
-        [HttpGet("GetAllResults"), Authorize(Roles = "Client, Admin")]
+        [HttpGet("GetAllResults")]
         public async Task<ActionResult<List<Result>>> GetAllResults()
         {
             return Ok(await _resultRepository.GetAllResults());
         }
-        [HttpGet("GetResult/{Id}"), Authorize(Roles = "Client, Admin")]
+        [HttpGet("GetResult/{Id}")]
         public async Task<ActionResult<Result>> GetResult(int Id)
         {
             return Ok(await _resultRepository.GetResult(Id));

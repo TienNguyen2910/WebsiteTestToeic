@@ -49,6 +49,11 @@ namespace WebsiteTestToeic.Api.Controller
             }
             return null;
         }
+        [HttpGet("GetAllUsers")]
+        public async Task<ActionResult<List<User>>> GetAllUsers()
+        {
+            return Ok(await _userRepository.GetAllUsers());
+        }
         private string CreateToken(UserRole user)
         {
             List<Claim> claims = new List<Claim>

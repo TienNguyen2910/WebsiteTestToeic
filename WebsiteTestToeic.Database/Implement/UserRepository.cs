@@ -52,9 +52,9 @@ namespace WebsiteTestToeic.Database.Implement
             return result;
         }
 
-        public async Task<List<User>> GetAllUser()
+        public async Task<List<User>> GetAllUsers()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.Users.Include(u => u.ResultsList).Where(u => u.Role.RoleName != "Admin").ToListAsync();
         }
 
         public async Task<UserRole> Login(string Email, string Password)
