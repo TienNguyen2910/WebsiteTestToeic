@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState, useRef } from "react";
 import Questions from "../Component/Questions";
@@ -11,36 +11,38 @@ function Exam(props) {
     const [listQuestions, setListQuestions] = useState({});
     const [location, setLocation] = useState({});
     const params = useParams();
+    const navigate = useNavigate();
     const startDate = useRef(Date.now());
+    const reviewAns = useRef();
+    const btnSubmit = useRef();
+    const goBack = useRef();
+    const [calResult, setCalResult] = useState();
     const [result, setResult] = useState({
-        IdUser: Object.values(JSON.parse(props.getCookie("user")))[0],
-        IdQuiz: params.id,
+        UserId: Object.values(JSON.parse(props.getCookie("user")))[0],
+        QuizId: params.id,
         StartedAt: new Date().toISOString(),
         EndedAt: null,
-        Score: null,
     });
+
     const [resultDetail, setResultDetail] = useState([]);
 
-    console.log(resultDetail);
-
-    const setAnswer = (idAnswer, idQuestion, isAnswer) => {
-        // console.log(idQuestion);
+    const setAnswer = (idAnswer, idQuestion, isAnswer, Part) => {
         document.getElementById(idQuestion + "Question").classList.add("active");
         if (!resultDetail.some((element) => element.QuestionId === idQuestion))
             setResultDetail([
                 ...resultDetail,
                 {
                     QuestionId: idQuestion,
-                    ResultId: null, // để tạm, tại hk bk ạ
+                    ResultId: null,
                     AnswerSelectedId: idAnswer,
-                    IsAnswerTrue: isAnswer, // tạm luôn
+                    IsAnswerTrue: isAnswer,
+                    Part: Part,
                 },
             ]);
         else {
             var index = resultDetail.findIndex((element) => element.QuestionId === idQuestion);
             resultDetail[index].AnswerSelectedId = idAnswer;
             resultDetail[index].IsAnswerTrue = isAnswer;
-            console.log(resultDetail);
         }
     };
 
@@ -60,7 +62,7 @@ function Exam(props) {
         }).then((response) => {
             setListQuestions(response.data);
         });
-        setResult({ ...result, IdQuiz: params.id, EndedAt: addHours(2) });
+        setResult({ ...result, QuizId: params.id, EndedAt: addHours(2) });
     }, [params.id]);
 
     useEffect(() => {
@@ -90,12 +92,96 @@ function Exam(props) {
     const scrollToHash = (id) => {
         if (id) {
             const anchor = document.getElementById(id);
-            console.log(anchor);
 
             if (anchor) {
                 anchor.scrollIntoView();
             }
         }
+    };
+
+    const listeningScore = (numCorrect) => {
+        if (numCorrect < 7) return 5;
+        else if (numCorrect < 31) return (numCorrect - 5) * 5;
+        else if (numCorrect < 39) return (numCorrect - 4) * 5;
+        else if (numCorrect < 45) return (numCorrect - 2) * 5;
+        else if (numCorrect < 54) return (numCorrect - 1) * 5;
+        else if (numCorrect < 58) return numCorrect * 5;
+        else if (numCorrect < 70) return (numCorrect + 1) * 5;
+        else if (numCorrect < 75) return (numCorrect + 2) * 5;
+        else if (numCorrect < 80) return (numCorrect + 3) * 5;
+        else if (numCorrect < 85) return (numCorrect + 4) * 5;
+        else if (numCorrect < 88) return (numCorrect + 5) * 5;
+        else if (numCorrect < 93) return (numCorrect + 6) * 5;
+        else return 495;
+    };
+
+    const readingScore = (numCorrect) => {
+        if (numCorrect < 10) return 5;
+        else if (numCorrect < 25) return (numCorrect - 8) * 5;
+        else if (numCorrect < 39) return (numCorrect - 6) * 5;
+        else if (numCorrect < 43) return (numCorrect - 5) * 5;
+        else if (numCorrect < 47) return (numCorrect - 4) * 5;
+        else if (numCorrect < 52) return (numCorrect - 3) * 5;
+        else if (numCorrect < 55) return (numCorrect - 2) * 5;
+        else if (numCorrect < 64) return (numCorrect - 1) * 5;
+        else if (numCorrect < 82) return numCorrect * 5;
+        else if (numCorrect < 89) return (numCorrect - 1) * 5;
+        else if (numCorrect < 92) return numCorrect * 5;
+        else if (numCorrect < 93) return (numCorrect + 6) * 5;
+        else if (numCorrect < 97) return (numCorrect + 2) * 5;
+        else return 495;
+    };
+
+    const submit = () => {
+        let listen = 0;
+        let read = 0;
+        for (let i = 0; i < resultDetail.length; i++) {
+            if (
+                resultDetail[i].Part === 1 ||
+                resultDetail[i].Part === 2 ||
+                resultDetail[i].Part === 3 ||
+                (resultDetail[i].Part === 4 && resultDetail[i].IsAnswerTrue === true)
+            )
+                listen++;
+            if (
+                resultDetail[i].Part === 5 ||
+                resultDetail[i].Part === 6 ||
+                (resultDetail[i].Part === 7 && resultDetail[i].IsAnswerTrue === true)
+            )
+                read++;
+        }
+        result.Score = listeningScore(listen) + readingScore(read);
+        axios({
+            method: "POST",
+            headers: {
+                accept: "text/plain",
+                "Content-Type": "application/json",
+            },
+            data: result,
+            url: `${REACT_APP_SERVER}/Result/AddResult`,
+        }).then((response) => {
+            resultDetail.map((element) => {
+                element.ResultId = response.data;
+                delete element.IsAnswerTrue;
+                delete element.Part;
+            });
+            axios({
+                method: "POST",
+                headers: {
+                    accept: "text/plain",
+                    "Content-Type": "application/json",
+                },
+                data: resultDetail,
+                url: `${REACT_APP_SERVER}/ResultDetail/AddResultDetail`,
+            }).then((response) => {
+                if (response.data) {
+                    setCalResult(`Điểm của bạn: ${result.Score}`);
+                    reviewAns.current.hidden = false;
+                    goBack.current.hidden = false;
+                    btnSubmit.current.hidden = true;
+                }
+            });
+        });
     };
 
     if (Object.keys(listQuestions).length !== 0)
@@ -196,10 +282,10 @@ function Exam(props) {
                                         key={index}
                                     />
                                 ) : (
-                                    <div key={index}>
-                                        <div className="col-12 p-0">
+                                    <>
+                                        <div className="col-12" key={index}>
                                             <p
-                                                className="p-3"
+                                                className="p-3 my-3"
                                                 id="contentScipt"
                                                 dangerouslySetInnerHTML={{
                                                     __html: `${
@@ -214,7 +300,7 @@ function Exam(props) {
                                             index={index + 131}
                                             key={index}
                                         />
-                                    </div>
+                                    </>
                                 );
                             })}
                         </div>
@@ -229,10 +315,10 @@ function Exam(props) {
                                         key={index}
                                     />
                                 ) : (
-                                    <div key={index}>
-                                        <div className="col-12 p-0">
+                                    <>
+                                        <div className="col-12" key={index}>
                                             <p
-                                                className="p-3"
+                                                className="p-3 my-3"
                                                 id="contentScipt"
                                                 dangerouslySetInnerHTML={{
                                                     __html: `${
@@ -247,7 +333,7 @@ function Exam(props) {
                                             index={index + 147}
                                             key={index}
                                         />
-                                    </div>
+                                    </>
                                 );
                             })}
                         </div>
@@ -410,7 +496,68 @@ function Exam(props) {
                                 {index + 147}
                             </button>
                         ))}
-                        <button className="my-3 btn btn-outline-primary d-flex ml-auto mr-2"> Nộp bài </button>
+                        <button
+                            className="my-3 btn btn-outline-primary d-flex ml-auto mr-2"
+                            data-bs-toggle="modal"
+                            data-bs-target="#exampleModal"
+                        >
+                            {" "}
+                            Nộp bài{" "}
+                        </button>
+                    </div>
+                </div>
+                {/* // Modal */}
+                <div className="modal fade" tabIndex="-1" id="exampleModal">
+                    <div className="modal-dialog modal-dialog-centered">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title">Xác nhận?</h5>
+                                <button
+                                    type="button"
+                                    className="btn-close"
+                                    data-bs-dismiss="modal"
+                                    aria-label="Close"
+                                />
+                            </div>
+                            <div className="modal-body">
+                                <p>Bạn đã hoàn thành {resultDetail.length}/200 đáp án (^.^)!</p>
+                                <p>
+                                    {resultDetail.length < 5
+                                        ? "Vui lòng hoàn thành ít nhất 5 câu trước khi nộp bài!"
+                                        : " "}
+                                </p>
+                                <p className="fw-bold">{calResult}</p>
+                                <Link hidden ref={reviewAns}>
+                                    Xem lại đáp án
+                                </Link>
+                            </div>
+                            <div className="modal-footer">
+                                <button
+                                    hidden
+                                    ref={goBack}
+                                    type="button"
+                                    className="btn btn-danger"
+                                    onClick={() => {
+                                        document.getElementById("exampleModal").click();
+                                        navigate(-1);
+                                    }}
+                                >
+                                    Quay lại
+                                </button>
+                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
+                                    Đóng
+                                </button>
+                                <button
+                                    type="button"
+                                    className="btn btn-success"
+                                    ref={btnSubmit}
+                                    hidden={resultDetail.length < 5 ? true : false}
+                                    onClick={submit}
+                                >
+                                    Nộp bài
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

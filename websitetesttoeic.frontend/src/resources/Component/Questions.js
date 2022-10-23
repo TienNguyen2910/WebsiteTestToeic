@@ -33,7 +33,14 @@ function Questions(props) {
                                     className="custom-control-input"
                                     id={`${answer.id}Answer`}
                                     name={props.Questions.id}
-                                    onClick={() => props.setAnswer(answer.id, props.Questions.id, answer.isAnswer)}
+                                    onClick={() =>
+                                        props.setAnswer(
+                                            answer.id,
+                                            props.Questions.id,
+                                            answer.isAnswer,
+                                            props.Questions.numPart
+                                        )
+                                    }
                                 />
                                 <label
                                     className="custom-control-label"
