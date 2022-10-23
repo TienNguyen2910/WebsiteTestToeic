@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WebsiteTestToeic.Database.Interface;
 using WebsiteTestToeic.Domain.Models;
 
@@ -13,17 +14,17 @@ namespace WebsiteTestToeic.Api.Controller
         {
             _resultRepository = resultRepository;
         }
-        [HttpGet("GetAllResults")]
+        [HttpGet("GetAllResults"), Authorize(Roles = "Client, Admin")]
         public async Task<ActionResult<List<Result>>> GetAllResults()
         {
             return Ok(await _resultRepository.GetAllResults());
         }
-        [HttpGet("GetResult/{Id}")]
+        [HttpGet("GetResult/{Id}"), Authorize(Roles = "Client, Admin")]
         public async Task<ActionResult<Result>> GetResult(int Id)
         {
             return Ok(await _resultRepository.GetResult(Id));
         }
-        [HttpPost("AddResult")]
+        [HttpPost("AddResult"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<int>> AddResult(Result result)
         {
             return Ok(await _resultRepository.AddResult(result));

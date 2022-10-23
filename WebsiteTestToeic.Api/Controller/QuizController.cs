@@ -26,12 +26,12 @@ namespace WebsiteTestToeic.Api.Controller
         {
             return Ok(await _quizRepository.GetQuiz(id));
         }
-        [HttpPost("{title}, {testid:int}, {actorid:int}")]
+        [HttpPost("{title}, {testid:int}, {actorid:int}"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<Test>> AddQuiz(string title, int testid, int actorid)
         {
             return Ok(await _quizRepository.AddQuiz(title, testid, actorid));
         }
-        [HttpPut("{id:int}")]
+        [HttpPut("{id:int}"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<Test>> UpdateQuiz(int id, Quiz quiz)
         {
             Quiz q = await _quizRepository.GetQuiz(id);
@@ -39,7 +39,7 @@ namespace WebsiteTestToeic.Api.Controller
                 return NotFound("Test Id = {id} not found");
             return Ok(await _quizRepository.UpdateQuiz(quiz));
         }
-        [HttpDelete("{id:int}")]
+        [HttpDelete("{id:int}"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<bool>> DeleteQuiz(int id)
         {
             Quiz q = await _quizRepository.GetQuiz(id);

@@ -2,6 +2,7 @@
 using WebsiteTestToeic.Database.Interface;
 using WebsiteTestToeic.Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebsiteTestToeic.Api.Controller
 {
@@ -14,19 +15,19 @@ namespace WebsiteTestToeic.Api.Controller
         {
             _answerRepository = answerRepository;
         }
-        [HttpGet("GetAllAnswers")]
+        [HttpGet("GetAllAnswers"), Authorize(Roles = "Client, Admin")]
         public async Task<ActionResult<List<Answer>>> GetAllAnswers(int QuestionId)
         {
             List<Answer> answerList = await _answerRepository.GetAllAnswer(QuestionId);
             Console.WriteLine(answerList);
             return Ok(answerList);
         }
-        [HttpPost("AddAnswer")]
+        [HttpPost("AddAnswer"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<Answer>> AddAnswer(Answer answer)
         {
             return Ok(await _answerRepository.AddAnswer(answer));
         }
-        [HttpDelete("DeleteAnswer/{Id}")]
+        [HttpDelete("DeleteAnswer/{Id}"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<bool>> DeleteAnswer(int Id)
         {
             Answer answer = await _answerRepository.GetAnswer(Id);
