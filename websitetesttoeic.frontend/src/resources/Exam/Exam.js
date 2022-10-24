@@ -57,11 +57,16 @@ function Exam(props) {
             headers: {
                 accept: "application/json",
                 "Content-Type": "application/json",
+                Authorization: `Bearer ${props.getCookie("token")}`,
             },
             url: `${REACT_APP_SERVER}/Question/GetAllQuestion?QuizId=${params.id}`,
-        }).then((response) => {
-            setListQuestions(response.data);
-        });
+        })
+            .then((response) => {
+                setListQuestions(response.data);
+            })
+            .catch((error) => {
+                navigate("/");
+            });
         setResult({ ...result, QuizId: params.id, EndedAt: addHours(2) });
     }, [params.id]);
 
@@ -69,7 +74,7 @@ function Exam(props) {
         axios({
             method: "get",
             headers: {
-                accept: "application/json",
+                accept: "text/plain",
                 "Content-Type": "application/json",
             },
             url: `${REACT_APP_SERVER}/Quiz/${params.idTest}`,
@@ -188,7 +193,7 @@ function Exam(props) {
         return (
             <div className="row">
                 <div className="col-10 p-0">
-                    <div className="shadow ml-4 mr-2 px-4 border border-light mt-4 scroll">
+                    <div className="shadow ml-4 mr-2 px-4 border border-light my-4 scroll">
                         {params.idTest === "1" ? (
                             <h3 className="text-center my-3">FULL TEST</h3>
                         ) : (
@@ -213,7 +218,7 @@ function Exam(props) {
                                     <Questions
                                         Questions={question}
                                         index={index + 1}
-                                        key={index}
+                                        key={index + 1}
                                         setAnswer={setAnswer}
                                     />
                                 );
@@ -227,7 +232,7 @@ function Exam(props) {
                                         setAnswer={setAnswer}
                                         Questions={question}
                                         index={index + 7}
-                                        key={index}
+                                        key={index + 7}
                                     />
                                 );
                             })}
@@ -240,7 +245,7 @@ function Exam(props) {
                                         setAnswer={setAnswer}
                                         Questions={question}
                                         index={index + 32}
-                                        key={index}
+                                        key={index + 32}
                                     />
                                 );
                             })}
@@ -253,7 +258,7 @@ function Exam(props) {
                                         setAnswer={setAnswer}
                                         Questions={question}
                                         index={index + 71}
-                                        key={index}
+                                        key={index + 71}
                                     />
                                 );
                             })}
@@ -266,7 +271,7 @@ function Exam(props) {
                                         setAnswer={setAnswer}
                                         Questions={question}
                                         index={index + 101}
-                                        key={index}
+                                        key={index + 101}
                                     />
                                 );
                             })}
@@ -279,7 +284,7 @@ function Exam(props) {
                                         setAnswer={setAnswer}
                                         Questions={question}
                                         index={index + 131}
-                                        key={index}
+                                        key={index + 131}
                                     />
                                 ) : (
                                     <>
@@ -298,7 +303,7 @@ function Exam(props) {
                                             setAnswer={setAnswer}
                                             Questions={question}
                                             index={index + 131}
-                                            key={index}
+                                            key={index + 131}
                                         />
                                     </>
                                 );
@@ -312,7 +317,7 @@ function Exam(props) {
                                         setAnswer={setAnswer}
                                         Questions={question}
                                         index={index + 147}
-                                        key={index}
+                                        key={index + 147}
                                     />
                                 ) : (
                                     <>
@@ -331,7 +336,7 @@ function Exam(props) {
                                             setAnswer={setAnswer}
                                             Questions={question}
                                             index={index + 147}
-                                            key={index}
+                                            key={index + 147}
                                         />
                                     </>
                                 );
@@ -461,7 +466,6 @@ function Exam(props) {
                                 key={`${index}Question`}
                                 type="button"
                                 className="btn btn-outline-dark btn-sm"
-                                // style={{ padding: "2px 10px", margin: "5px 5px" }}
                                 style={{
                                     display: "inline-flex",
                                     height: 30,
@@ -482,7 +486,6 @@ function Exam(props) {
                                 key={`${index}Question`}
                                 type="button"
                                 className="btn btn-outline-dark btn-sm"
-                                // style={{ padding: "2px 10px", margin: "5px 5px" }}
                                 style={{
                                     display: "inline-flex",
                                     height: 30,
