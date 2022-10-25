@@ -14,6 +14,7 @@ function Admin() {
             },
             url: `${REACT_APP_SERVER}/User/GetAllUsers`,
         }).then((response) => {
+            console.log(response.data);
             setListUser(response.data);
         });
     }, []);
@@ -38,20 +39,42 @@ function Admin() {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td scope="row">1</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>
-                                    <Link className="text-danger" to="#">
-                                        <i class="fa-solid fa-trash me-2"></i>Delete
-                                    </Link>
-                                </td>
-                            </tr>
+                            {listUser.map((user, index) => (
+                                <tr>
+                                    <td scope="row">{index + 1}</td>
+                                    <td>{user.userName}</td>
+                                    <td>{user.dateOfBirth}</td>
+                                    <td>{user.email}</td>
+                                    <td>{user.quizzesList.title}</td>
+                                    <td className="date timeago" title={user.resultsList.startedAt}>
+                                        {new Intl.DateTimeFormat("vi", {
+                                            month: "long",
+                                            day: "2-digit",
+                                            year: "numeric",
+                                        }).format(
+                                            new Date(
+                                                user.resultsList.length > 0
+                                                    ? user.resultsList.reduce((a, b) =>
+                                                          a.startedAt > b.startedAt ? a.startedAt : b.startedAt
+                                                      )
+                                                    : null
+                                            )
+                                        )}
+                                    </td>
+                                    <td>
+                                        {user.resultsList.length > 0
+                                            ? user.resultsList.reduce((a, b) =>
+                                                  a.startedAt > b.startedAt ? a.score : b.score
+                                              )
+                                            : ""}
+                                    </td>
+                                    <td>
+                                        <Link className="text-danger" to="#">
+                                            <i class="fa-solid fa-trash me-2"></i>Delete
+                                        </Link>
+                                    </td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>

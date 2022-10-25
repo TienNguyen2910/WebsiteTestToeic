@@ -27,7 +27,7 @@ namespace WebsiteTestToeic.Database.DatabaseContext
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("server=LAPTOP-7D6S6BK0\\SQLEXPRESS;database=TestToeicDB;Trusted_Connection=true;");
+                optionsBuilder.UseSqlServer("server=DESKTOP-R84VEJN\\SQLEXPRESS;database=TestToeicDB;Trusted_Connection=true;");
             }
         }
 
@@ -48,6 +48,7 @@ namespace WebsiteTestToeic.Database.DatabaseContext
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
                 entity.Property(e => e.UserName)
                       .HasMaxLength(100)
+                      .HasColumnType("nvarchar")
                       .IsUnicode(false);
                 entity.Property(e => e.DateOfBirth)
                       .HasMaxLength(50)

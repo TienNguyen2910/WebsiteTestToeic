@@ -12,7 +12,7 @@ namespace WebsiteTestToeic.Host.Autofac
             builder.RegisterType<ResultRepository>().As<IResultRepository>().InstancePerLifetimeScope();
             builder.RegisterType<ResultDetailRepository>().As<IResultDetailRepository>().InstancePerLifetimeScope();
             builder.RegisterType<TestRepository>().As<ITestRepository>().SingleInstance();
-            builder.RegisterType<UserRepository>().As<IUserRepository>().SingleInstance();
+            builder.RegisterType<UserRepository>().As<IUserRepository>().InstancePerLifetimeScope();
             builder.RegisterType<QuizRepository>().As<IQuizRepository>().InstancePerLifetimeScope();
         }
     }

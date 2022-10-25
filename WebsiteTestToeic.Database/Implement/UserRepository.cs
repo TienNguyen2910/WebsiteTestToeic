@@ -54,7 +54,7 @@ namespace WebsiteTestToeic.Database.Implement
 
         public async Task<List<User>> GetAllUsers()
         {
-            return await _context.Users.Include(u => u.ResultsList).Where(u => u.Role.RoleName != "Admin").ToListAsync();
+            return await _context.Users.Include(u => u.ResultsList).Include(u => u.QuizzesList).Where(u => u.Role.RoleName != "Admin").ToListAsync();
         }
 
         public async Task<UserRole> Login(string Email, string Password)
