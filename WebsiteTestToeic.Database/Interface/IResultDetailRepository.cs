@@ -8,6 +8,6 @@ namespace WebsiteTestToeic.Database.Interface
     {
         public Task<List<ResultDetail>> GetAllResultDetails();
         public Task<bool> AddResultDetail(ResultDetail resultDetail);
-        public Task<ResultDetail> GetResultDetail(int Id);
+        public Task<List<ResultDetail>> GetResultDetail(int ResultId);
     }
 }

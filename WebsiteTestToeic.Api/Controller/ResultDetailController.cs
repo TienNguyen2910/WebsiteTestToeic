@@ -19,10 +19,10 @@ namespace WebsiteTestToeic.Api.Controller
         {
             return Ok(await _resultDetailRepository.GetAllResultDetails());
         }
-        [HttpGet("GetResultDetail/{Id}"), Authorize(Roles = "Client, Admin")]
-        public async Task<ActionResult<ResultDetail>> GetResultDetail(int Id)
+        [HttpGet("GetResultDetail/{ResultId}"), Authorize(Roles = "Client, Admin")]
+        public async Task<ActionResult<List<ResultDetail>>> GetResultDetail(int ResultId)
         {
-            return Ok(await _resultDetailRepository.GetResultDetail(Id));
+            return Ok(await _resultDetailRepository.GetResultDetail(ResultId));
         }
         [HttpPost("AddResultDetail"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<bool>> AddResult(List<ResultDetail> resultDetails)

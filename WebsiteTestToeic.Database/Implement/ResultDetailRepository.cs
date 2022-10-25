@@ -40,9 +40,9 @@ namespace WebsiteTestToeic.Database.Implement
             return resultDetailList;
         }
 
-        public async Task<ResultDetail> GetResultDetail(int Id)
+        public async Task<List<ResultDetail>> GetResultDetail(int ResultId)
         {
-            ResultDetail resultDetail = await _context.ResultDetail.FirstOrDefaultAsync(r => r.Id == Id);
+            List<ResultDetail> resultDetail = await _context.ResultDetail.Where(r => r.ResultId == ResultId).ToListAsync();
             if (resultDetail != null)
                 return resultDetail;
             return null;
