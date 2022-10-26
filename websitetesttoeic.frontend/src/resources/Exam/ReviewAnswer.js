@@ -1,55 +1,42 @@
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import Questions from "../Component/Questions";
 import "./Exam.css";
-import Countdown from "react-countdown";
 
 const { REACT_APP_CLIENT, REACT_APP_SERVER } = process.env;
 
-function Exam(props) {
-    const [listQuestions, setListQuestions] = useState({});
-    const [location, setLocation] = useState({});
-    const [resultId, setResultId] = useState({});
+function ReviewAnswer(props) {
+    const [listQuestions, setListQuestions] = useState([]);
+    const [listResultDetail, setListResultDetail] = useState([]);
     const params = useParams();
     const navigate = useNavigate();
-    const startDate = useRef(Date.now());
-    const reviewAns = useRef();
-    const btnSubmit = useRef();
-    const goBack = useRef();
-    const [calResult, setCalResult] = useState();
-    const [result, setResult] = useState({
-        UserId: Object.values(JSON.parse(props.getCookie("user")))[0],
-        QuizId: params.id,
-        StartedAt: new Date().toISOString(),
-        EndedAt: null,
-    });
-    const [resultDetail, setResultDetail] = useState([]);
+    const [location, setLocation] = useState({});
+    const scrollToHash = (id) => {
+        if (id) {
+            const anchor = document.getElementById(id);
 
-    const setAnswer = (idAnswer, idQuestion, isAnswer, Part) => {
-        document.getElementById(idQuestion + "Question").classList.add("active");
-        if (!resultDetail.some((element) => element.QuestionId === idQuestion))
-            setResultDetail([
-                ...resultDetail,
-                {
-                    QuestionId: idQuestion,
-                    ResultId: null,
-                    AnswerSelectedId: idAnswer,
-                    IsAnswerTrue: isAnswer,
-                    Part: Part,
-                },
-            ]);
-        else {
-            var index = resultDetail.findIndex((element) => element.QuestionId === idQuestion);
-            resultDetail[index].AnswerSelectedId = idAnswer;
-            resultDetail[index].IsAnswerTrue = isAnswer;
+            if (anchor) {
+                anchor.scrollIntoView();
+            }
         }
     };
 
-    const addHours = (numOfHours, date = new Date()) => {
-        date.setTime(date.getTime() + numOfHours * 60 * 60 * 1000);
-        return date.toISOString();
+    const setAnswer = (idAnswer, idQuestion, isAnswer, Part) => {
+        document.getElementById(idQuestion + "Question").classList.add("active");
     };
+
+    useEffect(() => {
+        listResultDetail.map((resultDetail, index) => {
+            if (document.getElementById(`${resultDetail.answerSelectedId}AnswerLabel`) !== null) {
+                var label = document.getElementById(`${resultDetail.answerSelectedId}AnswerLabel`);
+                if (!label.className.includes("bg-success text-white")) {
+                    label.className = "custom-control-label bg-danger text-white";
+                }
+                document.getElementById(`${resultDetail.answerSelectedId}Answer`).checked = true;
+            }
+        });
+    });
 
     useEffect(() => {
         axios({
@@ -67,7 +54,24 @@ function Exam(props) {
             .catch((error) => {
                 navigate("/");
             });
-        setResult({ ...result, QuizId: params.id, EndedAt: addHours(2) });
+    }, [params.id]);
+
+    useEffect(() => {
+        axios({
+            method: "get",
+            headers: {
+                accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${props.getCookie("token")}`,
+            },
+            url: `${REACT_APP_SERVER}/ResultDetail/GetResultDetail/${params.resultId}`,
+        })
+            .then((response) => {
+                setListResultDetail(response.data);
+            })
+            .catch((error) => {
+                navigate("/");
+            });
     }, [params.id]);
 
     useEffect(() => {
@@ -82,115 +86,6 @@ function Exam(props) {
             setLocation(response.data);
         });
     }, [params.idTest]);
-
-    const renderer = ({ hours, minutes, seconds, completed }) => {
-        if (completed) {
-            console.log("Hết giờ (demo)");
-        }
-        return (
-            <h6 className="mb-3">
-                {hours} : {minutes} : {seconds}
-            </h6>
-        );
-    };
-
-    const scrollToHash = (id) => {
-        if (id) {
-            const anchor = document.getElementById(id);
-
-            if (anchor) {
-                anchor.scrollIntoView();
-            }
-        }
-    };
-
-    const listeningScore = (numCorrect) => {
-        if (numCorrect < 7) return 5;
-        else if (numCorrect < 31) return (numCorrect - 5) * 5;
-        else if (numCorrect < 39) return (numCorrect - 4) * 5;
-        else if (numCorrect < 45) return (numCorrect - 2) * 5;
-        else if (numCorrect < 54) return (numCorrect - 1) * 5;
-        else if (numCorrect < 58) return numCorrect * 5;
-        else if (numCorrect < 70) return (numCorrect + 1) * 5;
-        else if (numCorrect < 75) return (numCorrect + 2) * 5;
-        else if (numCorrect < 80) return (numCorrect + 3) * 5;
-        else if (numCorrect < 85) return (numCorrect + 4) * 5;
-        else if (numCorrect < 88) return (numCorrect + 5) * 5;
-        else if (numCorrect < 93) return (numCorrect + 6) * 5;
-        else return 495;
-    };
-
-    const readingScore = (numCorrect) => {
-        if (numCorrect < 10) return 5;
-        else if (numCorrect < 25) return (numCorrect - 8) * 5;
-        else if (numCorrect < 39) return (numCorrect - 6) * 5;
-        else if (numCorrect < 43) return (numCorrect - 5) * 5;
-        else if (numCorrect < 47) return (numCorrect - 4) * 5;
-        else if (numCorrect < 52) return (numCorrect - 3) * 5;
-        else if (numCorrect < 55) return (numCorrect - 2) * 5;
-        else if (numCorrect < 64) return (numCorrect - 1) * 5;
-        else if (numCorrect < 82) return numCorrect * 5;
-        else if (numCorrect < 89) return (numCorrect - 1) * 5;
-        else if (numCorrect < 92) return numCorrect * 5;
-        else if (numCorrect < 93) return (numCorrect + 6) * 5;
-        else if (numCorrect < 97) return (numCorrect + 2) * 5;
-        else return 495;
-    };
-
-    const submit = () => {
-        let listen = 0;
-        let read = 0;
-        for (let i = 0; i < resultDetail.length; i++) {
-            if (
-                resultDetail[i].Part === 1 ||
-                resultDetail[i].Part === 2 ||
-                resultDetail[i].Part === 3 ||
-                (resultDetail[i].Part === 4 && resultDetail[i].IsAnswerTrue === true)
-            )
-                listen++;
-            if (
-                resultDetail[i].Part === 5 ||
-                resultDetail[i].Part === 6 ||
-                (resultDetail[i].Part === 7 && resultDetail[i].IsAnswerTrue === true)
-            )
-                read++;
-        }
-        result.Score = listeningScore(listen) + readingScore(read);
-        axios({
-            method: "POST",
-            headers: {
-                accept: "text/plain",
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${props.getCookie("token")}`,
-            },
-            data: result,
-            url: `${REACT_APP_SERVER}/Result/AddResult`,
-        }).then((response) => {
-            setResultId(response.data);
-            resultDetail.map((element) => {
-                element.ResultId = response.data;
-                delete element.IsAnswerTrue;
-                delete element.Part;
-            });
-            axios({
-                method: "POST",
-                headers: {
-                    accept: "text/plain",
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${props.getCookie("token")}`,
-                },
-                data: resultDetail,
-                url: `${REACT_APP_SERVER}/ResultDetail/AddResultDetail`,
-            }).then((response) => {
-                if (response.data) {
-                    setCalResult(`Điểm của bạn: ${result.Score}`);
-                    reviewAns.current.hidden = false;
-                    goBack.current.hidden = false;
-                    btnSubmit.current.hidden = true;
-                }
-            });
-        });
-    };
 
     if (Object.keys(listQuestions).length !== 0)
         return (
@@ -219,10 +114,10 @@ function Exam(props) {
                             {listQuestions.slice(0, 6).map((question, index) => {
                                 return (
                                     <Questions
+                                        setAnswer={setAnswer}
                                         Questions={question}
                                         index={index + 1}
                                         key={index + 1}
-                                        setAnswer={setAnswer}
                                     />
                                 );
                             })}
@@ -349,15 +244,6 @@ function Exam(props) {
                 </div>
                 <div className="col-2">
                     <div className="shadow mt-4 border-top-0 py-3 pl-3 border border-light scroll bg-white">
-                        <h6 className="p-0">Thời gian còn lại:</h6>
-                        <Countdown
-                            date={
-                                Object.keys(listQuestions).length === 200
-                                    ? startDate.current + 120 * 1000 * 60
-                                    : startDate.current + 60 * 1000 * 60
-                            }
-                            renderer={renderer}
-                        />
                         <h6 className="mt-2">Part 1:</h6>
                         {listQuestions.slice(0, 6).map((element, index) => (
                             <button
@@ -512,68 +398,9 @@ function Exam(props) {
                         </button>
                     </div>
                 </div>
-                {/* // Modal */}
-                <div className="modal fade" tabIndex="-1" id="exampleModal">
-                    <div className="modal-dialog modal-dialog-centered">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title">Xác nhận?</h5>
-                                <button
-                                    type="button"
-                                    className="btn-close"
-                                    data-bs-dismiss="modal"
-                                    aria-label="Close"
-                                />
-                            </div>
-                            <div className="modal-body">
-                                <p>Bạn đã hoàn thành {resultDetail.length}/200 đáp án (^.^)!</p>
-                                <p>
-                                    {resultDetail.length < 5
-                                        ? "Vui lòng hoàn thành ít nhất 5 câu trước khi nộp bài!"
-                                        : " "}
-                                </p>
-                                <p className="fw-bold">{calResult}</p>
-                                <Link
-                                    hidden
-                                    ref={reviewAns}
-                                    to={`/${params.idTest}/${params.id}/${resultId}`}
-                                    onClick={() => document.getElementById("exampleModal").click()}
-                                >
-                                    Xem lại đáp án
-                                </Link>
-                            </div>
-                            <div className="modal-footer">
-                                <button
-                                    hidden
-                                    ref={goBack}
-                                    type="button"
-                                    className="btn btn-danger"
-                                    onClick={() => {
-                                        document.getElementById("exampleModal").click();
-                                        navigate(-1);
-                                    }}
-                                >
-                                    Quay lại
-                                </button>
-                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
-                                    Đóng
-                                </button>
-                                <button
-                                    type="button"
-                                    className="btn btn-success"
-                                    ref={btnSubmit}
-                                    hidden={resultDetail.length < 5 ? true : false}
-                                    onClick={submit}
-                                >
-                                    Nộp bài
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         );
     else return <h3 className="text-center mt-4">Đề đang cập nhật...</h3>;
 }
 
-export default Exam;
+export default ReviewAnswer;

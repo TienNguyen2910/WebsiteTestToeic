@@ -53,7 +53,7 @@ function Questions(props) {
                     </>
                 )}
 
-                <div className="m-2">
+                <div className="my-2">
                     {props.Questions.answers.map((answer, index) => {
                         return (
                             <div className="custom-control custom-radio" key={index}>
@@ -72,8 +72,9 @@ function Questions(props) {
                                     }
                                 />
                                 <label
-                                    className="custom-control-label"
+                                    className={`custom-control-label ${answer.isAnswer ? "bg-success text-white" : ""}`}
                                     htmlFor={`${answer.id}Answer`}
+                                    id={`${answer.id}AnswerLabel`}
                                     dangerouslySetInnerHTML={{
                                         __html: `${answer.contentAnswer}`,
                                     }}

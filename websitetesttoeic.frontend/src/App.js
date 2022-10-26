@@ -12,6 +12,7 @@ import Admin from "./resources/Admin/Admin";
 import Register from "./resources/Register/Register";
 import "./App.css";
 import Exam from "./resources/Exam/Exam";
+import ReviewAnswer from "./resources/Exam/ReviewAnswer";
 
 function App(props) {
     return (
@@ -34,6 +35,7 @@ function App(props) {
             <div className="container-fluid">
                 <Routes>
                     <Route path="/:idTest/:id" element={<Exam getCookie={props.getCookie} />} />
+                    <Route path="/:idTest/:id/:resultId" element={<ReviewAnswer getCookie={props.getCookie} />} />
                 </Routes>
             </div>
 
