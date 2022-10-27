@@ -94,5 +94,13 @@ namespace WebsiteTestToeic.Database.Implement
             };
             return u;
         }
+
+        public async Task<User> GetUserById(int Id)
+        {
+            User u = await _context.Users.Include(u => u.ResultsList).FirstOrDefaultAsync(u => u.Id == Id);
+            if (u != null)
+                return u;
+            return null;
+        }
     }
 }
