@@ -14,7 +14,7 @@ function Admin() {
             },
             url: `${REACT_APP_SERVER}/User/GetAllUsers`,
         }).then((response) => {
-            console.log(response.data);
+            // console.log(response.data);
             setListUser(response.data);
         });
     }, []);
@@ -25,7 +25,7 @@ function Admin() {
             </div>
             <div className="card-body">
                 <div className="table-responsive">
-                    <table className="table table-bordered" width="100%" cellspacing="0">
+                    <table className="table table-bordered" width="100%" cellSpacing="0">
                         <thead className="thead-dark">
                             <tr>
                                 <th>STT</th>
@@ -40,12 +40,18 @@ function Admin() {
                         </thead>
                         <tbody>
                             {listUser.map((user, index) => (
-                                <tr>
+                                <tr key={index}>
                                     <td scope="row">{index + 1}</td>
                                     <td>{user.userName}</td>
                                     <td>{user.dateOfBirth}</td>
                                     <td>{user.email}</td>
-                                    <td>{user.quizzesList.title}</td>
+                                    <td>
+                                        {user.resultsList.length > 0
+                                            ? user.resultsList.reduce((a, b) =>
+                                                  a.startedAt > b.startedAt ? a.quiz.title : b.quiz.title
+                                              )
+                                            : null}
+                                    </td>
                                     <td className="date timeago" title={user.resultsList.startedAt}>
                                         {new Intl.DateTimeFormat("vi", {
                                             month: "long",
@@ -70,7 +76,7 @@ function Admin() {
                                     </td>
                                     <td>
                                         <Link className="text-danger" to="#">
-                                            <i class="fa-solid fa-trash me-2"></i>Delete
+                                            <i className="fa-solid fa-trash me-2"></i>Delete
                                         </Link>
                                     </td>
                                 </tr>
