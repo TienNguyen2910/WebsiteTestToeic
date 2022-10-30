@@ -1,3 +1,5 @@
+import ReviewAnswer from "../Exam/ReviewAnswer";
+
 const { REACT_APP_CLIENT } = process.env;
 
 function Questions(props) {
@@ -56,7 +58,7 @@ function Questions(props) {
                 <div className="my-2">
                     {props.Questions.answers.map((answer, index) => {
                         return (
-                            <div className="custom-control custom-radio" key={index}>
+                            <div className="custom-control custom-radio" key={index} style={{ margin: "2px 0px" }}>
                                 <input
                                     type="radio"
                                     className="custom-control-input"
@@ -72,7 +74,12 @@ function Questions(props) {
                                     }
                                 />
                                 <label
-                                    className={`custom-control-label ${answer.isAnswer ? "bg-success text-white" : ""}`}
+                                    className="custom-control-label"
+                                    style={
+                                        answer.isAnswer && props.reviewAnswer
+                                            ? { backgroundColor: "#4caf50", color: "white" }
+                                            : null
+                                    }
                                     htmlFor={`${answer.id}Answer`}
                                     id={`${answer.id}AnswerLabel`}
                                     dangerouslySetInnerHTML={{

@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Questions from "../Component/Questions";
@@ -30,12 +30,16 @@ function ReviewAnswer(props) {
         listResultDetail.map((resultDetail, index) => {
             if (document.getElementById(`${resultDetail.answerSelectedId}AnswerLabel`) !== null) {
                 var label = document.getElementById(`${resultDetail.answerSelectedId}AnswerLabel`);
-                if (!label.className.includes("bg-success text-white")) {
-                    label.className = "custom-control-label bg-danger text-white";
+                if (label.style.color !== "white") {
+                    label.style.backgroundColor = "#ff5252";
+                    label.style.color = "white";
                 }
-                document.getElementById(`${resultDetail.answerSelectedId}Answer`).checked = true;
+                document.getElementById(`${resultDetail.answerSelectedId}Answer`).click();
             }
         });
+        for (var i = 1; i <= document.getElementsByClassName("custom-control custom-radio").length; i++) {
+            document.getElementById(`${i}Answer`).disabled = true;
+        }
     });
 
     useEffect(() => {
@@ -114,6 +118,7 @@ function ReviewAnswer(props) {
                             {listQuestions.slice(0, 6).map((question, index) => {
                                 return (
                                     <Questions
+                                        reviewAnswer={true}
                                         setAnswer={setAnswer}
                                         Questions={question}
                                         index={index + 1}
@@ -127,6 +132,7 @@ function ReviewAnswer(props) {
                             {listQuestions.slice(6, 31).map((question, index) => {
                                 return (
                                     <Questions
+                                        reviewAnswer={true}
                                         setAnswer={setAnswer}
                                         Questions={question}
                                         index={index + 7}
@@ -140,6 +146,7 @@ function ReviewAnswer(props) {
                             {listQuestions.slice(31, 70).map((question, index) => {
                                 return (
                                     <Questions
+                                        reviewAnswer={true}
                                         setAnswer={setAnswer}
                                         Questions={question}
                                         index={index + 32}
@@ -153,6 +160,7 @@ function ReviewAnswer(props) {
                             {listQuestions.slice(70, 100).map((question, index) => {
                                 return (
                                     <Questions
+                                        reviewAnswer={true}
                                         setAnswer={setAnswer}
                                         Questions={question}
                                         index={index + 71}
@@ -166,6 +174,7 @@ function ReviewAnswer(props) {
                             {listQuestions.slice(100, 130).map((question, index) => {
                                 return (
                                     <Questions
+                                        reviewAnswer={true}
                                         setAnswer={setAnswer}
                                         Questions={question}
                                         index={index + 101}
@@ -179,6 +188,7 @@ function ReviewAnswer(props) {
                             {listQuestions.slice(130, 146).map((question, index) => {
                                 return question.contentScript === null ? (
                                     <Questions
+                                        reviewAnswer={true}
                                         setAnswer={setAnswer}
                                         Questions={question}
                                         index={index + 131}
@@ -198,6 +208,7 @@ function ReviewAnswer(props) {
                                             ></p>
                                         </div>
                                         <Questions
+                                            reviewAnswer={true}
                                             setAnswer={setAnswer}
                                             Questions={question}
                                             index={index + 131}
@@ -212,6 +223,7 @@ function ReviewAnswer(props) {
                             {listQuestions.slice(146, 200).map((question, index) => {
                                 return question.contentScript === null ? (
                                     <Questions
+                                        reviewAnswer={true}
                                         setAnswer={setAnswer}
                                         Questions={question}
                                         index={index + 147}
@@ -231,6 +243,7 @@ function ReviewAnswer(props) {
                                             ></p>
                                         </div>
                                         <Questions
+                                            reviewAnswer={true}
                                             setAnswer={setAnswer}
                                             Questions={question}
                                             index={index + 147}
@@ -388,14 +401,11 @@ function ReviewAnswer(props) {
                                 {index + 147}
                             </button>
                         ))}
-                        <button
-                            className="my-3 btn btn-outline-primary d-flex ml-auto mr-2"
-                            data-bs-toggle="modal"
-                            data-bs-target="#exampleModal"
-                        >
-                            {" "}
-                            Nộp bài{" "}
-                        </button>
+                        <div className="my-3 text-right">
+                            <Link className="btn btn-outline-danger mr-2" to={`/${params.idTest}`}>
+                                Quay lại
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>
