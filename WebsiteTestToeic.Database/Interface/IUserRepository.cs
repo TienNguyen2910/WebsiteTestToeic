@@ -12,5 +12,6 @@ namespace WebsiteTestToeic.Database.Interface
         public Task<User> GetUserById(int Id);
         public Task<UserRole> Login(string Email, string Password);
         public Task<List<User>> GetAllUsers();
+        public Task<bool> ResetPassword(int id,string oldPass,string newPass);
     }
 }

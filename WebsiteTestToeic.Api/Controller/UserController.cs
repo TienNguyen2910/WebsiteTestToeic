@@ -59,6 +59,20 @@ namespace WebsiteTestToeic.Api.Controller
         {
             return Ok(await _userRepository.GetUserById(Id));
         }
+        [HttpPut("UpdateUser")]
+        public async Task<ActionResult<User>> UpdateUser(User user)
+        {
+            return Ok(await _userRepository.UpdateUser(user));
+        }
+        [HttpPost("ResetPassword")]
+        public async Task<ActionResult<bool>> ResetPassword(int id, string oldPass, string newPass)
+        {
+            CreatePasswordHash(oldPass, out byte[] oldPasswordHash);
+            CreatePasswordHash(newPass, out byte[] newPasswordHash);
+            oldPass = Convert.ToBase64String(oldPasswordHash);
+            newPass = Convert.ToBase64String(newPasswordHash);
+            return Ok(await _userRepository.ResetPassword(id, oldPass, newPass));
+        }
         private string CreateToken(UserRole user)
         {
             List<Claim> claims = new List<Claim>

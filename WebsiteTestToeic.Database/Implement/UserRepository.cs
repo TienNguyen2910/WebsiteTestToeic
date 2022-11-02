@@ -69,7 +69,7 @@ namespace WebsiteTestToeic.Database.Implement
                          where u.Email == Email && (u.Password == Password)
                          select new UserRole
                          {
-                              Id = u.Id,
+                              Id =(int) u.Id,
                               UserName = u.UserName,
                               DateOfBirth = u.DateOfBirth,
                               Email = u.Email,
@@ -84,23 +84,35 @@ namespace WebsiteTestToeic.Database.Implement
 
         public async Task<User> UpdateUser(User user)
         {
-            User u = new User()
+            User u = await _context.Users.FirstOrDefaultAsync(u => u.Id == user.Id);
+            if(u != null)
             {
-                UserName = user.UserName,
-                DateOfBirth = user.DateOfBirth,
-                Email = user.Email,
-                Password = user.Password,
-                RoleId = user.RoleId
-            };
-            return u;
+                u.UserName = user.UserName;
+                u.DateOfBirth = user.DateOfBirth;
+                await _context.SaveChangesAsync();
+                return u;
+            }
+            return null;
         }
 
         public async Task<User> GetUserById(int Id)
         {
-            User u = await _context.Users.Include(u => u.ResultsList).FirstOrDefaultAsync(u => u.Id == Id);
+            User u = await _context.Users.Include(u => u.ResultsList).Include(u => u.QuizzesList).FirstOrDefaultAsync(u => u.Id == Id);
             if (u != null)
                 return u;
             return null;
+        }
+
+        public async Task<bool> ResetPassword(int id, string oldPass, string newPass)
+        {
+            User u = _context.Users.FirstOrDefault(u => u.Id == id && u.Password == oldPass);
+            if(u != null)
+            {
+                u.Password = newPass;
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
     }
 }
