@@ -13,6 +13,8 @@ import Register from "./resources/Register/Register";
 import "./App.css";
 import Exam from "./resources/Exam/Exam";
 import ReviewAnswer from "./resources/Exam/ReviewAnswer";
+import Infor from "./resources/Infor/Infor";
+import QuizManagement from "./resources/Admin/QuizManagement";
 
 function App(props) {
     return (
@@ -28,6 +30,8 @@ function App(props) {
                     <Route path="/register" element={<Register />} />
                     <Route path="/:idTest" element={<Dashboard />} />
                     <Route path="/admin" element={<Admin />} />
+                    <Route path="/quizmanagement" element={<QuizManagement getCookie={props.getCookie} />} />
+                    <Route path="/infor" element={<Infor getCookie={props.getCookie} setCookie={props.setCookie} />} />
                     {/* <Route path="/:idTest/:id" element={<Exam />} /> */}
                 </Routes>
             </div>
