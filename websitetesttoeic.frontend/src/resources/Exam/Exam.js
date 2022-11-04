@@ -65,7 +65,7 @@ function Exam(props) {
                 setListQuestions(response.data);
             })
             .catch((error) => {
-                navigate("/");
+                navigate("/login");
             });
         setResult({ ...result, QuizId: params.id, EndedAt: addHours(2) });
     }, [params.id]);
