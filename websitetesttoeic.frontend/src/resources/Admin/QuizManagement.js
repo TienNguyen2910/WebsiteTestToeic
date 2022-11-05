@@ -78,7 +78,7 @@ function QuizManagement(props) {
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h4 className="modal-title">Đổi mật khẩu:</h4>
+                            <h4 className="modal-title">Thêm đề thi:</h4>
                             <button type="button" className="close" data-dismiss="modal" onClick={closeModal}>
                                 &times;
                             </button>

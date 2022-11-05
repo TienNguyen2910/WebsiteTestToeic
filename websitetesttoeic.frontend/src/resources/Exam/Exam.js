@@ -85,7 +85,7 @@ function Exam(props) {
 
     const renderer = ({ hours, minutes, seconds, completed }) => {
         if (completed) {
-            console.log("Hết giờ (demo)");
+            submit();
         }
         return (
             <h6 className="mb-3">

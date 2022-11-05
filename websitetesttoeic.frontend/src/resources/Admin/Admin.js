@@ -39,48 +39,43 @@ function Admin() {
                             </tr>
                         </thead>
                         <tbody>
-                            {listUser.map((user, index) => (
-                                <tr key={index}>
-                                    <td scope="row">{index + 1}</td>
-                                    <td>{user.userName}</td>
-                                    <td>{user.dateOfBirth}</td>
-                                    <td>{user.email}</td>
-                                    <td>
-                                        {user.resultsList.length > 0
-                                            ? user.resultsList.reduce((a, b) =>
-                                                  a.startedAt > b.startedAt ? a.quiz.title : b.quiz.title
-                                              )
-                                            : null}
-                                    </td>
-                                    <td className="date timeago" title={user.resultsList.startedAt}>
-                                        {new Intl.DateTimeFormat("vi", {
-                                            month: "long",
-                                            day: "2-digit",
-                                            year: "numeric",
-                                        }).format(
-                                            new Date(
-                                                user.resultsList.length > 0
-                                                    ? user.resultsList.reduce((a, b) =>
-                                                          a.startedAt > b.startedAt ? a.startedAt : b.startedAt
-                                                      )
-                                                    : null
-                                            )
-                                        )}
-                                    </td>
-                                    <td>
-                                        {user.resultsList.length > 0
-                                            ? user.resultsList.reduce((a, b) =>
-                                                  a.startedAt > b.startedAt ? a.score : b.score
-                                              )
-                                            : ""}
-                                    </td>
-                                    <td>
-                                        <Link className="text-danger" to="#">
-                                            <i className="fa-solid fa-trash me-2"></i>Delete
-                                        </Link>
-                                    </td>
-                                </tr>
-                            ))}
+                            {listUser.map((user, index) => {
+                                let maxScore =
+                                    user.resultsList.length > 0
+                                        ? user.resultsList.reduce((a, b) => (a.startedAt > b.startedAt ? a : b))
+                                        : null;
+                                return (
+                                    <tr key={index}>
+                                        <td scope="row">{index + 1}</td>
+                                        <td>{user.userName}</td>
+                                        <td>{user.dateOfBirth}</td>
+                                        <td>{user.email}</td>
+                                        <td>{maxScore !== null ?  maxScore.quiz.title : null}</td>
+                                        <td className="date timeago" title={user.resultsList.startedAt}>
+                                            {console.log(maxScore)}
+                                            {maxScore !== null
+                                                ? new Intl.DateTimeFormat("vi", {
+                                                      month: "long",
+                                                      day: "2-digit",
+                                                      year: "numeric",
+                                                  }).format(new Date(maxScore.startedAt))
+                                                : null}
+                                        </td>
+                                        <td>
+                                            {user.resultsList.length > 0
+                                                ? user.resultsList.reduce((a, b) =>
+                                                      a.startedAt > b.startedAt ? a.score : b.score
+                                                  )
+                                                : ""}
+                                        </td>
+                                        <td>
+                                            <Link className="text-danger" to="#">
+                                                <i className="fa-solid fa-trash me-2"></i>Delete
+                                            </Link>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
                         </tbody>
                     </table>
                 </div>
