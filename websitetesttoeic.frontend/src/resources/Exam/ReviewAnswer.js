@@ -9,6 +9,7 @@ const { REACT_APP_CLIENT, REACT_APP_SERVER } = process.env;
 function ReviewAnswer(props) {
     const [listQuestions, setListQuestions] = useState([]);
     const [listResultDetail, setListResultDetail] = useState([]);
+    const [result, setResult] = useState([]);
     const params = useParams();
     const navigate = useNavigate();
     const [location, setLocation] = useState({});
@@ -50,6 +51,24 @@ function ReviewAnswer(props) {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${props.getCookie("token")}`,
             },
+            url: `${REACT_APP_SERVER}/Result/GetResult/${params.resultId}`,
+        })
+            .then((response) => {
+                setResult(response.data);
+            })
+            .catch((error) => {
+                navigate("/");
+            });
+    }, []);
+
+    useEffect(() => {
+        axios({
+            method: "get",
+            headers: {
+                accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${props.getCookie("token")}`,
+            },
             url: `${REACT_APP_SERVER}/Question/GetAllQuestion?QuizId=${params.id}`,
         })
             .then((response) => {
@@ -58,7 +77,7 @@ function ReviewAnswer(props) {
             .catch((error) => {
                 navigate("/");
             });
-    }, [params.id]);
+    }, []);
 
     useEffect(() => {
         axios({
@@ -105,7 +124,7 @@ function ReviewAnswer(props) {
                             {location.title ? location.title : window.location.replace(`/${params.idTest}`)}
                         </h3>
                         <div className="d-flex justify-content-center align-items-center my-4">
-                            <audio controls autoPlay>
+                            <audio controls>
                                 <source
                                     src={`${REACT_APP_CLIENT}/LuanVan_Demo/${listQuestions[0].audioFile}`}
                                     type="audio/mp3"
@@ -257,6 +276,9 @@ function ReviewAnswer(props) {
                 </div>
                 <div className="col-2">
                     <div className="shadow mt-4 border-top-0 py-3 pl-3 border border-light scroll bg-white">
+                        <p className="fw-bold">
+                            Điểm của bạn: <span className="text-danger">{result.score}</span>
+                        </p>
                         <h6 className="mt-2">Part 1:</h6>
                         {listQuestions.slice(0, 6).map((element, index) => (
                             <button

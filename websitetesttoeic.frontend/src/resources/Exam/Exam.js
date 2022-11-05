@@ -10,14 +10,9 @@ const { REACT_APP_CLIENT, REACT_APP_SERVER } = process.env;
 function Exam(props) {
     const [listQuestions, setListQuestions] = useState({});
     const [location, setLocation] = useState({});
-    const [resultId, setResultId] = useState({});
     const params = useParams();
     const navigate = useNavigate();
     const startDate = useRef(Date.now());
-    const reviewAns = useRef();
-    const btnSubmit = useRef();
-    const goBack = useRef();
-    const [calResult, setCalResult] = useState();
     const [result, setResult] = useState({
         UserId: Object.values(JSON.parse(props.getCookie("user")))[0],
         QuizId: params.id,
@@ -85,7 +80,13 @@ function Exam(props) {
 
     const renderer = ({ hours, minutes, seconds, completed }) => {
         if (completed) {
-            submit();
+            if (resultDetail.length < 5) {
+                alert("Hết giờ. Bạn chưa hoàn thành ít nhất 5 câu nên không được nộp bài!");
+                navigate(`/${params.idTest}`);
+            } else {
+                alert("Hết giờ!");
+                submit();
+            }
         }
         return (
             <h6 className="mb-3">
@@ -166,7 +167,7 @@ function Exam(props) {
             data: result,
             url: `${REACT_APP_SERVER}/Result/AddResult`,
         }).then((response) => {
-            setResultId(response.data);
+            let resultId = response.data;
             resultDetail.map((element) => {
                 element.ResultId = response.data;
                 delete element.IsAnswerTrue;
@@ -183,10 +184,8 @@ function Exam(props) {
                 url: `${REACT_APP_SERVER}/ResultDetail/AddResultDetail`,
             }).then((response) => {
                 if (response.data) {
-                    setCalResult(`Điểm của bạn: ${result.Score}`);
-                    reviewAns.current.hidden = false;
-                    goBack.current.hidden = false;
-                    btnSubmit.current.hidden = true;
+                    document.getElementById("exampleModal").click();
+                    navigate(`/${params.idTest}/${params.id}/${resultId}`);
                 }
             });
         });
@@ -517,7 +516,7 @@ function Exam(props) {
                     <div className="modal-dialog modal-dialog-centered">
                         <div className="modal-content">
                             <div className="modal-header">
-                                <h5 className="modal-title">Xác nhận?</h5>
+                                <h5 className="modal-title">Nộp bài?</h5>
                                 <button
                                     type="button"
                                     className="btn-close"
@@ -532,20 +531,10 @@ function Exam(props) {
                                         ? "Vui lòng hoàn thành ít nhất 5 câu trước khi nộp bài!"
                                         : " "}
                                 </p>
-                                <p className="fw-bold">{calResult}</p>
-                                <Link
-                                    hidden
-                                    ref={reviewAns}
-                                    to={`/${params.idTest}/${params.id}/${resultId}`}
-                                    onClick={() => document.getElementById("exampleModal").click()}
-                                >
-                                    Xem lại đáp án
-                                </Link>
                             </div>
                             <div className="modal-footer">
                                 <button
                                     hidden
-                                    ref={goBack}
                                     type="button"
                                     className="btn btn-danger"
                                     onClick={() => {
@@ -561,7 +550,6 @@ function Exam(props) {
                                 <button
                                     type="button"
                                     className="btn btn-success"
-                                    ref={btnSubmit}
                                     hidden={resultDetail.length < 5 ? true : false}
                                     onClick={submit}
                                 >
