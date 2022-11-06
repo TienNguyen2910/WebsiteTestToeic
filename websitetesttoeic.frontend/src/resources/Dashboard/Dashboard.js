@@ -85,7 +85,7 @@ function Dashboard() {
                                     {index + 1}
                                 </span>
                                 <div className="row">
-                                    <div className="col-6">
+                                    <div className="col-8">
                                         <img
                                             src={`${REACT_APP_CLIENT}/default.jpg`}
                                             className="rounded-circle"
@@ -95,7 +95,7 @@ function Dashboard() {
                                         />
                                         <h5 className="d-inline px-2 small">{result.user.userName}</h5>
                                     </div>
-                                    <div className="col-6 fw-bold text-right">
+                                    <div className="col-4 fw-bold text-right">
                                         <p>{result.score}</p>
                                     </div>
                                 </div>

@@ -4,7 +4,7 @@ namespace WebsiteTestToeic.Domain.Models
 {
     public class ResultDetail
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public int? QuestionId { get; set; }
         public int? ResultId { get; set; }
         public int? AnswerSelectedId { get; set; }

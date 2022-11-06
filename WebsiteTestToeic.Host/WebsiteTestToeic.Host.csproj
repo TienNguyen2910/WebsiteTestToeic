@@ -22,4 +22,9 @@
     <ProjectReference Include="..\WebsiteTestToeic.Domain\WebsiteTestToeic.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Image-LuanVan\" />
+    <Folder Include="File-audio\" />
+  </ItemGroup>
+
 </Project>
