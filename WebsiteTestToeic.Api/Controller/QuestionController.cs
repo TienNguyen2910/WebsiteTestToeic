@@ -28,14 +28,21 @@ namespace WebsiteTestToeic.Api.Controller
             return Ok(await _questionRepository.GetQuestionById(Id));
         }
         [HttpPost("AddQuestion"), Authorize(Roles = "Admin")]
+        [DisableRequestSizeLimit()]
         public async Task<ActionResult<Question>> AddQuestion([FromForm] Question question)
         {
             //upload Image
             var file = _environment.ContentRootPath;
-            string path = Path.Combine(file+"\\Image-LuanVan", question.Image);
-            using (var stream = System.IO.File.Create(path))
+            string pathImage = Path.Combine(file+"\\Image-LuanVan", question.FileImages.FileName);
+            using (var stream = System.IO.File.Create(pathImage))
             {
                 question.FileImages.CopyTo(stream);
+            }
+            //Uploade file Audio
+            string pathAudio = Path.Combine(file + "\\File-audio", question.FileAudios.FileName);
+            using (var stream = System.IO.File.Create(pathAudio))
+            {
+                question.FileAudios.CopyTo(stream);
             }
             return Ok(await _questionRepository.AddQuestion(question));
         }

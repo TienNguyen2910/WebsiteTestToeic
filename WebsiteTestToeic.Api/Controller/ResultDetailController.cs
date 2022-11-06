@@ -24,7 +24,7 @@ namespace WebsiteTestToeic.Api.Controller
         {
             return Ok(await _resultDetailRepository.GetResultDetail(ResultId));
         }
-        [HttpPost("AddResultDetail"), Authorize(Roles = "Admin")]
+        [HttpPost("AddResultDetail"), Authorize(Roles = "Client, Admin")]
         public async Task<ActionResult<bool>> AddResult(List<ResultDetail> resultDetails)
         {
             bool temp = false;
