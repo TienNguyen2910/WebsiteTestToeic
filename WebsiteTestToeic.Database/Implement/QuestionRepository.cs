@@ -15,7 +15,7 @@ namespace WebsiteTestToeic.Database.Implement
                 _context = TestToeicDbContextFactory.GetDbContext();
             _context = context;
         }
-        public async Task<Question> AddQuestion(Question question)
+        public async Task<bool> AddQuestion(Question question)
         {
             Question q = new Question()
             {
@@ -26,9 +26,13 @@ namespace WebsiteTestToeic.Database.Implement
                 NumPart = question.NumPart,
                 QuizId = question.QuizId,
             };
-            await _context.Questions.AddAsync(q);
-            await _context.SaveChangesAsync();
-            return q;
+            if (q != null)
+            {
+                await _context.Questions.AddAsync(q);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
 
         public async Task<bool> DeleteQuestion(int Id)

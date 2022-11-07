@@ -7,11 +7,11 @@ namespace WebsiteTestToeic.Domain.Models
     {
         public int? Id { get; set; }
         public string? Image { get; set; }
-        [NotMapped]
-        public IFormFile? FileImages { get; set; }
+        //[NotMapped]
+        //public IFormFile? FileImages { get; set; }
         public string? AudioFile { get; set; }
-        [NotMapped]
-        public IFormFile? FileAudios { get; set; }
+        //[NotMapped]
+        //public IFormFile? FileAudios { get; set; }
         public string? ContentQuestion { get; set; }
         public string? ContentScript { get; set; }
         public int? NumPart { get; set; }

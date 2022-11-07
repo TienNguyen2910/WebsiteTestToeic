@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebsiteTestToeic.Database.Interface;
 using WebsiteTestToeic.Domain.Models;
@@ -28,23 +29,32 @@ namespace WebsiteTestToeic.Api.Controller
             return Ok(await _questionRepository.GetQuestionById(Id));
         }
         [HttpPost("AddQuestion"), Authorize(Roles = "Admin")]
-        [DisableRequestSizeLimit()]
-        public async Task<ActionResult<Question>> AddQuestion([FromForm] Question question)
+        public async Task<ActionResult<bool>> AddQuestion(List<Question> questions)
         {
-            //upload Image
-            var file = _environment.ContentRootPath;
-            string pathImage = Path.Combine(file+"\\Image-LuanVan", question.FileImages.FileName);
-            using (var stream = System.IO.File.Create(pathImage))
+            foreach (var question in questions)
             {
-                question.FileImages.CopyTo(stream);
+                await _questionRepository.AddQuestion(question);
             }
-            //Uploade file Audio
-            string pathAudio = Path.Combine(file + "\\File-audio", question.FileAudios.FileName);
-            using (var stream = System.IO.File.Create(pathAudio))
+            return Ok();
+        }
+        [HttpPost("UploadFile"), Authorize(Roles = "Admin")]
+        [DisableRequestSizeLimit()]
+        public async Task<ActionResult> UploadFile(List<IFormFile> files)
+        {
+            foreach (var f in files)
             {
-                question.FileAudios.CopyTo(stream);
+                bool type = f.Name == "FileImages";
+                var file = _environment.ContentRootPath;
+                string pathAudio;
+                if (type)
+                    pathAudio = Path.Combine(file + "\\Image-LuanVan", f.FileName);
+                else pathAudio = Path.Combine(file + "\\File-audio", f.FileName);
+                using (var stream = System.IO.File.Create(pathAudio))
+                {
+                    f.CopyTo(stream);
+                }
             }
-            return Ok(await _questionRepository.AddQuestion(question));
+            return Ok();
         }
     }
 }
