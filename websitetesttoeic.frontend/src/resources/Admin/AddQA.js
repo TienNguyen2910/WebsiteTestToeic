@@ -49,7 +49,7 @@ function AddQA(props) {
     const handleFileAudio = (e) => {
         const newQA = QA.map((obj, index) => {
             if (index === 0) {
-                return { ...obj, AudioFile: "File audio/" + e.target.files[0].name };
+                return { ...obj, AudioFile: "File-audio/" + e.target.files[0].name };
             }
             return obj;
         });
