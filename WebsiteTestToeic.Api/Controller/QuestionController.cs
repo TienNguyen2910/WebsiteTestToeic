@@ -31,11 +31,12 @@ namespace WebsiteTestToeic.Api.Controller
         [HttpPost("AddQuestion"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<bool>> AddQuestion(List<Question> questions)
         {
+            bool result = true;
             foreach (var question in questions)
             {
-                await _questionRepository.AddQuestion(question);
+                result = await _questionRepository.AddQuestion(question);
             }
-            return Ok();
+            return Ok(result);
         }
         [HttpPost("UploadFile"), Authorize(Roles = "Admin")]
         [DisableRequestSizeLimit()]
@@ -43,10 +44,10 @@ namespace WebsiteTestToeic.Api.Controller
         {
             foreach (var f in files)
             {
-                bool type = f.Name == "FileImages";
+                bool isImageFile = f.ContentType == "image/png";
                 var file = _environment.ContentRootPath;
                 string pathAudio;
-                if (type)
+                if (isImageFile)
                     pathAudio = Path.Combine(file + "\\Image-LuanVan", f.FileName);
                 else pathAudio = Path.Combine(file + "\\File-audio", f.FileName);
                 using (var stream = System.IO.File.Create(pathAudio))

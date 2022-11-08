@@ -30,6 +30,18 @@ namespace WebsiteTestToeic.Database.Implement
             {
                 await _context.Questions.AddAsync(q);
                 await _context.SaveChangesAsync();
+                foreach (var answer in question.Answers)
+                {
+                    Answer a = new Answer();
+
+                    a.QuestionId = q.Id;
+                    a.ContentAnswer = answer.ContentAnswer;
+                    a.IsAnswer = answer.IsAnswer;
+
+                    await _context.Answers.AddAsync(a);
+                    await _context.SaveChangesAsync();
+                }
+                
                 return true;
             }
             return false;
