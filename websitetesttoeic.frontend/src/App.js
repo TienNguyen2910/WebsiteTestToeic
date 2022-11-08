@@ -15,6 +15,7 @@ import Exam from "./resources/Exam/Exam";
 import ReviewAnswer from "./resources/Exam/ReviewAnswer";
 import Infor from "./resources/Infor/Infor";
 import QuizManagement from "./resources/Admin/QuizManagement";
+import AddQA from "./resources/Admin/AddQA";
 
 function App(props) {
     return (
@@ -32,12 +33,12 @@ function App(props) {
                     <Route path="/admin" element={<Admin />} />
                     <Route path="/quizmanagement" element={<QuizManagement getCookie={props.getCookie} />} />
                     <Route path="/infor" element={<Infor getCookie={props.getCookie} setCookie={props.setCookie} />} />
-                    {/* <Route path="/:idTest/:id" element={<Exam />} /> */}
                 </Routes>
             </div>
             {/* don't use container (Bootstrap) */}
             <div className="container-fluid">
                 <Routes>
+                    <Route path="/quizmanagement/addQA/:idQuiz" element={<AddQA getCookie={props.getCookie} />} />
                     <Route path="/:idTest/:id" element={<Exam getCookie={props.getCookie} />} />
                     <Route path="/:idTest/:id/:resultId" element={<ReviewAnswer getCookie={props.getCookie} />} />
                 </Routes>

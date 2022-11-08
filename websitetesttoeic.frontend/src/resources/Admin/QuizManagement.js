@@ -14,17 +14,32 @@ function QuizManagement(props) {
             },
             url: `${REACT_APP_SERVER}/User/GetUserById?Id=${Object.values(JSON.parse(props.getCookie("user")))[0]}`,
         }).then((response) => {
-            // console.log(response.data.quizzesList);
             setUser(response.data);
         });
-    }, []);
-
+    }, [user]);
     const closeModal = () => {
         document.getElementById("addQuiz").click();
     };
 
-    const submitQuiz = () => {
-        console.log("abc");
+    const submitQuiz = (e) => {
+        let title = document.getElementById("title").value;
+        let testid = document.getElementById("testid").value;
+        if (title !== "") {
+            e.preventDefault();
+            axios({
+                method: "post",
+                headers: {
+                    accept: "text/plain",
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${props.getCookie("token")}`,
+                },
+                url: `${REACT_APP_SERVER}/Quiz/${
+                    title + ", " + testid + ", " + Object.values(JSON.parse(props.getCookie("user")))[0]
+                }`,
+            }).then((response) => {
+                document.getElementById("addQuiz").click();
+            });
+        }
     };
 
     return (
@@ -59,7 +74,7 @@ function QuizManagement(props) {
                                           <td>{user.testId === 1 ? "120 phút" : "60 phút"}</td>
 
                                           <td className="text-center">
-                                              <Link className="text-warming" to="#">
+                                              <Link className="text-warming" to={`/quizmanagement/addQA/${user.id}`}>
                                                   <i className="fa-solid fa-gear me-2"></i>
                                               </Link>
                                               <Link className="text-danger" to="#">
@@ -97,7 +112,11 @@ function QuizManagement(props) {
                                         <tr>
                                             <td className="align-middle">Chọn loại đề thi:</td>
                                             <td>
-                                                <select className="form-select" aria-label="Default select example">
+                                                <select
+                                                    className="form-select"
+                                                    aria-label="Default select example"
+                                                    id="testid"
+                                                >
                                                     <option value={1}>Full Test</option>
                                                     <option value={2}>Mini Test</option>
                                                 </select>
@@ -116,7 +135,7 @@ function QuizManagement(props) {
                                     Close
                                 </button>
                                 <button type="submit" className="btn btn-success" onClick={submitQuiz}>
-                                    Cập nhật
+                                    Thêm
                                 </button>
                             </div>
                         </form>
