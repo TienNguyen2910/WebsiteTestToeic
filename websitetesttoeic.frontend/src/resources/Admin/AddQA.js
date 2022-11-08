@@ -8,7 +8,7 @@ function AddQA(props) {
     const params = useParams();
     const [quiz, setQuiz] = useState({});
     const [QA, setQA] = useState([]);
-    console.log(QA);
+    // console.log(QA);
 
     useEffect(() => {
         axios({
@@ -67,9 +67,67 @@ function AddQA(props) {
     };
 
     const deleteRow = (index) => {
-        let newQA = QA.splice(index, 1);
-        console.log(newQA);
-        setQA(newQA);
+        console.log(index);
+    };
+
+    const formatJSON = (json) => {
+        json.map((element, index) => {
+            element.quizId = parseInt(params.idQuiz);
+            element.quiz = quiz.title;
+            element.answers = [
+                {
+                    questionId: null,
+                    contentAnswer: element.ContentAnswer,
+                    isAnswer: element.IsAnswer === "A" ? true : false,
+                    question: null,
+                    resultDetailsList: null,
+                },
+                {
+                    questionId: null,
+                    contentAnswer: element.ContentAnswer_1,
+                    isAnswer: element.IsAnswer === "B" ? true : false,
+                    question: null,
+                    resultDetailsList: null,
+                },
+                {
+                    questionId: null,
+                    contentAnswer: element.ContentAnswer_2,
+                    isAnswer: element.IsAnswer === "C" ? true : false,
+                    question: null,
+                    resultDetailsList: null,
+                },
+                {
+                    questionId: null,
+                    contentAnswer: element.ContentAnswer_3,
+                    isAnswer: element.IsAnswer === "D" ? true : false,
+                    question: null,
+                    resultDetailsList: null,
+                },
+            ];
+            delete element.IsAnswer;
+            delete element.ContentAnswer;
+            delete element.ContentAnswer_1;
+            delete element.ContentAnswer_2;
+            delete element.ContentAnswer_3;
+        });
+        return json;
+    };
+
+    const submitQA = () => {
+        if (QA.length > 0 && document.getElementById("audio").files.length !== 0) {
+            axios({
+                method: "post",
+                headers: {
+                    accept: "text/plain",
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${props.getCookie("token")}`,
+                },
+                data: formatJSON(QA),
+                url: `${REACT_APP_SERVER}/Question/AddQuestion`,
+            }).then((response) => {
+                console.log(response);
+            });
+        } else alert("Vui lòng import file audio trước khi submit!");
     };
 
     return (
@@ -146,6 +204,9 @@ function AddQA(props) {
                         </table>
                         <label htmlFor="excel">Import file audio:</label>
                         <input type="file" id="audio" className="ml-2" onChange={handleFileAudio} />
+                        <button className="btn btn-success d-block ml-auto" onClick={submitQA}>
+                            Lưu Lại
+                        </button>
                     </div>
                 ) : null}
             </div>
