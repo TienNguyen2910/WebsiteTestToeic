@@ -57,5 +57,25 @@ namespace WebsiteTestToeic.Api.Controller
             }
             return Ok();
         }
+        [HttpPut("UpdateQuestion")]
+        public async Task<ActionResult<bool>> UpdateQuestion(int Id,Question question)
+        {
+            var q = await _questionRepository.GetQuestionById(Id);
+            if(q != null)
+            {
+                return Ok(await _questionRepository.UpdateQuestion(question));
+            }
+            return false;
+        }
+        [HttpDelete("DeleteQuestion")]
+        public async Task<ActionResult<bool>> DeleteQuestion(int Id)
+        {
+            var q = await _questionRepository.GetQuestionById(Id);
+            if (q != null)
+            {
+                return Ok(await _questionRepository.DeleteQuestion(Id));
+            }
+            return false;
+        }
     }
 }

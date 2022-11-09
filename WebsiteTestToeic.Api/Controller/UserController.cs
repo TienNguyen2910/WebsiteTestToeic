@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -64,7 +65,7 @@ namespace WebsiteTestToeic.Api.Controller
         {
             return Ok(await _userRepository.UpdateUser(user));
         }
-        [HttpPost("ResetPassword")]
+        [HttpPost("ResetPassword"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<bool>> ResetPassword(int id, string oldPass, string newPass)
         {
             CreatePasswordHash(oldPass, out byte[] oldPasswordHash);
@@ -72,6 +73,15 @@ namespace WebsiteTestToeic.Api.Controller
             oldPass = Convert.ToBase64String(oldPasswordHash);
             newPass = Convert.ToBase64String(newPasswordHash);
             return Ok(await _userRepository.ResetPassword(id, oldPass, newPass));
+        }
+        [HttpDelete("DeleteUser")]
+        public async Task<ActionResult<bool>> DeleteUser(int Id)
+        {
+            var user = await _userRepository.GetUserById(Id);
+            bool result = true;
+            if (user != null)
+                result = await _userRepository.DeleteUser(Id);
+            return Ok(result);
         }
         private string CreateToken(UserRole user)
         {

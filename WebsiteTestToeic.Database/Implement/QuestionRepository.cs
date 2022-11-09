@@ -73,7 +73,7 @@ namespace WebsiteTestToeic.Database.Implement
             return null;
         }
 
-        public async Task<Question> UpdateQuestion(Question question)
+        public async Task<bool> UpdateQuestion(Question question)
         {
             Question q = await _context.Questions.FirstOrDefaultAsync(q => q.Id == question.Id);
             if(q != null)
@@ -84,11 +84,17 @@ namespace WebsiteTestToeic.Database.Implement
                 q.ContentScript = question.ContentScript;
                 q.NumPart = question.NumPart;
                 q.QuizId = question.QuizId;
+                if(question.Answers.Count > 0)
+                {
+                    foreach(var answer in question.Answers)
+                    {
 
+                    }
+                }
                 await _context.SaveChangesAsync();
-                return q;
+                return true;
             }
-            return null;
+            return false;
         }
     }
 }
