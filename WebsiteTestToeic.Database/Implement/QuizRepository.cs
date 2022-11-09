@@ -49,7 +49,7 @@ namespace WebsiteTestToeic.Database.Implement
 
         public async Task<Quiz> GetQuiz(int id)
         {
-            Quiz quiz = await _context.Quizzes.FirstOrDefaultAsync(q => q.Id == id);
+            Quiz quiz = await _context.Quizzes.Include(q => q.QuestionsList).Include(q => q.Test).FirstOrDefaultAsync(q => q.Id == id);
             if(quiz != null)
                 return quiz;
             return null;

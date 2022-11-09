@@ -22,17 +22,17 @@ namespace WebsiteTestToeic.Api.Controller
             return Ok(await _quizRepository.GetAllQuizs(TestId));
         }
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<Test>> GetQuiz(int id)
+        public async Task<ActionResult<Quiz>> GetQuiz(int id)
         {
             return Ok(await _quizRepository.GetQuiz(id));
         }
         [HttpPost("{title}, {testid:int}, {actorid:int}"), Authorize(Roles = "Admin")]
-        public async Task<ActionResult<Test>> AddQuiz(string title, int testid, int actorid)
+        public async Task<ActionResult<Quiz>> AddQuiz(string title, int testid, int actorid)
         {
             return Ok(await _quizRepository.AddQuiz(title, testid, actorid));
         }
         [HttpPut("{id:int}"), Authorize(Roles = "Admin")]
-        public async Task<ActionResult<Test>> UpdateQuiz(int id, Quiz quiz)
+        public async Task<ActionResult<Quiz>> UpdateQuiz(int id, Quiz quiz)
         {
             Quiz q = await _quizRepository.GetQuiz(id);
             if (q == null)
