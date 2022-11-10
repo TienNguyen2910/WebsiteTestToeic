@@ -8,7 +8,7 @@ function AddQA(props) {
     const params = useParams();
     const [quiz, setQuiz] = useState({});
     const [QA, setQA] = useState([]);
-    // console.log(QA);
+    const [newQA, setNewQA] = useState([]);
 
     useEffect(() => {
         axios({
@@ -21,6 +21,7 @@ function AddQA(props) {
             url: `${REACT_APP_SERVER}/Quiz/${params.idQuiz}`,
         }).then((response) => {
             setQuiz(response.data);
+            setQA(response.data.questionsList);
         });
     }, []);
 
@@ -34,7 +35,8 @@ function AddQA(props) {
                 const sheetName = workbook.SheetNames[0];
                 const worksheet = workbook.Sheets[sheetName];
                 const json = xlsx.utils.sheet_to_json(worksheet, { range: 1, defval: "", blankrows: true });
-                setQA(json);
+                setQA(QA.concat(formatJSON(json)));
+                setNewQA(newQA.concat(formatJSON(json)));
                 const TypeQuiz = Object.keys(xlsx.utils.sheet_to_json(worksheet, { raw: false, range: `A1:B2` })[0])[0];
                 if (TypeQuiz === "Full Test" && json.length === 200) {
                     console.log("Hợp lý full test");
@@ -49,7 +51,7 @@ function AddQA(props) {
     const handleFileAudio = (e) => {
         const newQA = QA.map((obj, index) => {
             if (index === 0) {
-                return { ...obj, AudioFile: "File-audio/" + e.target.files[0].name };
+                return { ...obj, audioFile: "File-audio/" + e.target.files[0].name };
             }
             return obj;
         });
@@ -59,7 +61,7 @@ function AddQA(props) {
     const handleFileImage = (e) => {
         const newQA = QA.map((obj, index) => {
             if (index === parseInt(e.target.className)) {
-                return { ...obj, Image: "Image-LuanVan/" + e.target.files[0].name };
+                return { ...obj, image: "Image-LuanVan/" + e.target.files[0].name };
             }
             return obj;
         });
@@ -73,7 +75,6 @@ function AddQA(props) {
     const formatJSON = (json) => {
         json.map((element, index) => {
             element.quizId = parseInt(params.idQuiz);
-            element.quiz = quiz.title;
             element.answers = [
                 {
                     questionId: null,
@@ -104,17 +105,14 @@ function AddQA(props) {
                     resultDetailsList: null,
                 },
             ];
-            delete element.IsAnswer;
-            delete element.ContentAnswer;
-            delete element.ContentAnswer_1;
-            delete element.ContentAnswer_2;
-            delete element.ContentAnswer_3;
         });
         return json;
     };
 
     const submitQA = () => {
-        if (QA.length > 0 && document.getElementById("audio").files.length !== 0) {
+        console.log(QA);
+        console.log(QA[0].audioFile);
+        if (newQA.length > 0 && QA[0].audioFile !== "") {
             axios({
                 method: "post",
                 headers: {
@@ -122,10 +120,16 @@ function AddQA(props) {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${props.getCookie("token")}`,
                 },
-                data: formatJSON(QA),
+                data: newQA,
                 url: `${REACT_APP_SERVER}/Question/AddQuestion`,
             }).then((response) => {
-                console.log(response);
+                console.log(newQA);
+                setNewQA([]);
+                if (response.data) {
+                    alert("Thêm câu hỏi thành công!");
+                } else {
+                    alert("Lỗi. Vui lòng thử lại!!!");
+                }
             });
         } else alert("Vui lòng import file audio trước khi submit!");
     };
@@ -134,7 +138,7 @@ function AddQA(props) {
         <>
             <div className="shadow bg-white p-4 mt-3">
                 <h3 className="text-center">{quiz.title}</h3>
-                <h3 className="text-center">{quiz.testId === 1 ? "Full Test" : "Mini Test"}</h3>
+                <h3 className="text-center">{quiz.test ? quiz.test.typeTest : null}</h3>
                 <div>
                     <label>File excel mẫu: </label>
                     <a className="mx-2" href="/LuanVan_Demo/FullTest.xlsx" target="_blank">
@@ -155,13 +159,15 @@ function AddQA(props) {
                             <thead className="table-light">
                                 <tr>
                                     <th scope="col">#</th>
-                                    {Object.keys(QA[0]).map((element) => {
-                                        return element !== "AudioFile" ? (
-                                            <th scope="col" key={element}>
-                                                {element}
-                                            </th>
-                                        ) : null;
-                                    })}
+                                    <th>NumPart</th>
+                                    <th>ContentQuestion</th>
+                                    <th>ContentScript</th>
+                                    <th>ContentAnswer</th>
+                                    <th>ContentAnswer_1</th>
+                                    <th>ContentAnswer_2</th>
+                                    <th>ContentAnswer_3</th>
+                                    <th>IsAnswer</th>
+                                    <th>Image</th>
                                     <th>Công cụ</th>
                                 </tr>
                             </thead>
@@ -170,14 +176,18 @@ function AddQA(props) {
                                     return (
                                         <tr key={index}>
                                             <th scope="row">{index + 1}</th>
-                                            <td className={index}>{element.NumPart}</td>
-                                            <td className={index}>{element.ContentQuestion}</td>
-                                            <td className={index}>{element.ContentScript}</td>
-                                            <td className={index}>{element.ContentAnswer}</td>
-                                            <td className={index}>{element.ContentAnswer_1}</td>
-                                            <td className={index}>{element.ContentAnswer_2}</td>
-                                            <td className={index}>{element.ContentAnswer_3}</td>
-                                            <td className={index}>{element.IsAnswer}</td>
+                                            <td className={index}>{element.numPart}</td>
+                                            <td className={index}>{element.contentQuestion}</td>
+                                            <td className={index}>{element.contentScript}</td>
+                                            <td className={index}>{element.answers[0].contentAnswer}</td>
+                                            <td className={index}>{element.answers[1].contentAnswer}</td>
+                                            <td className={index}>{element.answers[2].contentAnswer}</td>
+                                            <td className={index}>{element.answers[3].contentAnswer}</td>
+                                            <td className={index}>
+                                                {element.answers.map((element, index) => {
+                                                    if (element.isAnswer) return element.contentAnswer.substring(0, 1);
+                                                })}
+                                            </td>
                                             <td>
                                                 <input className={index} type="file" onChange={handleFileImage}></input>
                                             </td>

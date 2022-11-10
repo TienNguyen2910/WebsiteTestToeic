@@ -5,7 +5,8 @@ const { REACT_APP_SERVER } = process.env;
 
 function QuizManagement(props) {
     const [user, setUser] = useState([]);
-    useEffect(() => {
+
+    const refeshUser = (e) => {
         axios({
             method: "get",
             headers: {
@@ -16,7 +17,11 @@ function QuizManagement(props) {
         }).then((response) => {
             setUser(response.data);
         });
-    }, [user]);
+    };
+    useEffect(() => {
+        refeshUser();
+    }, []);
+
     const closeModal = () => {
         document.getElementById("addQuiz").click();
     };
@@ -37,6 +42,7 @@ function QuizManagement(props) {
                     title + ", " + testid + ", " + Object.values(JSON.parse(props.getCookie("user")))[0]
                 }`,
             }).then((response) => {
+                refeshUser();
                 document.getElementById("addQuiz").click();
             });
         }
