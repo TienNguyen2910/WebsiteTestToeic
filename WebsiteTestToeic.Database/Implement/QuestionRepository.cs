@@ -86,9 +86,12 @@ namespace WebsiteTestToeic.Database.Implement
                 q.QuizId = question.QuizId;
                 if(question.Answers.Count > 0)
                 {
-                    foreach(var answer in question.Answers)
+                    foreach(Answer answer in question.Answers)
                     {
-
+                        Answer a = _context.Answers.FirstOrDefault(a => a.Id == answer.Id);
+                        a.ContentAnswer = answer.ContentAnswer;
+                        a.IsAnswer = answer.IsAnswer;
+                        await _context.SaveChangesAsync();
                     }
                 }
                 await _context.SaveChangesAsync();

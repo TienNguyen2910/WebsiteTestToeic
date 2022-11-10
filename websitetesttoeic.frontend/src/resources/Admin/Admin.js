@@ -5,7 +5,7 @@ const { REACT_APP_SERVER } = process.env;
 
 function Admin() {
     const [listUser, setListUser] = useState([]);
-    useEffect(() => {
+    const listDataUser = () => {
         axios({
             method: "get",
             headers: {
@@ -17,7 +17,24 @@ function Admin() {
             // console.log(response.data);
             setListUser(response.data);
         });
+    };
+
+    useEffect(() => {
+        listDataUser();
     }, []);
+
+    const DeleteUser = (id) => {
+        axios({
+            method: "delete",
+            headers: {
+                accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            url: `${REACT_APP_SERVER}/User/DeleteUser?Id=${id}`,
+        }).then((response) => {
+            response.data === true ? listDataUser() : alert("Bạn xóa không thành công !!!");
+        });
+    };
     return (
         <div className="card shadow mb-4 mt-4">
             <div className="card-header py-3">
@@ -50,7 +67,7 @@ function Admin() {
                                         <td>{user.userName}</td>
                                         <td>{user.dateOfBirth}</td>
                                         <td>{user.email}</td>
-                                        <td>{maxScore !== null ?  maxScore.quiz.title : null}</td>
+                                        <td>{maxScore !== null ? maxScore.quiz.title : null}</td>
                                         <td className="date timeago" title={user.resultsList.startedAt}>
                                             {console.log(maxScore)}
                                             {maxScore !== null
@@ -69,9 +86,9 @@ function Admin() {
                                                 : ""}
                                         </td>
                                         <td>
-                                            <Link className="text-danger" to="#">
+                                            <button className="btn btn-danger" onClick={() => DeleteUser(user.id)}>
                                                 <i className="fa-solid fa-trash me-2"></i>Delete
-                                            </Link>
+                                            </button>
                                         </td>
                                     </tr>
                                 );
