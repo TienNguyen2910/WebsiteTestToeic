@@ -10,8 +10,6 @@ function AddQA(props) {
     const [QA, setQA] = useState([]);
     const [questionEdit, setQuestionEdit] = useState({});
 
-    console.log(questionEdit);
-
     const refeshListQuiz = () => {
         axios({
             method: "get",
@@ -92,13 +90,11 @@ function AddQA(props) {
                 const sheetName = workbook.SheetNames[0];
                 const worksheet = workbook.Sheets[sheetName];
                 const json = xlsx.utils.sheet_to_json(worksheet, { defval: "" });
-                console.log(json);
                 if (quiz.test.typeTest === "Full Test" && QA.concat(formatJSON(json)) > 200) {
-                    console.log("Tối đa full test chỉ 200 câu");
+                    alert("Tối đa full test chỉ 200 câu");
                 } else if (quiz.test.typeTest === "Mini Test" && QA.concat(formatJSON(json)) > 100) {
-                    console.log("Tối đa mini test chỉ 100 câu");
+                    alert("Tối đa mini test chỉ 100 câu");
                 } else {
-                    console.log("submit");
                     submitQA(json);
                 }
             };
@@ -117,8 +113,29 @@ function AddQA(props) {
                 Authorization: `Bearer ${props.getCookie("token")}`,
             },
         };
+
         axios.post(url, formData, config).then((response) => {
-            console.log(response);
+            if (response.status === 200) {
+                const url2 = `${REACT_APP_SERVER}/Question/UpdateQuestion?Id=${QA[0].id}`;
+                const config2 = {
+                    headers: {
+                        accept: "text/plain",
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${props.getCookie("token")}`,
+                    },
+                };
+                axios({
+                    method: "put",
+                    headers: config2,
+                    data: { ...JSON.parse(JSON.stringify(QA[0])), audioFile: `File-audio/${e.target.files[0].name}` },
+                    url: url2,
+                }).then((response) => {
+                    refeshListQuiz();
+                });
+            } else {
+                alert("Lỗi khi upload. Vui lòng thử lại!");
+                document.getElementById("audio").value = "";
+            }
         });
     };
 
@@ -182,7 +199,6 @@ function AddQA(props) {
     };
 
     const submitQuestionEdit = (e) => {
-        console.log(questionEdit);
         axios({
             method: "put",
             headers: {
@@ -197,6 +213,20 @@ function AddQA(props) {
                 refeshListQuiz();
             } else alert("Cập nhật thất bại!!");
             document.getElementById("modalUpdate").click();
+        });
+    };
+
+    const deleteQuestion = (id) => {
+        axios({
+            method: "delete",
+            headers: {
+                accept: "text/plain",
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${props.getCookie("token")}`,
+            },
+            url: `${REACT_APP_SERVER}/Question/DeleteQuestion?Id=${id}`,
+        }).then((response) => {
+            if (response.data) refeshListQuiz();
         });
     };
 
@@ -274,7 +304,7 @@ function AddQA(props) {
                                                 >
                                                     <i className="fa-solid fa-edit me-2"></i>
                                                 </a>
-                                                <a className="text-danger" to="#">
+                                                <a className="text-danger" to="#" onClick={() => deleteQuestion(element.id)}>
                                                     <i className="fa-solid fa-trash me-2"></i>
                                                 </a>
                                             </td>
@@ -283,7 +313,17 @@ function AddQA(props) {
                                 })}
                             </tbody>
                         </table>
-                        <p>File audio: {QA[0].audioFile ? QA[0].audioFile : "(Trống)"}</p>
+                        <div className="mb-4 d-flex align-items-center">
+                            File audio:
+                            {QA[0].audioFile ? (
+                                <audio controls className="ml-3">
+                                    <source src={`${REACT_APP_SERVER + "/" + QA[0].audioFile}`} type="audio/mp3" />
+                                    Your browser does not support the audio element.
+                                </audio>
+                            ) : (
+                                "(Trống)"
+                            )}
+                        </div>
                         <label htmlFor="excel">Import new file audio:</label>
                         <input type="file" id="audio" className="ml-2" onChange={handleFileAudio} />
                     </div>

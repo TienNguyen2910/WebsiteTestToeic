@@ -119,6 +119,13 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/Image-LuanVan"
 });
 
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+           Path.Combine(builder.Environment.ContentRootPath, "File-audio")),
+    RequestPath = "/File-audio"
+});
+
 app.UseAuthentication();
 app.UseAuthorization();
 
