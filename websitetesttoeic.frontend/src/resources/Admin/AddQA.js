@@ -8,9 +8,11 @@ function AddQA(props) {
     const params = useParams();
     const [quiz, setQuiz] = useState({});
     const [QA, setQA] = useState([]);
-    const [newQA, setNewQA] = useState([]);
+    const [questionEdit, setQuestionEdit] = useState({});
 
-    useEffect(() => {
+    console.log(questionEdit);
+
+    const refeshListQuiz = () => {
         axios({
             method: "get",
             headers: {
@@ -23,7 +25,62 @@ function AddQA(props) {
             setQuiz(response.data);
             setQA(response.data.questionsList);
         });
+    };
+
+    useEffect(() => {
+        refeshListQuiz();
     }, []);
+
+    const handleQuestionEdit = (e, type) => {
+        setQuestionEdit({ ...questionEdit, [type]: e.target.value });
+    };
+
+    const handleAnswerEdit = (e, index) => {
+        var tempAnswer = [];
+        questionEdit.answers.map((element, indeX) => {
+            tempAnswer.push(element);
+            if (indeX === index) tempAnswer[indeX].contentAnswer = e.target.value;
+        });
+        setQuestionEdit({ ...questionEdit, answers: tempAnswer });
+    };
+
+    const handleIsAnswer = (e) => {
+        var tempAnswer = [];
+        var select = e.target.value === "A" ? 0 : e.target.value === "B" ? 1 : e.target.value === "C" ? 2 : 3;
+        questionEdit.answers.map((element, indeX) => {
+            tempAnswer.push(element);
+            if (indeX === select) tempAnswer[indeX].isAnswer = true;
+            else tempAnswer[indeX].isAnswer = false;
+        });
+        setQuestionEdit({ ...questionEdit, answers: tempAnswer });
+    };
+
+    const handleFileImage = (e) => {
+        const url = `${REACT_APP_SERVER}/Question/UploadFile`;
+        const formData = new FormData();
+        formData.append("files", e.target.files[0]);
+        const config = {
+            headers: {
+                accept: "*/*",
+                "Content-Type": "multipart/form-data",
+                Authorization: `Bearer ${props.getCookie("token")}`,
+            },
+        };
+        axios
+            .post(url, formData, config)
+            .then((response) => {
+                if (response.status === 200) {
+                    setQuestionEdit({ ...questionEdit, image: `Image-LuanVan/${e.target.files[0].name}` });
+                } else {
+                    alert("Upload image thất bại!!!");
+                    e.target.value = null;
+                }
+            })
+            .catch((err) => {
+                alert("Upload image thất bại!!!" + err);
+                e.target.value = null;
+            });
+    };
 
     const handleFileExcel = (e) => {
         e.preventDefault();
@@ -34,14 +91,15 @@ function AddQA(props) {
                 const workbook = xlsx.read(data, { type: "array" });
                 const sheetName = workbook.SheetNames[0];
                 const worksheet = workbook.Sheets[sheetName];
-                const json = xlsx.utils.sheet_to_json(worksheet, { range: 1, defval: "", blankrows: true });
-                setQA(QA.concat(formatJSON(json)));
-                setNewQA(newQA.concat(formatJSON(json)));
-                const TypeQuiz = Object.keys(xlsx.utils.sheet_to_json(worksheet, { raw: false, range: `A1:B2` })[0])[0];
-                if (TypeQuiz === "Full Test" && json.length === 200) {
-                    console.log("Hợp lý full test");
-                } else if (TypeQuiz === "Mini Test" && json.length === 100) {
-                    console.log("Hợp lý mini test");
+                const json = xlsx.utils.sheet_to_json(worksheet, { defval: "" });
+                console.log(json);
+                if (quiz.test.typeTest === "Full Test" && QA.concat(formatJSON(json)) > 200) {
+                    console.log("Tối đa full test chỉ 200 câu");
+                } else if (quiz.test.typeTest === "Mini Test" && QA.concat(formatJSON(json)) > 100) {
+                    console.log("Tối đa mini test chỉ 100 câu");
+                } else {
+                    console.log("submit");
+                    submitQA(json);
                 }
             };
             reader.readAsArrayBuffer(e.target.files[0]);
@@ -49,27 +107,19 @@ function AddQA(props) {
     };
 
     const handleFileAudio = (e) => {
-        const newQA = QA.map((obj, index) => {
-            if (index === 0) {
-                return { ...obj, audioFile: "File-audio/" + e.target.files[0].name };
-            }
-            return obj;
+        const url = `${REACT_APP_SERVER}/Question/UploadFile`;
+        const formData = new FormData();
+        formData.append("files", e.target.files[0]);
+        const config = {
+            headers: {
+                accept: "*/*",
+                "Content-Type": "multipart/form-data",
+                Authorization: `Bearer ${props.getCookie("token")}`,
+            },
+        };
+        axios.post(url, formData, config).then((response) => {
+            console.log(response);
         });
-        setQA(newQA);
-    };
-
-    const handleFileImage = (e) => {
-        const newQA = QA.map((obj, index) => {
-            if (index === parseInt(e.target.className)) {
-                return { ...obj, image: "Image-LuanVan/" + e.target.files[0].name };
-            }
-            return obj;
-        });
-        setQA(newQA);
-    };
-
-    const deleteRow = (index) => {
-        console.log(index);
     };
 
     const formatJSON = (json) => {
@@ -109,10 +159,8 @@ function AddQA(props) {
         return json;
     };
 
-    const submitQA = () => {
-        console.log(QA);
-        console.log(QA[0].audioFile);
-        if (newQA.length > 0 && QA[0].audioFile !== "") {
+    const submitQA = (json) => {
+        if (json.length > 0) {
             axios({
                 method: "post",
                 headers: {
@@ -120,18 +168,36 @@ function AddQA(props) {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${props.getCookie("token")}`,
                 },
-                data: newQA,
+                data: json,
                 url: `${REACT_APP_SERVER}/Question/AddQuestion`,
             }).then((response) => {
-                console.log(newQA);
-                setNewQA([]);
                 if (response.data) {
+                    refeshListQuiz();
                     alert("Thêm câu hỏi thành công!");
                 } else {
                     alert("Lỗi. Vui lòng thử lại!!!");
                 }
             });
-        } else alert("Vui lòng import file audio trước khi submit!");
+        } else alert("Chưa có dữ liệu mới để thêm, vui lòng thử lại!");
+    };
+
+    const submitQuestionEdit = (e) => {
+        console.log(questionEdit);
+        axios({
+            method: "put",
+            headers: {
+                accept: "text/plain",
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${props.getCookie("token")}`,
+            },
+            data: questionEdit,
+            url: `${REACT_APP_SERVER}/Question/UpdateQuestion?Id=${questionEdit.id}`,
+        }).then((response) => {
+            if (response.data) {
+                refeshListQuiz();
+            } else alert("Cập nhật thất bại!!");
+            document.getElementById("modalUpdate").click();
+        });
     };
 
     return (
@@ -141,12 +207,8 @@ function AddQA(props) {
                 <h3 className="text-center">{quiz.test ? quiz.test.typeTest : null}</h3>
                 <div>
                     <label>File excel mẫu: </label>
-                    <a className="mx-2" href="/LuanVan_Demo/FullTest.xlsx" target="_blank">
-                        Full Test
-                    </a>
-                    <label> | </label>
-                    <a className="ml-2" href="/LuanVan_Demo/MiniTest.xlsx" target="_blank">
-                        Mini Test
+                    <a className="mx-2" href="/LuanVan_Demo/Excel.xlsx" target="_blank">
+                        Tải xuống
                     </a>
                 </div>
                 <div>
@@ -188,8 +250,10 @@ function AddQA(props) {
                                                     if (element.isAnswer) return element.contentAnswer.substring(0, 1);
                                                 })}
                                             </td>
-                                            <td>
-                                                <input className={index} type="file" onChange={handleFileImage}></input>
+                                            <td className={index}>
+                                                {element.image ? (
+                                                    <img width={100} height={100} src={`${REACT_APP_SERVER + "/" + element.image}`}></img>
+                                                ) : null}
                                             </td>
                                             <td className="text-center">
                                                 <a
@@ -197,14 +261,21 @@ function AddQA(props) {
                                                     to="#"
                                                     data-mdb-toggle="modal"
                                                     data-mdb-target="#modalUpdate"
+                                                    onClick={() => {
+                                                        document.getElementById("inputImage").value = "";
+                                                        setQuestionEdit(JSON.parse(JSON.stringify(QA[index])));
+                                                        QA[index].answers.map((element, indeX) => {
+                                                            if (element.isAnswer) {
+                                                                var select = indeX === 0 ? "A" : indeX === 1 ? "B" : indeX === 2 ? "C" : "D";
+                                                                document.getElementById("IsAnswer").value = select;
+                                                            }
+                                                        });
+                                                    }}
                                                 >
                                                     <i className="fa-solid fa-edit me-2"></i>
                                                 </a>
                                                 <a className="text-danger" to="#">
-                                                    <i
-                                                        className="fa-solid fa-trash me-2"
-                                                        onClick={() => deleteRow(index)}
-                                                    ></i>
+                                                    <i className="fa-solid fa-trash me-2"></i>
                                                 </a>
                                             </td>
                                         </tr>
@@ -212,38 +283,155 @@ function AddQA(props) {
                                 })}
                             </tbody>
                         </table>
-                        <label htmlFor="excel">Import file audio:</label>
+                        <p>File audio: {QA[0].audioFile ? QA[0].audioFile : "(Trống)"}</p>
+                        <label htmlFor="excel">Import new file audio:</label>
                         <input type="file" id="audio" className="ml-2" onChange={handleFileAudio} />
-                        <button className="btn btn-success d-block ml-auto" onClick={submitQA}>
-                            Lưu Lại
-                        </button>
                     </div>
                 ) : null}
             </div>
 
             {/* Modal Update */}
-            <div
-                className="modal fade"
-                id="modalUpdate"
-                tabIndex="-1"
-                aria-labelledby="modalUpdateLabel"
-                aria-hidden="true"
-            >
+            <div className="modal fade" id="modalUpdate" tabIndex="-1" aria-labelledby="modalUpdateLabel" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered">
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title" id="modalUpdatelLabel">
-                                Modal title
+                                Cập nhật thông tin
                             </h5>
                             <button type="button" className="btn-close" data-mdb-dismiss="modal" aria-label="Close" />
                         </div>
-                        <div className="modal-body">...</div>
+                        <div className="modal-body">
+                            <table className="table">
+                                <tbody>
+                                    <tr>
+                                        <td>NumPart:</td>
+                                        <td>
+                                            <input
+                                                type="number"
+                                                max={7}
+                                                min={1}
+                                                className="numPart w-100"
+                                                id="numPart"
+                                                required
+                                                value={questionEdit.numPart ? questionEdit.numPart : ""}
+                                                onChange={(e) => handleQuestionEdit(e, "numPart")}
+                                            />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>ContentQuestion:</td>
+                                        <td>
+                                            <input
+                                                type="text"
+                                                className="contentQuestion w-100"
+                                                id="contentQuestion"
+                                                required
+                                                value={questionEdit.contentQuestion ? questionEdit.contentQuestion : ""}
+                                                onChange={(e) => handleQuestionEdit(e, "contentQuestion")}
+                                            />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>ContentScript:</td>
+                                        <td>
+                                            <input
+                                                type="text"
+                                                className="contentScript w-100"
+                                                id="contentScript"
+                                                required
+                                                value={questionEdit.contentScript ? questionEdit.contentScript : ""}
+                                                onChange={(e) => handleQuestionEdit(e, "contentScript")}
+                                            />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>ContentAnswer:</td>
+                                        <td>
+                                            <input
+                                                type="text"
+                                                className="ContentAnswer w-100"
+                                                id="ContentAnswer"
+                                                required
+                                                value={questionEdit.answers ? questionEdit.answers[0].contentAnswer : ""}
+                                                onChange={(e) => handleAnswerEdit(e, 0)}
+                                            />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>ContentAnswer_1:</td>
+                                        <td>
+                                            <input
+                                                type="text"
+                                                className="ContentAnswer_1 w-100"
+                                                id="ContentAnswer_1"
+                                                required
+                                                value={questionEdit.answers ? questionEdit.answers[1].contentAnswer : ""}
+                                                onChange={(e) => handleAnswerEdit(e, 1)}
+                                            />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>ContentAnswer_2:</td>
+                                        <td>
+                                            <input
+                                                type="text"
+                                                className="ContentAnswer_2 w-100"
+                                                id="ContentAnswer_2"
+                                                required
+                                                value={questionEdit.answers ? questionEdit.answers[2].contentAnswer : ""}
+                                                onChange={(e) => handleAnswerEdit(e, 2)}
+                                            />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>ContentAnswer_3:</td>
+                                        <td>
+                                            <input
+                                                type="text"
+                                                className="ContentAnswer_3 w-100"
+                                                id="ContentAnswer_3"
+                                                value={questionEdit.answers ? questionEdit.answers[3].contentAnswer : ""}
+                                                onChange={(e) => handleAnswerEdit(e, 3)}
+                                            />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>IsAnswer:</td>
+                                        <td>
+                                            <select
+                                                className="form-select IsAnswer"
+                                                aria-label="Default select example"
+                                                id="IsAnswer"
+                                                onChange={(e) => handleIsAnswer(e)}
+                                            >
+                                                <option value={"A"}>A</option>
+                                                <option value={"B"}>B</option>
+                                                <option value={"C"}>C</option>
+                                                <option value={"D"}>D</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Image:</td>
+                                        <td>
+                                            <img
+                                                className="mb-3"
+                                                src={`${REACT_APP_SERVER + "/" + questionEdit.image}`}
+                                                width={100}
+                                                height={100}
+                                            ></img>
+                                            <input type="file" id="inputImage" className="Image w-100" onChange={handleFileImage} />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-mdb-dismiss="modal">
-                                Close
+                                Đóng
                             </button>
-                            <button type="button" className="btn btn-primary">
-                                Save changes
+                            <button type="submit" className="btn btn-primary" onClick={submitQuestionEdit}>
+                                Cập nhật
                             </button>
                         </div>
                     </div>
