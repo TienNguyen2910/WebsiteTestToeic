@@ -7,12 +7,12 @@ import "./Exam.css";
 const { REACT_APP_CLIENT, REACT_APP_SERVER } = process.env;
 
 function ReviewAnswer(props) {
+    const [quiz, setQuiz] = useState({});
     const [listQuestions, setListQuestions] = useState([]);
     const [listResultDetail, setListResultDetail] = useState([]);
     const [result, setResult] = useState([]);
     const params = useParams();
     const navigate = useNavigate();
-    const [location, setLocation] = useState({});
     const scrollToHash = (id) => {
         if (id) {
             const anchor = document.getElementById(id);
@@ -22,6 +22,8 @@ function ReviewAnswer(props) {
             }
         }
     };
+    var numQuestions = 1;
+    var numQuestionChoice = 1;
 
     const setAnswer = (idAnswer, idQuestion, isAnswer, Part) => {
         document.getElementById(idQuestion + "Question").classList.add("active");
@@ -69,24 +71,6 @@ function ReviewAnswer(props) {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${props.getCookie("token")}`,
             },
-            url: `${REACT_APP_SERVER}/Question/GetAllQuestion?QuizId=${params.id}`,
-        })
-            .then((response) => {
-                setListQuestions(response.data);
-            })
-            .catch((error) => {
-                navigate("/");
-            });
-    }, []);
-
-    useEffect(() => {
-        axios({
-            method: "get",
-            headers: {
-                accept: "application/json",
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${props.getCookie("token")}`,
-            },
             url: `${REACT_APP_SERVER}/ResultDetail/GetResultDetail/${params.resultId}`,
         })
             .then((response) => {
@@ -106,7 +90,8 @@ function ReviewAnswer(props) {
             },
             url: `${REACT_APP_SERVER}/Quiz/${params.idTest}`,
         }).then((response) => {
-            setLocation(response.data);
+            setQuiz(response.data);
+            setListQuestions(response.data.questionsList);
         });
     }, [params.idTest]);
 
@@ -115,161 +100,155 @@ function ReviewAnswer(props) {
             <div className="row">
                 <div className="col-10 p-0">
                     <div className="shadow ml-4 mr-2 px-4 border border-light my-4 scroll bg-white">
-                        {params.idTest === "1" ? (
-                            <h3 className="text-center my-3">FULL TEST</h3>
-                        ) : (
-                            <h3 className="text-center my-3">MINI TEST</h3>
-                        )}
-                        <h3 className="text-center my-3">
-                            {location.title ? location.title : window.location.replace(`/${params.idTest}`)}
-                        </h3>
+                        <h3 className="text-center my-3">{quiz.title}</h3>
+                        <h3 className="text-center my-3">{quiz.test.typeTest}</h3>
                         <div className="d-flex justify-content-center align-items-center my-4">
                             <audio controls>
-                                <source
-                                    src={`${REACT_APP_CLIENT}/LuanVan_Demo/${listQuestions[0].audioFile}`}
-                                    type="audio/mp3"
-                                />
+                                <source src={`${REACT_APP_SERVER}/${listQuestions[0].audioFile}`} type="audio/mp3" />
                                 Your browser does not support the audio element.
                             </audio>
                         </div>
                         <h4 className="my-3">PART 1</h4>
                         <div className="row">
-                            {listQuestions.slice(0, 6).map((question, index) => {
-                                return (
-                                    <Questions
-                                        reviewAnswer={true}
-                                        setAnswer={setAnswer}
-                                        Questions={question}
-                                        index={index + 1}
-                                        key={index + 1}
-                                    />
-                                );
+                            {listQuestions.map((question, index) => {
+                                if (question.numPart === 1)
+                                    return (
+                                        <Questions
+                                            reviewAnswer={true}
+                                            setAnswer={setAnswer}
+                                            Questions={question}
+                                            index={numQuestions++}
+                                            key={index + 1}
+                                        />
+                                    );
                             })}
                         </div>
                         <h4 className="my-3">PART 2</h4>
                         <div className="row">
-                            {listQuestions.slice(6, 31).map((question, index) => {
-                                return (
-                                    <Questions
-                                        reviewAnswer={true}
-                                        setAnswer={setAnswer}
-                                        Questions={question}
-                                        index={index + 7}
-                                        key={index + 7}
-                                    />
-                                );
+                            {listQuestions.map((question, index) => {
+                                if (question.numPart === 2)
+                                    return (
+                                        <Questions
+                                            reviewAnswer={true}
+                                            setAnswer={setAnswer}
+                                            Questions={question}
+                                            index={numQuestions++}
+                                            key={index + 7}
+                                        />
+                                    );
                             })}
                         </div>
                         <h4 className="my-3">PART 3</h4>
                         <div className="row">
-                            {listQuestions.slice(31, 70).map((question, index) => {
-                                return (
-                                    <Questions
-                                        reviewAnswer={true}
-                                        setAnswer={setAnswer}
-                                        Questions={question}
-                                        index={index + 32}
-                                        key={index + 32}
-                                    />
-                                );
+                            {listQuestions.map((question, index) => {
+                                if (question.numPart === 3)
+                                    return (
+                                        <Questions
+                                            reviewAnswer={true}
+                                            setAnswer={setAnswer}
+                                            Questions={question}
+                                            index={numQuestions++}
+                                            key={index + 32}
+                                        />
+                                    );
                             })}
                         </div>
                         <h4 className="my-3">PART 4</h4>
                         <div className="row">
-                            {listQuestions.slice(70, 100).map((question, index) => {
-                                return (
-                                    <Questions
-                                        reviewAnswer={true}
-                                        setAnswer={setAnswer}
-                                        Questions={question}
-                                        index={index + 71}
-                                        key={index + 71}
-                                    />
-                                );
+                            {listQuestions.map((question, index) => {
+                                if (question.numPart === 4)
+                                    return (
+                                        <Questions
+                                            reviewAnswer={true}
+                                            setAnswer={setAnswer}
+                                            Questions={question}
+                                            index={numQuestions++}
+                                            key={index + 71}
+                                        />
+                                    );
                             })}
                         </div>
                         <h4 className="my-3">PART 5</h4>
                         <div className="row">
-                            {listQuestions.slice(100, 130).map((question, index) => {
-                                return (
-                                    <Questions
-                                        reviewAnswer={true}
-                                        setAnswer={setAnswer}
-                                        Questions={question}
-                                        index={index + 101}
-                                        key={index + 101}
-                                    />
-                                );
+                            {listQuestions.map((question, index) => {
+                                if (question.numPart === 5)
+                                    return (
+                                        <Questions
+                                            reviewAnswer={true}
+                                            setAnswer={setAnswer}
+                                            Questions={question}
+                                            index={numQuestions++}
+                                            key={index + 101}
+                                        />
+                                    );
                             })}
                         </div>
                         <h4 className="my-3">PART 6</h4>
                         <div className="row">
-                            {listQuestions.slice(130, 146).map((question, index) => {
-                                return question.contentScript === null ? (
-                                    <Questions
-                                        reviewAnswer={true}
-                                        setAnswer={setAnswer}
-                                        Questions={question}
-                                        index={index + 131}
-                                        key={index + 131}
-                                    />
-                                ) : (
-                                    <>
-                                        <div className="col-12" key={index}>
-                                            <p
-                                                className="p-3 my-3"
-                                                id="contentScipt"
-                                                dangerouslySetInnerHTML={{
-                                                    __html: `${
-                                                        question.contentScript === null ? "" : question.contentScript
-                                                    }`,
-                                                }}
-                                            ></p>
-                                        </div>
+                            {listQuestions.map((question, index) => {
+                                if (question.numPart === 6)
+                                    return question.contentScript === null ? (
                                         <Questions
                                             reviewAnswer={true}
                                             setAnswer={setAnswer}
                                             Questions={question}
-                                            index={index + 131}
+                                            index={numQuestions++}
                                             key={index + 131}
                                         />
-                                    </>
-                                );
+                                    ) : (
+                                        <>
+                                            <div className="col-12" key={index}>
+                                                <p
+                                                    className="p-3 my-3"
+                                                    id="contentScipt"
+                                                    dangerouslySetInnerHTML={{
+                                                        __html: `${question.contentScript === null ? "" : question.contentScript}`,
+                                                    }}
+                                                ></p>
+                                            </div>
+                                            <Questions
+                                                reviewAnswer={true}
+                                                setAnswer={setAnswer}
+                                                Questions={question}
+                                                index={numQuestions++}
+                                                key={index + 131}
+                                            />
+                                        </>
+                                    );
                             })}
                         </div>
                         <h4 className="my-3">PART 7</h4>
                         <div className="row">
-                            {listQuestions.slice(146, 200).map((question, index) => {
-                                return question.contentScript === null ? (
-                                    <Questions
-                                        reviewAnswer={true}
-                                        setAnswer={setAnswer}
-                                        Questions={question}
-                                        index={index + 147}
-                                        key={index + 147}
-                                    />
-                                ) : (
-                                    <>
-                                        <div className="col-12" key={index}>
-                                            <p
-                                                className="p-3 my-3"
-                                                id="contentScipt"
-                                                dangerouslySetInnerHTML={{
-                                                    __html: `${
-                                                        question.contentScript === null ? "" : question.contentScript
-                                                    }`,
-                                                }}
-                                            ></p>
-                                        </div>
+                            {listQuestions.map((question, index) => {
+                                if (question.numPart === 7)
+                                    return question.contentScript === null ? (
                                         <Questions
                                             reviewAnswer={true}
                                             setAnswer={setAnswer}
                                             Questions={question}
-                                            index={index + 147}
+                                            index={numQuestions++}
                                             key={index + 147}
                                         />
-                                    </>
-                                );
+                                    ) : (
+                                        <>
+                                            <div className="col-12" key={index}>
+                                                <p
+                                                    className="p-3 my-3"
+                                                    id="contentScipt"
+                                                    dangerouslySetInnerHTML={{
+                                                        __html: `${question.contentScript === null ? "" : question.contentScript}`,
+                                                    }}
+                                                ></p>
+                                            </div>
+                                            <Questions
+                                                reviewAnswer={true}
+                                                setAnswer={setAnswer}
+                                                Questions={question}
+                                                index={numQuestions++}
+                                                key={index + 147}
+                                            />
+                                        </>
+                                    );
                             })}
                         </div>
                     </div>
@@ -280,149 +259,170 @@ function ReviewAnswer(props) {
                             Điểm của bạn: <span className="text-danger">{result.score}</span>
                         </p>
                         <h6 className="mt-2">Part 1:</h6>
-                        {listQuestions.slice(0, 6).map((element, index) => (
-                            <button
-                                id={element.id + "Question"}
-                                key={`${index}Question`}
-                                type="button"
-                                className="btn btn-outline-dark btn-sm"
-                                style={{
-                                    display: "inline-flex",
-                                    height: 30,
-                                    width: 30,
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    margin: 5,
-                                }}
-                                onClick={() => scrollToHash(element.id)}
-                            >
-                                {index + 1}
-                            </button>
-                        ))}
+                        {listQuestions.map((element, index) => {
+                            if (element.numPart === 1)
+                                return (
+                                    <button
+                                        id={element.id + "Question"}
+                                        key={`${index}Question`}
+                                        type="button"
+                                        className="btn btn-outline-dark btn-sm"
+                                        style={{
+                                            display: "inline-flex",
+                                            height: 30,
+                                            width: 30,
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                            margin: 5,
+                                        }}
+                                        onClick={() => scrollToHash(element.id)}
+                                    >
+                                        {numQuestionChoice++}
+                                    </button>
+                                );
+                        })}
                         <h6 className="mt-2">Part 2:</h6>
-                        {listQuestions.slice(6, 31).map((element, index) => (
-                            <button
-                                id={element.id + "Question"}
-                                key={`${index}Question`}
-                                type="button"
-                                className="btn btn-outline-dark btn-sm"
-                                // style={{ padding: "2px 10px", margin: "5px 5px" }}
-                                style={{
-                                    display: "inline-flex",
-                                    height: 30,
-                                    width: 30,
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    margin: 5,
-                                }}
-                                onClick={() => scrollToHash(element.id)}
-                            >
-                                {index + 7}
-                            </button>
-                        ))}
+                        {listQuestions.map((element, index) => {
+                            if (element.numPart === 2)
+                                return (
+                                    <button
+                                        id={element.id + "Question"}
+                                        key={`${index}Question`}
+                                        type="button"
+                                        className="btn btn-outline-dark btn-sm"
+                                        // style={{ padding: "2px 10px", margin: "5px 5px" }}
+                                        style={{
+                                            display: "inline-flex",
+                                            height: 30,
+                                            width: 30,
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                            margin: 5,
+                                        }}
+                                        onClick={() => scrollToHash(element.id)}
+                                    >
+                                        {numQuestionChoice++}
+                                    </button>
+                                );
+                        })}
                         <h6 className="mt-2">Part 3:</h6>
-                        {listQuestions.slice(31, 70).map((element, index) => (
-                            <button
-                                id={element.id + "Question"}
-                                key={`${index}Question`}
-                                type="button"
-                                className="btn btn-outline-dark btn-sm"
-                                // style={{ padding: "2px 10px", margin: "5px 5px" }}
-                                style={{
-                                    display: "inline-flex",
-                                    height: 30,
-                                    width: 30,
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    margin: 5,
-                                }}
-                                onClick={() => scrollToHash(element.id)}
-                            >
-                                {index + 32}
-                            </button>
-                        ))}
+                        {listQuestions.map((element, index) => {
+                            if (element.numPart === 3)
+                                return (
+                                    <button
+                                        id={element.id + "Question"}
+                                        key={`${index}Question`}
+                                        type="button"
+                                        className="btn btn-outline-dark btn-sm"
+                                        // style={{ padding: "2px 10px", margin: "5px 5px" }}
+                                        style={{
+                                            display: "inline-flex",
+                                            height: 30,
+                                            width: 30,
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                            margin: 5,
+                                        }}
+                                        onClick={() => scrollToHash(element.id)}
+                                    >
+                                        {numQuestionChoice++}
+                                    </button>
+                                );
+                        })}
                         <h6 className="mt-2">Part 4:</h6>
-                        {listQuestions.slice(70, 100).map((element, index) => (
-                            <button
-                                id={element.id + "Question"}
-                                key={`${index}Question`}
-                                type="button"
-                                className="btn btn-outline-dark btn-sm"
-                                // style={{ padding: "2px 10px", margin: "5px 5px" }}
-                                style={{
-                                    display: "inline-flex",
-                                    height: 30,
-                                    width: 30,
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    margin: 5,
-                                }}
-                                onClick={() => scrollToHash(element.id)}
-                            >
-                                {index + 71}
-                            </button>
-                        ))}
+                        {listQuestions.map((element, index) => {
+                            if (element.numPart === 4)
+                                return (
+                                    <button
+                                        id={element.id + "Question"}
+                                        key={`${index}Question`}
+                                        type="button"
+                                        className="btn btn-outline-dark btn-sm"
+                                        // style={{ padding: "2px 10px", margin: "5px 5px" }}
+                                        style={{
+                                            display: "inline-flex",
+                                            height: 30,
+                                            width: 30,
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                            margin: 5,
+                                        }}
+                                        onClick={() => scrollToHash(element.id)}
+                                    >
+                                        {numQuestionChoice++}
+                                    </button>
+                                );
+                        })}
                         <h6 className="mt-2">Part 5:</h6>
-                        {listQuestions.slice(100, 130).map((element, index) => (
-                            <button
-                                id={element.id + "Question"}
-                                key={`${index}Question`}
-                                type="button"
-                                className="btn btn-outline-dark btn-sm"
-                                // style={{ padding: "2px 10px", margin: "5px 5px" }}
-                                style={{
-                                    display: "inline-flex",
-                                    height: 30,
-                                    width: 30,
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    margin: 5,
-                                }}
-                                onClick={() => scrollToHash(element.id)}
-                            >
-                                {index + 101}
-                            </button>
-                        ))}
+                        {listQuestions.map((element, index) => {
+                            if (element.numPart === 5)
+                                return (
+                                    <button
+                                        id={element.id + "Question"}
+                                        key={`${index}Question`}
+                                        type="button"
+                                        className="btn btn-outline-dark btn-sm"
+                                        // style={{ padding: "2px 10px", margin: "5px 5px" }}
+                                        style={{
+                                            display: "inline-flex",
+                                            height: 30,
+                                            width: 30,
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                            margin: 5,
+                                        }}
+                                        onClick={() => scrollToHash(element.id)}
+                                    >
+                                        {numQuestionChoice++}
+                                    </button>
+                                );
+                        })}
                         <h6 className="mt-2">Part 6:</h6>
-                        {listQuestions.slice(130, 146).map((element, index) => (
-                            <button
-                                id={element.id + "Question"}
-                                key={`${index}Question`}
-                                type="button"
-                                className="btn btn-outline-dark btn-sm"
-                                style={{
-                                    display: "inline-flex",
-                                    height: 30,
-                                    width: 30,
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    margin: 5,
-                                }}
-                                onClick={() => scrollToHash(element.id)}
-                            >
-                                {index + 131}
-                            </button>
-                        ))}
+                        {listQuestions.map((element, index) => {
+                            if (element.numPart === 6)
+                                return (
+                                    <button
+                                        id={element.id + "Question"}
+                                        key={`${index}Question`}
+                                        type="button"
+                                        className="btn btn-outline-dark btn-sm"
+                                        style={{
+                                            display: "inline-flex",
+                                            height: 30,
+                                            width: 30,
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                            margin: 5,
+                                        }}
+                                        onClick={() => scrollToHash(element.id)}
+                                    >
+                                        {numQuestionChoice++}
+                                    </button>
+                                );
+                        })}
                         <h6 className="mt-2">Part 7:</h6>
-                        {listQuestions.slice(146, 200).map((element, index) => (
-                            <button
-                                id={element.id + "Question"}
-                                key={`${index}Question`}
-                                type="button"
-                                className="btn btn-outline-dark btn-sm"
-                                style={{
-                                    display: "inline-flex",
-                                    height: 30,
-                                    width: 30,
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    margin: 5,
-                                }}
-                                onClick={() => scrollToHash(element.id)}
-                            >
-                                {index + 147}
-                            </button>
-                        ))}
+                        {listQuestions.map((element, index) => {
+                            if (element.numPart === 7)
+                                return (
+                                    <button
+                                        id={element.id + "Question"}
+                                        key={`${index}Question`}
+                                        type="button"
+                                        className="btn btn-outline-dark btn-sm"
+                                        style={{
+                                            display: "inline-flex",
+                                            height: 30,
+                                            width: 30,
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                            margin: 5,
+                                        }}
+                                        onClick={() => scrollToHash(element.id)}
+                                    >
+                                        {numQuestionChoice++}
+                                    </button>
+                                );
+                        })}
                         <div className="my-3 text-right">
                             <Link className="btn btn-outline-danger mr-2" to={`/${params.idTest}`}>
                                 Quay lại
