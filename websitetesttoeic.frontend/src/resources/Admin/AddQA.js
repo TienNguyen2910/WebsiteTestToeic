@@ -134,7 +134,7 @@ function AddQA(props) {
                 });
             } else {
                 alert("Lỗi khi upload. Vui lòng thử lại!");
-                document.getElementById("audio").value = "";
+                document.getElementById("audio").value = null;
             }
         });
     };
@@ -196,6 +196,7 @@ function AddQA(props) {
                 }
             });
         } else alert("Chưa có dữ liệu mới để thêm, vui lòng thử lại!");
+        document.getElementById("excel").value = null;
     };
 
     const submitQuestionEdit = (e) => {
@@ -230,6 +231,13 @@ function AddQA(props) {
         });
     };
 
+    const deleteImage = () => {
+        setQuestionEdit((prev) => {
+            return { ...prev, image: "" };
+        });
+        document.getElementById("inputImage").value = "";
+    };
+
     return (
         <>
             <div className="shadow bg-white p-4 mt-3">
@@ -243,7 +251,13 @@ function AddQA(props) {
                 </div>
                 <div>
                     <label htmlFor="excel">Import file excel:</label>
-                    <input type="file" id="excel" className="ml-2" onChange={handleFileExcel} />
+                    <input
+                        type="file"
+                        id="excel"
+                        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                        className="ml-2"
+                        onChange={handleFileExcel}
+                    />
                 </div>
                 {QA.length > 0 ? (
                     <div>
@@ -324,8 +338,8 @@ function AddQA(props) {
                                 "(Trống)"
                             )}
                         </div>
-                        <label htmlFor="excel">Import new file audio:</label>
-                        <input type="file" id="audio" className="ml-2" onChange={handleFileAudio} />
+                        <label htmlFor="excel">Import file audio:</label>
+                        <input type="file" id="audio" className="ml-2" accept=".mp3" onChange={handleFileAudio} />
                     </div>
                 ) : null}
             </div>
@@ -460,7 +474,10 @@ function AddQA(props) {
                                                 width={100}
                                                 height={100}
                                             ></img>
-                                            <input type="file" id="inputImage" className="Image w-100" onChange={handleFileImage} />
+                                            <button className="btn btn-danger mb-3 ml-2 btn-sm" onClick={deleteImage}>
+                                                <i className="fa-solid fa-trash"></i>
+                                            </button>
+                                            <input type="file" id="inputImage" accept=".png" className="Image w-100" onChange={handleFileImage} />
                                         </td>
                                     </tr>
                                 </tbody>
