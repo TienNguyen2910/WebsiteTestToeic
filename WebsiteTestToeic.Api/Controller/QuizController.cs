@@ -39,7 +39,7 @@ namespace WebsiteTestToeic.Api.Controller
                 return NotFound("Test Id = {id} not found");
             return Ok(await _quizRepository.UpdateQuiz(quiz));
         }
-        [HttpDelete("{id:int}"), Authorize(Roles = "Admin")]
+        [HttpDelete("DeleteQuiz"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<bool>> DeleteQuiz(int id)
         {
             Quiz q = await _quizRepository.GetQuiz(id);

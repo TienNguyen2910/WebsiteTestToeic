@@ -53,6 +53,8 @@ namespace WebsiteTestToeic.Database.Implement
             if(question != null)
             {
                 _context.Questions.Remove(question);
+                List<Answer> answers = _context.Answers.Where(a => a.QuestionId == question.Id).ToList();
+                _context.Answers.RemoveRange(answers);
                 await _context.SaveChangesAsync();
                 return true;
             }
