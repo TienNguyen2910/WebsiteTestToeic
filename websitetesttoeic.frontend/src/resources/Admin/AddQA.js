@@ -140,7 +140,7 @@ function AddQA(props) {
     };
 
     const formatJSON = (json) => {
-        json.map((element, index) => {
+        json.map((element) => {
             element.quizId = parseInt(params.idQuiz);
             element.answers = [
                 {
@@ -164,14 +164,17 @@ function AddQA(props) {
                     question: null,
                     resultDetailsList: null,
                 },
-                {
+            ];
+
+            if (element.ContentAnswer_3 !== "") {
+                element.answers.push({
                     questionId: null,
                     contentAnswer: element.ContentAnswer_3,
                     isAnswer: element.IsAnswer === "D" ? true : false,
                     question: null,
                     resultDetailsList: null,
-                },
-            ];
+                });
+            }
         });
         return json;
     };
@@ -261,10 +264,10 @@ function AddQA(props) {
                 </div>
                 {QA.length > 0 ? (
                     <div>
-                        <table className="table table-hover align-middle my-4">
+                        <table className="table table-hover align-middle my-4 tableQA" style={{ tableLayout: "fixed" }}>
                             <thead className="table-light">
                                 <tr>
-                                    <th scope="col">#</th>
+                                    <th>#</th>
                                     <th>NumPart</th>
                                     <th>ContentQuestion</th>
                                     <th>ContentScript</th>
@@ -288,7 +291,7 @@ function AddQA(props) {
                                             <td className={index}>{element.answers[0].contentAnswer}</td>
                                             <td className={index}>{element.answers[1].contentAnswer}</td>
                                             <td className={index}>{element.answers[2].contentAnswer}</td>
-                                            <td className={index}>{element.answers[3].contentAnswer}</td>
+                                            <td className={index}>{element.answers[3] ? element.answers[3].contentAnswer : ""}</td>
                                             <td className={index}>
                                                 {element.answers.map((element, index) => {
                                                     if (element.isAnswer) return element.contentAnswer.substring(0, 1);
@@ -444,7 +447,11 @@ function AddQA(props) {
                                                 type="text"
                                                 className="ContentAnswer_3 w-100"
                                                 id="ContentAnswer_3"
-                                                value={questionEdit.answers ? questionEdit.answers[3].contentAnswer : ""}
+                                                value={
+                                                    questionEdit.answers && questionEdit.answers[3] !== undefined
+                                                        ? questionEdit.answers[3].contentAnswer
+                                                        : ""
+                                                }
                                                 onChange={(e) => handleAnswerEdit(e, 3)}
                                             />
                                         </td>

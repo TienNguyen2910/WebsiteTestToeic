@@ -36,8 +36,8 @@ function Login(props) {
                         sessionStorage.setItem("token", response.data);
                         var token = jwt_decode(response.data);
                         // console.log(token);
-                        props.setCookie("user", JSON.stringify(token), 5);
-                        props.setCookie("token", response.data, 5);
+                        props.setCookie("user", JSON.stringify(token), 7);
+                        props.setCookie("token", response.data, 7);
                         loginSuccess.current.hidden = false;
                         loginFailed.current.hidden = true;
                         window.location.replace("/");
@@ -66,9 +66,7 @@ function Login(props) {
                                 <div className="card-body p-5">
                                     <form className="mb-3 mt-md-4" onSubmit={submit}>
                                         <h2 className="fw-bold text-uppercase mb-3 text-center">Đăng nhập</h2>
-                                        <p className="text-black-50 text-center mb-5">
-                                            Vui lòng nhập email và mật khẩu để đăng nhập!
-                                        </p>
+                                        <p className="text-black-50 text-center mb-5">Vui lòng nhập email và mật khẩu để đăng nhập!</p>
                                         <div className="mb-3">
                                             <label htmlFor="email" className="form-label ">
                                                 Email:

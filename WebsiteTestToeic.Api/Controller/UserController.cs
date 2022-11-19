@@ -99,7 +99,7 @@ namespace WebsiteTestToeic.Api.Controller
             var token = new JwtSecurityToken
                 (
                     claims: claims,
-                    expires: DateTime.Now.AddDays(1),
+                    expires: DateTime.Now.AddDays(7),
                     signingCredentials: cred
                 );
 

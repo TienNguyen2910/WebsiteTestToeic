@@ -95,7 +95,7 @@ function Exam(props) {
         }
     };
 
-    const listeningScore = (numCorrect) => {
+    const listeningScoreFT = (numCorrect) => {
         if (numCorrect < 7) return 5;
         else if (numCorrect < 31) return (numCorrect - 5) * 5;
         else if (numCorrect < 39) return (numCorrect - 4) * 5;
@@ -111,7 +111,12 @@ function Exam(props) {
         else return 495;
     };
 
-    const readingScore = (numCorrect) => {
+    const listeningScoreMT = (numCorrect) => {
+        if (numCorrect <= 5) return 5;
+        else return 10 + numCorrect + 1.5;
+    };
+
+    const readingScoreFT = (numCorrect) => {
         if (numCorrect < 10) return 5;
         else if (numCorrect < 25) return (numCorrect - 8) * 5;
         else if (numCorrect < 39) return (numCorrect - 6) * 5;
@@ -128,6 +133,11 @@ function Exam(props) {
         else return 495;
     };
 
+    const readingScoreMT = (numCorrect) => {
+        if (numCorrect <= 5) return 5;
+        else return 10 + numCorrect + 1.5;
+    };
+
     const submit = () => {
         let listen = 0;
         let read = 0;
@@ -142,7 +152,8 @@ function Exam(props) {
             if (resultDetail[i].Part === 5 || resultDetail[i].Part === 6 || (resultDetail[i].Part === 7 && resultDetail[i].IsAnswerTrue === true))
                 read++;
         }
-        result.Score = listeningScore(listen) + readingScore(read);
+        if (quiz.test.typeTest === "Full Test") result.Score = listeningScoreFT(listen) + readingScoreFT(read);
+        else result.Score = listeningScoreMT(listen) + readingScoreMT(read);
         axios({
             method: "POST",
             headers: {
@@ -275,9 +286,7 @@ function Exam(props) {
                     <div className="shadow mt-4 border-top-0 py-3 pl-3 border border-light scroll bg-white">
                         <h6 className="p-0">Thời gian còn lại:</h6>
                         <Countdown
-                            date={
-                                Object.keys(listQuestions).length === 200 ? startDate.current + 120 * 1000 * 60 : startDate.current + 60 * 1000 * 60
-                            }
+                            date={quiz.test.typeTest === "Full Test" ? startDate.current + 120 * 1000 * 60 : startDate.current + 60 * 1000 * 60}
                             renderer={renderer}
                         />
                         <h6 className="mt-2">Part 1:</h6>

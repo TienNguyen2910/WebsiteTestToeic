@@ -40,8 +40,9 @@ function ReviewAnswer(props) {
                 document.getElementById(`${resultDetail.answerSelectedId}Answer`).click();
             }
         });
-        for (var i = 1; i <= document.getElementsByClassName("custom-control custom-radio").length; i++) {
-            document.getElementById(`${i}Answer`).disabled = true;
+        var inputs = document.getElementsByTagName("input");
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].disabled = true;
         }
     });
 
@@ -88,7 +89,7 @@ function ReviewAnswer(props) {
                 accept: "text/plain",
                 "Content-Type": "application/json",
             },
-            url: `${REACT_APP_SERVER}/Quiz/${params.idTest}`,
+            url: `${REACT_APP_SERVER}/Quiz/${params.id}`,
         }).then((response) => {
             setQuiz(response.data);
             setListQuestions(response.data.questionsList);
