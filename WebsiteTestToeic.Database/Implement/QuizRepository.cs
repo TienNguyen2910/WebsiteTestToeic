@@ -35,8 +35,12 @@ namespace WebsiteTestToeic.Database.Implement
             if(quiz != null)
             {
                 List<Question> questions = _context.Questions.Where(q => q.QuizId == quiz.Id).ToList();
+                foreach(var question in questions)
+                {
+                    List<Answer> answers = _context.Answers.Where(a => a.QuestionId == question.Id).ToList();
+                    _context.Answers.RemoveRange(answers);
+                }
                 _context.Questions.RemoveRange(questions);
-                await _context.SaveChangesAsync();
                 _context.Quizzes.Remove(quiz);
                 await _context.SaveChangesAsync();
                 result = true;
