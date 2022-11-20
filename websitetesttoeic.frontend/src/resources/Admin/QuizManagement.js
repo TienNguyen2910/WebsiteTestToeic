@@ -93,7 +93,7 @@ function QuizManagement(props) {
                                           <td scope="row">{index + 1}</td>
                                           <td>{quiz.title}</td>
                                           <td>{quiz.testId === 1 ? "Full Test" : "Mini Test"}</td>
-                                          <td>{quiz.testId === 1 ? "200 câu" : "100 câu"}</td>
+                                          <td>{quiz.testId === 1 ? "200 câu" : "65 câu"}</td>
                                           <td>{quiz.testId === 1 ? "120 phút" : "60 phút"}</td>
 
                                           <td className="text-center">
