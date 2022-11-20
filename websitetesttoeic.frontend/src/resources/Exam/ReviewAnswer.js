@@ -198,15 +198,17 @@ function ReviewAnswer(props) {
                                         />
                                     ) : (
                                         <>
-                                            <div className="col-12" key={index}>
-                                                <p
-                                                    className="p-3 my-3"
-                                                    id="contentScipt"
-                                                    dangerouslySetInnerHTML={{
-                                                        __html: `${question.contentScript === null ? "" : question.contentScript}`,
-                                                    }}
-                                                ></p>
-                                            </div>
+                                            {question.contentScript === "" ? null : (
+                                                <div className="col-12" key={index}>
+                                                    <p
+                                                        className="p-3 my-3"
+                                                        id="contentScipt"
+                                                        dangerouslySetInnerHTML={{
+                                                            __html: `${question.contentScript}`,
+                                                        }}
+                                                    ></p>
+                                                </div>
+                                            )}
                                             <Questions
                                                 reviewAnswer={true}
                                                 setAnswer={setAnswer}
@@ -232,15 +234,17 @@ function ReviewAnswer(props) {
                                         />
                                     ) : (
                                         <>
-                                            <div className="col-12" key={index}>
-                                                <p
-                                                    className="p-3 my-3"
-                                                    id="contentScipt"
-                                                    dangerouslySetInnerHTML={{
-                                                        __html: `${question.contentScript === null ? "" : question.contentScript}`,
-                                                    }}
-                                                ></p>
-                                            </div>
+                                            {question.contentScript === "" ? null : (
+                                                <div className="col-12" key={index}>
+                                                    <p
+                                                        className="p-3 my-3"
+                                                        id="contentScipt"
+                                                        dangerouslySetInnerHTML={{
+                                                            __html: `${question.contentScript}`,
+                                                        }}
+                                                    ></p>
+                                                </div>
+                                            )}
                                             <Questions
                                                 reviewAnswer={true}
                                                 setAnswer={setAnswer}

@@ -113,7 +113,7 @@ function Exam(props) {
 
     const listeningScoreMT = (numCorrect) => {
         if (numCorrect <= 5) return 5;
-        else return 10 + numCorrect + 1.5;
+        else return 10 + numCorrect * 1.5;
     };
 
     const readingScoreFT = (numCorrect) => {
@@ -135,7 +135,7 @@ function Exam(props) {
 
     const readingScoreMT = (numCorrect) => {
         if (numCorrect <= 5) return 5;
-        else return 10 + numCorrect + 1.5;
+        else return 10 + numCorrect * 1.5;
     };
 
     const submit = () => {
@@ -244,15 +244,17 @@ function Exam(props) {
                                         <Questions setAnswer={setAnswer} Questions={question} index={numQuestions++} key={index + 131} />
                                     ) : (
                                         <>
-                                            <div className="col-12" key={index}>
-                                                <p
-                                                    className="p-3 my-3"
-                                                    id="contentScipt"
-                                                    dangerouslySetInnerHTML={{
-                                                        __html: `${question.contentScript === null ? "" : question.contentScript}`,
-                                                    }}
-                                                ></p>
-                                            </div>
+                                            {question.contentScript === "" ? null : (
+                                                <div className="col-12" key={index}>
+                                                    <p
+                                                        className="p-3 my-3"
+                                                        id="contentScipt"
+                                                        dangerouslySetInnerHTML={{
+                                                            __html: `${question.contentScript}`,
+                                                        }}
+                                                    ></p>
+                                                </div>
+                                            )}
                                             <Questions setAnswer={setAnswer} Questions={question} index={numQuestions++} key={index + 131} />
                                         </>
                                     );
@@ -266,15 +268,17 @@ function Exam(props) {
                                         <Questions setAnswer={setAnswer} Questions={question} index={numQuestions++} key={index + 147} />
                                     ) : (
                                         <>
-                                            <div className="col-12" key={index}>
-                                                <p
-                                                    className="p-3 my-3"
-                                                    id="contentScipt"
-                                                    dangerouslySetInnerHTML={{
-                                                        __html: `${question.contentScript === null ? "" : question.contentScript}`,
-                                                    }}
-                                                ></p>
-                                            </div>
+                                            {question.contentScript === "" ? null : (
+                                                <div className="col-12" key={index}>
+                                                    <p
+                                                        className="p-3 my-3"
+                                                        id="contentScipt"
+                                                        dangerouslySetInnerHTML={{
+                                                            __html: `${question.contentScript}`,
+                                                        }}
+                                                    ></p>
+                                                </div>
+                                            )}
                                             <Questions setAnswer={setAnswer} Questions={question} index={numQuestions++} key={index + 147} />
                                         </>
                                     );
