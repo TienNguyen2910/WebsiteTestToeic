@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import xlsx from "xlsx";
 const { REACT_APP_SERVER } = process.env;
 
@@ -9,6 +9,7 @@ function AddQA(props) {
     const [quiz, setQuiz] = useState({});
     const [QA, setQA] = useState([]);
     const [questionEdit, setQuestionEdit] = useState({});
+    const navigate = useNavigate();
 
     const refeshListQuiz = () => {
         axios({
@@ -343,6 +344,11 @@ function AddQA(props) {
                         </div>
                         <label htmlFor="excel">Import file audio:</label>
                         <input type="file" id="audio" className="ml-2" accept=".mp3" onChange={handleFileAudio} />
+                        <div className="d-block text-right">
+                            <button ton className="btn btn-danger text-left" onClick={() => navigate(-1)}>
+                                Quay lại
+                            </button>
+                        </div>
                     </div>
                 ) : null}
             </div>

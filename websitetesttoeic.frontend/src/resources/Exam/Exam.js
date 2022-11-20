@@ -97,17 +97,18 @@ function Exam(props) {
 
     const listeningScoreFT = (numCorrect) => {
         if (numCorrect < 7) return 5;
-        else if (numCorrect < 31) return (numCorrect - 5) * 5;
-        else if (numCorrect < 39) return (numCorrect - 4) * 5;
-        else if (numCorrect < 45) return (numCorrect - 2) * 5;
-        else if (numCorrect < 54) return (numCorrect - 1) * 5;
-        else if (numCorrect < 58) return numCorrect * 5;
-        else if (numCorrect < 70) return (numCorrect + 1) * 5;
-        else if (numCorrect < 75) return (numCorrect + 2) * 5;
-        else if (numCorrect < 80) return (numCorrect + 3) * 5;
-        else if (numCorrect < 85) return (numCorrect + 4) * 5;
-        else if (numCorrect < 88) return (numCorrect + 5) * 5;
-        else if (numCorrect < 93) return (numCorrect + 6) * 5;
+        else if (numCorrect < 31) return 10 + (numCorrect - 7) * 5;
+        else if (numCorrect < 39) return 135 + (numCorrect - 31) * 5;
+        else if (numCorrect < 44) return 180 + (numCorrect - 39) * 5;
+        else if (numCorrect === 44) return 210;
+        else if (numCorrect < 54) return 220 + (numCorrect - 45) * 5;
+        else if (numCorrect < 58) return 270 + (numCorrect - 54) * 5;
+        else if (numCorrect < 70) return 295 + (numCorrect - 58) * 5;
+        else if (numCorrect < 75) return 360 + (numCorrect - 70) * 5;
+        else if (numCorrect < 80) return 390 + (numCorrect - 75) * 5;
+        else if (numCorrect < 85) return 420 + (numCorrect - 80) * 5;
+        else if (numCorrect < 88) return 450 + (numCorrect - 85) * 5;
+        else if (numCorrect < 93) return 470 + (numCorrect - 88) * 5;
         else return 495;
     };
 
@@ -118,18 +119,19 @@ function Exam(props) {
 
     const readingScoreFT = (numCorrect) => {
         if (numCorrect < 10) return 5;
-        else if (numCorrect < 25) return (numCorrect - 8) * 5;
-        else if (numCorrect < 39) return (numCorrect - 6) * 5;
-        else if (numCorrect < 43) return (numCorrect - 5) * 5;
-        else if (numCorrect < 47) return (numCorrect - 4) * 5;
-        else if (numCorrect < 52) return (numCorrect - 3) * 5;
-        else if (numCorrect < 55) return (numCorrect - 2) * 5;
-        else if (numCorrect < 64) return (numCorrect - 1) * 5;
-        else if (numCorrect < 82) return numCorrect * 5;
-        else if (numCorrect < 89) return (numCorrect - 1) * 5;
-        else if (numCorrect < 92) return numCorrect * 5;
-        else if (numCorrect < 93) return (numCorrect + 6) * 5;
-        else if (numCorrect < 97) return (numCorrect + 2) * 5;
+        else if (numCorrect < 25) return 10 + (numCorrect - 10) * 5;
+        else if (numCorrect < 28) return 90 + (numCorrect - 25) * 5;
+        else if (numCorrect < 39) return 110 + (numCorrect - 28) * 5;
+        else if (numCorrect < 43) return 170 + (numCorrect - 39) * 5;
+        else if (numCorrect < 47) return 195 + (numCorrect - 43) * 5;
+        else if (numCorrect < 52) return 220 + (numCorrect - 47) * 5;
+        else if (numCorrect < 55) return 250 + (numCorrect - 52) * 5;
+        else if (numCorrect < 64) return 270 + (numCorrect - 55) * 5;
+        else if (numCorrect < 82) return 320 + (numCorrect - 64) * 5;
+        else if (numCorrect < 89) return 405 + (numCorrect - 82) * 5;
+        else if (numCorrect < 92) return 445 + (numCorrect - 82) * 5;
+        else if (numCorrect < 93) return 465 + (numCorrect + 92) * 5;
+        else if (numCorrect < 97) return 470 + (numCorrect + 93) * 5;
         else return 495;
     };
 
