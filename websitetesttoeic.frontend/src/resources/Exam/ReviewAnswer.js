@@ -428,8 +428,8 @@ function ReviewAnswer(props) {
                                     </button>
                                 );
                         })}
-                        <div className="my-3 text-right">
-                            <Link className="btn btn-outline-danger mr-2" to={`/${params.idTest}`}>
+                        <div className="my-3">
+                            <Link className="btn btn-outline-danger ml-1" to={`/${params.idTest}`}>
                                 Quay lại
                             </Link>
                         </div>

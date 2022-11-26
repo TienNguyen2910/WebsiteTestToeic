@@ -91,10 +91,10 @@ function AddQA(props) {
                 const sheetName = workbook.SheetNames[0];
                 const worksheet = workbook.Sheets[sheetName];
                 const json = xlsx.utils.sheet_to_json(worksheet, { defval: "" });
-                if (quiz.test.typeTest === "Full Test" && QA.concat(formatJSON(json)) > 200) {
+                if (quiz.test.typeTest === "Full Test" && QA.concat(formatJSON(json)).length > 200) {
                     alert("Tối đa full test chỉ 200 câu");
-                } else if (quiz.test.typeTest === "Mini Test" && QA.concat(formatJSON(json)) > 100) {
-                    alert("Tối đa mini test chỉ 100 câu");
+                } else if (quiz.test.typeTest === "Mini Test" && QA.concat(formatJSON(json)).length > 65) {
+                    alert("Tối đa mini test chỉ 65 câu");
                 } else {
                     submitQA(json);
                 }

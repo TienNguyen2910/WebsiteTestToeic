@@ -68,6 +68,13 @@ function Exam(props) {
         setResult({ ...result, QuizId: params.id, EndedAt: addHours(2) });
     }, [params.id]);
 
+    useEffect(() => {
+        if (props.getCookie("token").length === 2) {
+            alert("Vui lòng đăng nhập để thi!!!");
+            navigate("/login");
+        }
+    }, []);
+
     const renderer = ({ hours, minutes, seconds, completed }) => {
         if (completed) {
             if (resultDetail.length < 5) {
@@ -141,37 +148,22 @@ function Exam(props) {
     };
 
     const submit = () => {
-        let listen = 0;
-        let read = 0;
-        for (let i = 0; i < resultDetail.length; i++) {
-            if (
-                resultDetail[i].Part === 1 ||
-                resultDetail[i].Part === 2 ||
-                resultDetail[i].Part === 3 ||
-                (resultDetail[i].Part === 4 && resultDetail[i].IsAnswerTrue === true)
-            )
-                listen++;
-            if (resultDetail[i].Part === 5 || resultDetail[i].Part === 6 || (resultDetail[i].Part === 7 && resultDetail[i].IsAnswerTrue === true))
-                read++;
-        }
-        if (quiz.test.typeTest === "Full Test") result.Score = listeningScoreFT(listen) + readingScoreFT(read);
-        else result.Score = listeningScoreMT(listen) + readingScoreMT(read);
-        axios({
-            method: "POST",
-            headers: {
-                accept: "text/plain",
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${props.getCookie("token")}`,
-            },
-            data: result,
-            url: `${REACT_APP_SERVER}/Result/AddResult`,
-        }).then((response) => {
-            let resultId = response.data;
-            resultDetail.map((element) => {
-                element.ResultId = response.data;
-                delete element.IsAnswerTrue;
-                delete element.Part;
-            });
+        if (resultDetail.length !== 0) {
+            let listen = 0;
+            let read = 0;
+            for (let i = 0; i < resultDetail.length; i++) {
+                if (
+                    resultDetail[i].Part === 1 ||
+                    resultDetail[i].Part === 2 ||
+                    resultDetail[i].Part === 3 ||
+                    (resultDetail[i].Part === 4 && resultDetail[i].IsAnswerTrue === true)
+                )
+                    listen++;
+                if (resultDetail[i].Part === 5 || resultDetail[i].Part === 6 || (resultDetail[i].Part === 7 && resultDetail[i].IsAnswerTrue === true))
+                    read++;
+            }
+            if (quiz.test.typeTest === "Full Test") result.Score = listeningScoreFT(listen) + readingScoreFT(read);
+            else result.Score = listeningScoreMT(listen) + readingScoreMT(read);
             axios({
                 method: "POST",
                 headers: {
@@ -179,15 +171,34 @@ function Exam(props) {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${props.getCookie("token")}`,
                 },
-                data: resultDetail,
-                url: `${REACT_APP_SERVER}/ResultDetail/AddResultDetail`,
+                data: result,
+                url: `${REACT_APP_SERVER}/Result/AddResult`,
             }).then((response) => {
-                if (response.data) {
-                    document.getElementById("exampleModal").click();
-                    navigate(`/${params.idTest}/${params.id}/${resultId}`);
-                }
+                let resultId = response.data;
+                resultDetail.map((element) => {
+                    element.ResultId = response.data;
+                    delete element.IsAnswerTrue;
+                    delete element.Part;
+                });
+                axios({
+                    method: "POST",
+                    headers: {
+                        accept: "text/plain",
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${props.getCookie("token")}`,
+                    },
+                    data: resultDetail,
+                    url: `${REACT_APP_SERVER}/ResultDetail/AddResultDetail`,
+                }).then((response) => {
+                    if (response.data) {
+                        navigate(`/${params.idTest}/${params.id}/${resultId}`);
+                    }
+                });
             });
-        });
+        } else {
+            navigate(-1);
+        }
+        document.getElementById("exampleModal").click();
     };
 
     if (Object.keys(listQuestions).length !== 0)
@@ -292,7 +303,7 @@ function Exam(props) {
                     <div className="shadow mt-4 border-top-0 py-3 pl-3 border border-light scroll bg-white">
                         <h6 className="p-0">Thời gian còn lại:</h6>
                         <Countdown
-                            date={quiz.test.typeTest === "Full Test" ? startDate.current + 120 * 1000 * 60 : startDate.current + 60 * 1000 * 60}
+                            date={quiz.test.typeTest === "Full Test" ? startDate.current + 120 * 1000 * 60 : startDate.current + 40 * 1000 * 60}
                             renderer={renderer}
                         />
                         <h6 className="mt-2">Part 1:</h6>
@@ -460,7 +471,7 @@ function Exam(props) {
                                     </button>
                                 );
                         })}
-                        <button className="my-3 btn btn-outline-primary d-flex ml-auto mr-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <button className="my-3 btn btn-outline-primary d-flex ml-1" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             {" "}
                             Nộp bài{" "}
                         </button>
@@ -476,7 +487,6 @@ function Exam(props) {
                             </div>
                             <div className="modal-body">
                                 <p>Bạn đã hoàn thành {resultDetail.length}/200 đáp án (^.^)!</p>
-                                <p>{resultDetail.length < 5 ? "Vui lòng hoàn thành ít nhất 5 câu trước khi nộp bài!" : " "}</p>
                             </div>
                             <div className="modal-footer">
                                 <button
@@ -493,7 +503,7 @@ function Exam(props) {
                                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
                                     Đóng
                                 </button>
-                                <button type="button" className="btn btn-success" hidden={resultDetail.length < 5 ? true : false} onClick={submit}>
+                                <button type="button" className="btn btn-success" onClick={submit}>
                                     Nộp bài
                                 </button>
                             </div>

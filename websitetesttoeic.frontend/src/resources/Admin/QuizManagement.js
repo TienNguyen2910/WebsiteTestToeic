@@ -38,9 +38,7 @@ function QuizManagement(props) {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${props.getCookie("token")}`,
                 },
-                url: `${REACT_APP_SERVER}/Quiz/${
-                    title + ", " + testid + ", " + Object.values(JSON.parse(props.getCookie("user")))[0]
-                }`,
+                url: `${REACT_APP_SERVER}/Quiz/${title + ", " + testid + ", " + Object.values(JSON.parse(props.getCookie("user")))[0]}`,
             }).then((response) => {
                 refeshUser();
                 document.getElementById("addQuiz").click();
@@ -94,7 +92,7 @@ function QuizManagement(props) {
                                           <td>{quiz.title}</td>
                                           <td>{quiz.testId === 1 ? "Full Test" : "Mini Test"}</td>
                                           <td>{quiz.testId === 1 ? "200 câu" : "65 câu"}</td>
-                                          <td>{quiz.testId === 1 ? "120 phút" : "60 phút"}</td>
+                                          <td>{quiz.testId === 1 ? "120 phút" : "40 phút"}</td>
 
                                           <td className="text-center">
                                               <Link className="text-warming" to={`/quizmanagement/addQA/${quiz.id}`}>
@@ -135,11 +133,7 @@ function QuizManagement(props) {
                                         <tr>
                                             <td className="align-middle">Chọn loại đề thi:</td>
                                             <td>
-                                                <select
-                                                    className="form-select"
-                                                    aria-label="Default select example"
-                                                    id="testid"
-                                                >
+                                                <select className="form-select" aria-label="Default select example" id="testid">
                                                     <option value={1}>Full Test</option>
                                                     <option value={2}>Mini Test</option>
                                                 </select>
@@ -149,12 +143,7 @@ function QuizManagement(props) {
                                 </table>
                             </div>
                             <div className="modal-footer">
-                                <button
-                                    type="button"
-                                    className="btn btn-danger"
-                                    data-dismiss="modal"
-                                    onClick={closeModal}
-                                >
+                                <button type="button" className="btn btn-danger" data-dismiss="modal" onClick={closeModal}>
                                     Close
                                 </button>
                                 <button type="submit" className="btn btn-success" onClick={submitQuiz}>
