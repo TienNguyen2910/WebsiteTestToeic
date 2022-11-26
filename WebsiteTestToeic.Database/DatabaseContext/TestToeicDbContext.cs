@@ -115,6 +115,8 @@ namespace WebsiteTestToeic.Database.DatabaseContext
 
                 entity.Property(e => e.NumPart)
                       .IsUnicode(false);
+                entity.Property(e => e.AnswerDetail)
+                      .IsUnicode(false);
                 entity.HasOne(q => q.Quiz)
                       .WithMany(q1 => q1.QuestionsList)
                       .HasForeignKey(q1 => q1.QuizId)

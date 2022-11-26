@@ -24,6 +24,7 @@ namespace WebsiteTestToeic.Database.Implement
                 ContentQuestion = question.ContentQuestion,
                 ContentScript = question.ContentScript,
                 NumPart = question.NumPart,
+                AnswerDetail = question.AnswerDetail,
                 QuizId = question.QuizId,
             };
             if (q != null)
