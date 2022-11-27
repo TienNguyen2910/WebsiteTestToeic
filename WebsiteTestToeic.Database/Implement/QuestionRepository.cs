@@ -87,7 +87,8 @@ namespace WebsiteTestToeic.Database.Implement
                 q.ContentScript = question.ContentScript;
                 q.NumPart = question.NumPart;
                 q.QuizId = question.QuizId;
-                if(question.Answers.Count > 0)
+                q.AnswerDetail = question.AnswerDetail;
+                if (question.Answers.Count > 0)
                 {
                     foreach(Answer answer in question.Answers)
                     {

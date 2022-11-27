@@ -265,19 +265,20 @@ function AddQA(props) {
                 </div>
                 {QA.length > 0 ? (
                     <div>
-                        <table className="table table-hover align-middle my-4 tableQA" style={{ tableLayout: "fixed" }}>
+                        <table className="table table-hover my-4" style={{ tableLayout: "fixed" }}>
                             <thead className="table-light">
                                 <tr>
                                     <th>#</th>
-                                    <th>NumPart</th>
-                                    <th>ContentQuestion</th>
-                                    <th>ContentScript</th>
-                                    <th>ContentAnswer</th>
-                                    <th>ContentAnswer_1</th>
-                                    <th>ContentAnswer_2</th>
-                                    <th>ContentAnswer_3</th>
-                                    <th>IsAnswer</th>
-                                    <th>Image</th>
+                                    <th>Part</th>
+                                    <th>Câu hỏi</th>
+                                    <th>Nội dung script</th>
+                                    <th>Đáp án A</th>
+                                    <th>Đáp án B</th>
+                                    <th>Đáp án C</th>
+                                    <th>Đáp án D</th>
+                                    <th>Đáp án đúng</th>
+                                    <th>Hình ảnh</th>
+                                    <th>Chi tiết đáp án</th>
                                     <th>Công cụ</th>
                                 </tr>
                             </thead>
@@ -303,7 +304,8 @@ function AddQA(props) {
                                                     <img width={100} height={100} src={`${REACT_APP_SERVER + "/" + element.image}`}></img>
                                                 ) : null}
                                             </td>
-                                            <td className="text-center">
+                                            <td className={index}>{element.answerDetail}</td>
+                                            <td>
                                                 <a
                                                     className="text-success"
                                                     to="#"
@@ -345,7 +347,7 @@ function AddQA(props) {
                         <label htmlFor="excel">Import file audio:</label>
                         <input type="file" id="audio" className="ml-2" accept=".mp3" onChange={handleFileAudio} />
                         <div className="d-block text-right">
-                            <button ton className="btn btn-danger text-left" onClick={() => navigate(-1)}>
+                            <button className="btn btn-danger text-left" onClick={() => navigate(-1)}>
                                 Quay lại
                             </button>
                         </div>
@@ -355,7 +357,7 @@ function AddQA(props) {
 
             {/* Modal Update */}
             <div className="modal fade" id="modalUpdate" tabIndex="-1" aria-labelledby="modalUpdateLabel" aria-hidden="true">
-                <div className="modal-dialog modal-dialog-centered">
+                <div className="modal-dialog modal-dialog-centered modal-lg">
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title" id="modalUpdatelLabel">
@@ -367,7 +369,7 @@ function AddQA(props) {
                             <table className="table">
                                 <tbody>
                                     <tr>
-                                        <td>NumPart:</td>
+                                        <td>Part:</td>
                                         <td>
                                             <input
                                                 type="number"
@@ -382,7 +384,7 @@ function AddQA(props) {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>ContentQuestion:</td>
+                                        <td>Câu hỏi:</td>
                                         <td>
                                             <input
                                                 type="text"
@@ -395,7 +397,7 @@ function AddQA(props) {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>ContentScript:</td>
+                                        <td>Nội dung script:</td>
                                         <td>
                                             <input
                                                 type="text"
@@ -408,7 +410,7 @@ function AddQA(props) {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>ContentAnswer:</td>
+                                        <td>Đáp án A:</td>
                                         <td>
                                             <input
                                                 type="text"
@@ -421,7 +423,7 @@ function AddQA(props) {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>ContentAnswer_1:</td>
+                                        <td>Đáp án B:</td>
                                         <td>
                                             <input
                                                 type="text"
@@ -434,7 +436,7 @@ function AddQA(props) {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>ContentAnswer_2:</td>
+                                        <td>Đáp án C:</td>
                                         <td>
                                             <input
                                                 type="text"
@@ -447,7 +449,7 @@ function AddQA(props) {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>ContentAnswer_3:</td>
+                                        <td>Đáp án D:</td>
                                         <td>
                                             <input
                                                 type="text"
@@ -463,7 +465,7 @@ function AddQA(props) {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>IsAnswer:</td>
+                                        <td>Đáp án đúng:</td>
                                         <td>
                                             <select
                                                 className="form-select IsAnswer"
@@ -479,7 +481,19 @@ function AddQA(props) {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Image:</td>
+                                        <td>Chi tiết đáp án:</td>
+                                        <td>
+                                            <input
+                                                type="text"
+                                                className="answerDetail w-100"
+                                                id="answerDetail"
+                                                value={questionEdit.answerDetail ? questionEdit.answerDetail : ""}
+                                                onChange={(e) => handleQuestionEdit(e, "answerDetail")}
+                                            />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Hình ảnh:</td>
                                         <td>
                                             <img
                                                 className="mb-3"
