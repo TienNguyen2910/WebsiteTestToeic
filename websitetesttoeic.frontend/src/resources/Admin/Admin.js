@@ -58,9 +58,7 @@ function Admin() {
                         <tbody>
                             {listUser.map((user, index) => {
                                 let maxScore =
-                                    user.resultsList.length > 0
-                                        ? user.resultsList.reduce((a, b) => (a.startedAt > b.startedAt ? a : b))
-                                        : null;
+                                    user.resultsList.length > 0 ? user.resultsList.reduce((a, b) => (a.startedAt > b.startedAt ? a : b)) : null;
                                 return (
                                     <tr key={index}>
                                         <td scope="row">{index + 1}</td>
@@ -69,7 +67,6 @@ function Admin() {
                                         <td>{user.email}</td>
                                         <td>{maxScore !== null ? maxScore.quiz.title : null}</td>
                                         <td className="date timeago" title={user.resultsList.startedAt}>
-                                            {console.log(maxScore)}
                                             {maxScore !== null
                                                 ? new Intl.DateTimeFormat("vi", {
                                                       month: "long",
@@ -80,9 +77,7 @@ function Admin() {
                                         </td>
                                         <td>
                                             {user.resultsList.length > 0
-                                                ? user.resultsList.reduce((a, b) =>
-                                                      a.startedAt > b.startedAt ? a.score : b.score
-                                                  )
+                                                ? user.resultsList.reduce((a, b) => (a.startedAt > b.startedAt ? a.score : b.score))
                                                 : ""}
                                         </td>
                                         <td>

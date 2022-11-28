@@ -69,6 +69,15 @@ function Questions(props) {
                             </div>
                         );
                     })}
+                    {props.reviewAnswer ? (
+                        <p
+                            className="py-2 px-4 my-2"
+                            style={{ backgroundColor: "#DCDCDC" }}
+                            dangerouslySetInnerHTML={{
+                                __html: `${props.Questions.answerDetail}`,
+                            }}
+                        ></p>
+                    ) : null}
                 </div>
             </div>
         );
