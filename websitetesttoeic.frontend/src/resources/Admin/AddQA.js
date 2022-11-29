@@ -265,7 +265,7 @@ function AddQA(props) {
                 </div>
                 {QA.length > 0 ? (
                     <div>
-                        <table className="table table-hover my-4" style={{ tableLayout: "fixed" }}>
+                        <table className="table table-hover my-4 table-responsive" style={{ tableLayout: "fixed" }}>
                             <thead className="table-light">
                                 <tr>
                                     <th>#</th>
