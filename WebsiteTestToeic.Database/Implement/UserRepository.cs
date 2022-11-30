@@ -97,7 +97,7 @@ namespace WebsiteTestToeic.Database.Implement
 
         public async Task<User> GetUserById(int Id)
         {
-            User u = await _context.Users.Include(u => u.ResultsList).Include(u => u.QuizzesList).FirstOrDefaultAsync(u => u.Id == Id);
+            User u = await _context.Users.Include(u => u.ResultsList).ThenInclude(r => r.Quiz).Include(u => u.QuizzesList).FirstOrDefaultAsync(u => u.Id == Id);
             if (u != null)
                 return u;
             return null;
