@@ -41,6 +41,13 @@ namespace WebsiteTestToeic.Database.Implement
                     _context.Answers.RemoveRange(answers);
                 }
                 _context.Questions.RemoveRange(questions);
+                List<Result> results = _context.Results.Where(q => q.QuizId == quiz.Id).ToList();
+                foreach (var eachresult in results)
+                {
+                    List<ResultDetail> resultdetails = _context.ResultDetail.Where(a => a.ResultId == eachresult.Id).ToList();
+                    _context.ResultDetail.RemoveRange(resultdetails);
+                }
+                _context.Results.RemoveRange(results);
                 _context.Quizzes.Remove(quiz);
                 await _context.SaveChangesAsync();
                 result = true;
