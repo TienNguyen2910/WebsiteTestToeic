@@ -70,7 +70,6 @@ function Exam(props) {
 
     useEffect(() => {
         if (props.getCookie("token").length === 2) {
-            alert("Vui lòng đăng nhập để thi!!!");
             navigate("/login");
         }
     }, []);
@@ -159,7 +158,11 @@ function Exam(props) {
                     (resultDetail[i].Part === 4 && resultDetail[i].IsAnswerTrue === true)
                 )
                     listen++;
-                if (resultDetail[i].Part === 5 || resultDetail[i].Part === 6 || (resultDetail[i].Part === 7 && resultDetail[i].IsAnswerTrue === true))
+                if (
+                    resultDetail[i].Part === 5 ||
+                    resultDetail[i].Part === 6 ||
+                    (resultDetail[i].Part === 7 && resultDetail[i].IsAnswerTrue === true)
+                )
                     read++;
             }
             if (quiz.test.typeTest === "Full Test") result.Score = listeningScoreFT(listen) + readingScoreFT(read);
@@ -218,35 +221,70 @@ function Exam(props) {
                         <div className="row">
                             {listQuestions.map((question, index) => {
                                 if (question.numPart === 1)
-                                    return <Questions Questions={question} index={numQuestions++} key={index + 1} setAnswer={setAnswer} />;
+                                    return (
+                                        <Questions
+                                            Questions={question}
+                                            index={numQuestions++}
+                                            key={index + 1}
+                                            setAnswer={setAnswer}
+                                        />
+                                    );
                             })}
                         </div>
                         <h4 className="my-3">PART 2</h4>
                         <div className="row">
                             {listQuestions.map((question, index) => {
                                 if (question.numPart === 2)
-                                    return <Questions setAnswer={setAnswer} Questions={question} index={numQuestions++} key={index + 7} />;
+                                    return (
+                                        <Questions
+                                            setAnswer={setAnswer}
+                                            Questions={question}
+                                            index={numQuestions++}
+                                            key={index + 7}
+                                        />
+                                    );
                             })}
                         </div>
                         <h4 className="my-3">PART 3</h4>
                         <div className="row">
                             {listQuestions.map((question, index) => {
                                 if (question.numPart === 3)
-                                    return <Questions setAnswer={setAnswer} Questions={question} index={numQuestions++} key={index + 32} />;
+                                    return (
+                                        <Questions
+                                            setAnswer={setAnswer}
+                                            Questions={question}
+                                            index={numQuestions++}
+                                            key={index + 32}
+                                        />
+                                    );
                             })}
                         </div>
                         <h4 className="my-3">PART 4</h4>
                         <div className="row">
                             {listQuestions.map((question, index) => {
                                 if (question.numPart === 4)
-                                    return <Questions setAnswer={setAnswer} Questions={question} index={numQuestions++} key={index + 71} />;
+                                    return (
+                                        <Questions
+                                            setAnswer={setAnswer}
+                                            Questions={question}
+                                            index={numQuestions++}
+                                            key={index + 71}
+                                        />
+                                    );
                             })}
                         </div>
                         <h4 className="my-3">PART 5</h4>
                         <div className="row">
                             {listQuestions.map((question, index) => {
                                 if (question.numPart === 5)
-                                    return <Questions setAnswer={setAnswer} Questions={question} index={numQuestions++} key={index + 101} />;
+                                    return (
+                                        <Questions
+                                            setAnswer={setAnswer}
+                                            Questions={question}
+                                            index={numQuestions++}
+                                            key={index + 101}
+                                        />
+                                    );
                             })}
                         </div>
                         <h4 className="my-3">PART 6</h4>
@@ -254,7 +292,12 @@ function Exam(props) {
                             {listQuestions.map((question, index) => {
                                 if (question.numPart === 6)
                                     return question.contentScript === null ? (
-                                        <Questions setAnswer={setAnswer} Questions={question} index={numQuestions++} key={index + 131} />
+                                        <Questions
+                                            setAnswer={setAnswer}
+                                            Questions={question}
+                                            index={numQuestions++}
+                                            key={index + 131}
+                                        />
                                     ) : (
                                         <>
                                             {question.contentScript === "" ? null : (
@@ -268,7 +311,12 @@ function Exam(props) {
                                                     ></p>
                                                 </div>
                                             )}
-                                            <Questions setAnswer={setAnswer} Questions={question} index={numQuestions++} key={index + 131} />
+                                            <Questions
+                                                setAnswer={setAnswer}
+                                                Questions={question}
+                                                index={numQuestions++}
+                                                key={index + 131}
+                                            />
                                         </>
                                     );
                             })}
@@ -278,7 +326,12 @@ function Exam(props) {
                             {listQuestions.map((question, index) => {
                                 if (question.numPart === 7)
                                     return question.contentScript === null ? (
-                                        <Questions setAnswer={setAnswer} Questions={question} index={numQuestions++} key={index + 147} />
+                                        <Questions
+                                            setAnswer={setAnswer}
+                                            Questions={question}
+                                            index={numQuestions++}
+                                            key={index + 147}
+                                        />
                                     ) : (
                                         <>
                                             {question.contentScript === "" ? null : (
@@ -292,7 +345,12 @@ function Exam(props) {
                                                     ></p>
                                                 </div>
                                             )}
-                                            <Questions setAnswer={setAnswer} Questions={question} index={numQuestions++} key={index + 147} />
+                                            <Questions
+                                                setAnswer={setAnswer}
+                                                Questions={question}
+                                                index={numQuestions++}
+                                                key={index + 147}
+                                            />
                                         </>
                                     );
                             })}
@@ -303,7 +361,11 @@ function Exam(props) {
                     <div className="shadow mt-4 border-top-0 py-3 pl-3 border border-light scroll bg-white">
                         <h6 className="p-0">Thời gian còn lại:</h6>
                         <Countdown
-                            date={quiz.test.typeTest === "Full Test" ? startDate.current + 120 * 1000 * 60 : startDate.current + 40 * 1000 * 60}
+                            date={
+                                quiz.test.typeTest === "Full Test"
+                                    ? startDate.current + 120 * 1000 * 60
+                                    : startDate.current + 40 * 1000 * 60
+                            }
                             renderer={renderer}
                         />
                         <h6 className="mt-2">Part 1:</h6>
@@ -471,7 +533,11 @@ function Exam(props) {
                                     </button>
                                 );
                         })}
-                        <button className="my-3 btn btn-outline-primary d-flex ml-1" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <button
+                            className="my-3 btn btn-outline-primary d-flex ml-1"
+                            data-bs-toggle="modal"
+                            data-bs-target="#exampleModal"
+                        >
                             {" "}
                             Nộp bài{" "}
                         </button>
@@ -483,7 +549,12 @@ function Exam(props) {
                         <div className="modal-content">
                             <div className="modal-header">
                                 <h5 className="modal-title">Nộp bài?</h5>
-                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+                                <button
+                                    type="button"
+                                    className="btn-close"
+                                    data-bs-dismiss="modal"
+                                    aria-label="Close"
+                                />
                             </div>
                             <div className="modal-body">
                                 <p>Bạn đã hoàn thành {resultDetail.length}/200 đáp án (^.^)!</p>
