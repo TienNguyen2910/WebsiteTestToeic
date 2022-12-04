@@ -34,6 +34,20 @@ namespace WebsiteTestToeic.Database.Implement
             Quiz quiz = await _context.Quizzes.FirstOrDefaultAsync(q => q.Id == id);
             if(quiz != null)
             {
+                List<Question> questions = _context.Questions.Where(q => q.QuizId == quiz.Id).ToList();
+                foreach(var question in questions)
+                {
+                    List<Answer> answers = _context.Answers.Where(a => a.QuestionId == question.Id).ToList();
+                    _context.Answers.RemoveRange(answers);
+                }
+                _context.Questions.RemoveRange(questions);
+                List<Result> results = _context.Results.Where(q => q.QuizId == quiz.Id).ToList();
+                foreach (var eachresult in results)
+                {
+                    List<ResultDetail> resultdetails = _context.ResultDetail.Where(a => a.ResultId == eachresult.Id).ToList();
+                    _context.ResultDetail.RemoveRange(resultdetails);
+                }
+                _context.Results.RemoveRange(results);
                 _context.Quizzes.Remove(quiz);
                 await _context.SaveChangesAsync();
                 result = true;
@@ -49,7 +63,11 @@ namespace WebsiteTestToeic.Database.Implement
 
         public async Task<Quiz> GetQuiz(int id)
         {
-            Quiz quiz = await _context.Quizzes.FirstOrDefaultAsync(q => q.Id == id);
+            Quiz quiz = await _context.Quizzes
+                .Include(q => q.QuestionsList)
+                .ThenInclude(x => x.Answers)
+                .Include(q => q.Test)
+                .FirstOrDefaultAsync(q => q.Id == id);
             if(quiz != null)
                 return quiz;
             return null;

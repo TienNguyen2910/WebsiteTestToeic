@@ -15,7 +15,7 @@ namespace WebsiteTestToeic.Database.Implement
                 _context = TestToeicDbContextFactory.GetDbContext();
             _context = context;
         }
-        public async Task<Question> AddQuestion(Question question)
+        public async Task<bool> AddQuestion(Question question)
         {
             Question q = new Question()
             {
@@ -24,11 +24,28 @@ namespace WebsiteTestToeic.Database.Implement
                 ContentQuestion = question.ContentQuestion,
                 ContentScript = question.ContentScript,
                 NumPart = question.NumPart,
+                AnswerDetail = question.AnswerDetail,
                 QuizId = question.QuizId,
             };
-            await _context.Questions.AddAsync(q);
-            await _context.SaveChangesAsync();
-            return q;
+            if (q != null)
+            {
+                await _context.Questions.AddAsync(q);
+                await _context.SaveChangesAsync();
+                foreach (var answer in question.Answers)
+                {
+                    Answer a = new Answer();
+
+                    a.QuestionId = q.Id;
+                    a.ContentAnswer = answer.ContentAnswer;
+                    a.IsAnswer = answer.IsAnswer;
+
+                    await _context.Answers.AddAsync(a);
+                    await _context.SaveChangesAsync();
+                }
+                
+                return true;
+            }
+            return false;
         }
 
         public async Task<bool> DeleteQuestion(int Id)
@@ -37,6 +54,8 @@ namespace WebsiteTestToeic.Database.Implement
             if(question != null)
             {
                 _context.Questions.Remove(question);
+                List<Answer> answers = _context.Answers.Where(a => a.QuestionId == question.Id).ToList();
+                _context.Answers.RemoveRange(answers);
                 await _context.SaveChangesAsync();
                 return true;
             }
@@ -57,7 +76,7 @@ namespace WebsiteTestToeic.Database.Implement
             return null;
         }
 
-        public async Task<Question> UpdateQuestion(Question question)
+        public async Task<bool> UpdateQuestion(Question question)
         {
             Question q = await _context.Questions.FirstOrDefaultAsync(q => q.Id == question.Id);
             if(q != null)
@@ -68,11 +87,21 @@ namespace WebsiteTestToeic.Database.Implement
                 q.ContentScript = question.ContentScript;
                 q.NumPart = question.NumPart;
                 q.QuizId = question.QuizId;
-
+                q.AnswerDetail = question.AnswerDetail;
+                if (question.Answers.Count > 0)
+                {
+                    foreach(Answer answer in question.Answers)
+                    {
+                        Answer a = _context.Answers.FirstOrDefault(a => a.Id == answer.Id);
+                        a.ContentAnswer = answer.ContentAnswer;
+                        a.IsAnswer = answer.IsAnswer;
+                        await _context.SaveChangesAsync();
+                    }
+                }
                 await _context.SaveChangesAsync();
-                return q;
+                return true;
             }
-            return null;
+            return false;
         }
     }
 }

@@ -46,6 +46,27 @@ function Nav(props) {
                     </a>
                     <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
                         <li>
+                            <Link className="dropdown-item" to="/infor">
+                                <i className="fa-solid fa-list-check me-3"></i> Thông tin cá nhân
+                            </Link>
+                        </li>
+                        {Object.values(JSON.parse(props.getCookie("user")))[4] == "Admin" ? (
+                            <div>
+                                <li>
+                                    <Link className="dropdown-item" to="/admin">
+                                        <i className="fa-solid fa-list-check me-3"></i> Quản lý thành viên
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link className="dropdown-item" to="/quizmanagement">
+                                        <i className="fa-solid fa-bars-progress me-3"></i> Quản lý đề thi
+                                    </Link>
+                                </li>
+                            </div>
+                        ) : (
+                            <div></div>
+                        )}
+                        <li>
                             <Link className="dropdown-item" to="#" onClick={logOut}>
                                 <i className="fa-solid fa-right-from-bracket me-3"></i> Đăng xuất
                             </Link>

@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using WebsiteTestToeic.Database.Interface;
 using WebsiteTestToeic.Domain.Models;
 
@@ -9,24 +12,70 @@ namespace WebsiteTestToeic.Api.Controller
     public class QuestionController : ControllerBase
     {
         private readonly IQuestionRepository _questionRepository;
-        public QuestionController(IQuestionRepository questionRepository)
+        private readonly IHostingEnvironment _environment;
+        public QuestionController(IQuestionRepository questionRepository, IHostingEnvironment environment)
         {
             _questionRepository = questionRepository;
+            _environment = environment;
         }
-        [HttpGet("GetAllQuestion")]
+        [HttpGet("GetAllQuestion"), Authorize(Roles = "Client, Admin")]
         public async Task<ActionResult<List<Question>>> GetAllQuestions(int QuizId)
         {
             return Ok(await _questionRepository.GetAllQuestions(QuizId));
         }
-        [HttpGet("GetQuestionById")]
+        [HttpGet("GetQuestionById"), Authorize(Roles = "Client, Admin")]
         public async Task<ActionResult<Question>> GetQuestionById(int Id)
         {
             return Ok(await _questionRepository.GetQuestionById(Id));
         }
-        [HttpPost("AddQuestion")]
-        public async Task<ActionResult<Question>> AddQuestion(Question question)
+        [HttpPost("AddQuestion"), Authorize(Roles = "Admin")]
+        public async Task<ActionResult<bool>> AddQuestion(List<Question> questions)
         {
-            return Ok(await _questionRepository.AddQuestion(question));
+            bool result = true;
+            foreach (var question in questions)
+            {
+                result = await _questionRepository.AddQuestion(question);
+            }
+            return Ok(result);
+        }
+        [HttpPost("UploadFile"), Authorize(Roles = "Admin")]
+        [DisableRequestSizeLimit()]
+        public async Task<ActionResult> UploadFile(List<IFormFile> files)
+        {
+            foreach (var f in files)
+            {
+                bool isImageFile = f.ContentType == "image/png";
+                var file = _environment.ContentRootPath;
+                string pathAudio;
+                if (isImageFile)
+                    pathAudio = Path.Combine(file + "\\Image-LuanVan", f.FileName);
+                else pathAudio = Path.Combine(file + "\\File-audio", f.FileName);
+                using (var stream = System.IO.File.Create(pathAudio))
+                {
+                    f.CopyTo(stream);
+                }
+            }
+            return Ok();
+        }
+        [HttpPut("UpdateQuestion")]
+        public async Task<ActionResult<bool>> UpdateQuestion(int Id,Question question)
+        {
+            var q = await _questionRepository.GetQuestionById(Id);
+            if(q != null)
+            {
+                return Ok(await _questionRepository.UpdateQuestion(question));
+            }
+            return false;
+        }
+        [HttpDelete("DeleteQuestion")]
+        public async Task<ActionResult<bool>> DeleteQuestion(int Id)
+        {
+            var q = await _questionRepository.GetQuestionById(Id);
+            if (q != null)
+            {
+                return Ok(await _questionRepository.DeleteQuestion(Id));
+            }
+            return false;
         }
     }
 }

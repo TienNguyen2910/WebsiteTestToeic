@@ -81,22 +81,17 @@ function Home(props) {
                     {/* <video style={{ minWidth: "100%", minHeight: "100%" }} playsInline autoPlay muted loop>
                         <source className="h-100" src="https://mdbootstrap.com/img/video/Lines.mp4" type="video/mp4" />
                     </video> */}
-                    <img
-                        src="https://wallpaper.dog/large/20498061.jpg"
-                        alt="Girl in a jacket"
-                        style={{ backgroundSize: "cover" }}
-                    />
+                    <img src="./background.jpg" alt="Girl in a jacket" style={{ backgroundSize: "cover" }} />
                     <div className="mask">
                         <div className="container d-flex align-items-center justify-content-center text-center h-100">
                             <div className="text-white">
-                                <h1 className="mb-3">ONLINE TOEIC TEST</h1>
-                                <h5 className="mb-4">
-                                    Chào mừng các bạn đến với TOEIC Test Pro, trang web thi TOEIC miễn phí cung cấp cho
-                                    người học các bài luyện tập theo từng part và đề thi thử. Bắt đầu hành trình chinh
-                                    phục chứng chỉ TOEIC với các bài luyện tập trên trang web của chúng tôi ngay hôm
-                                    nay!!!!
-                                </h5>
-                                <Link className="btn btn-outline-light btn-lg m-2" to="./" role="button" rel="nofollow">
+                                <h2 className="mb-4">ONLINE TOEIC TEST</h2>
+                                <h5>Chào mừng các bạn đến với TOEIC Test Free</h5>
+                                <p className="my-3 d-block">
+                                    Trang web thi TOEIC miễn phí cung cấp cho người học các bài luyện tập theo từng part và đề thi thử. Bắt đầu hành
+                                    trình chinh phục chứng chỉ TOEIC với các bài luyện tập trên trang web của chúng tôi ngay hôm nay!
+                                </p>
+                                <Link className="btn btn-outline-white btn-lg m-2" to="/1" role="button" rel="nofollow">
                                     Start here
                                 </Link>
                             </div>

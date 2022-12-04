@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -49,6 +50,39 @@ namespace WebsiteTestToeic.Api.Controller
             }
             return null;
         }
+        [HttpGet("GetAllUsers")]
+        public async Task<ActionResult<List<User>>> GetAllUsers()
+        {
+            return Ok(await _userRepository.GetAllUsers());
+        }
+        [HttpGet("GetUserById")]
+        public async Task<ActionResult<User>> GetUserById(int Id)
+        {
+            return Ok(await _userRepository.GetUserById(Id));
+        }
+        [HttpPut("UpdateUser")]
+        public async Task<ActionResult<User>> UpdateUser(User user)
+        {
+            return Ok(await _userRepository.UpdateUser(user));
+        }
+        [HttpPost("ResetPassword"), Authorize(Roles = "Admin")]
+        public async Task<ActionResult<bool>> ResetPassword(int id, string oldPass, string newPass)
+        {
+            CreatePasswordHash(oldPass, out byte[] oldPasswordHash);
+            CreatePasswordHash(newPass, out byte[] newPasswordHash);
+            oldPass = Convert.ToBase64String(oldPasswordHash);
+            newPass = Convert.ToBase64String(newPasswordHash);
+            return Ok(await _userRepository.ResetPassword(id, oldPass, newPass));
+        }
+        [HttpDelete("DeleteUser")]
+        public async Task<ActionResult<bool>> DeleteUser(int Id)
+        {
+            var user = await _userRepository.GetUserById(Id);
+            bool result = true;
+            if (user != null)
+                result = await _userRepository.DeleteUser(Id);
+            return Ok(result);
+        }
         private string CreateToken(UserRole user)
         {
             List<Claim> claims = new List<Claim>
@@ -65,7 +99,7 @@ namespace WebsiteTestToeic.Api.Controller
             var token = new JwtSecurityToken
                 (
                     claims: claims,
-                    expires: DateTime.Now.AddDays(1),
+                    expires: DateTime.Now.AddDays(7),
                     signingCredentials: cred
                 );
 

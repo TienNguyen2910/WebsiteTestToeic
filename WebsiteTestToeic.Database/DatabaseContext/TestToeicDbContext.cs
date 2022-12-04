@@ -27,7 +27,7 @@ namespace WebsiteTestToeic.Database.DatabaseContext
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("server=LAPTOP-7D6S6BK0\\SQLEXPRESS;database=TestToeicDB;Trusted_Connection=true;");
+                optionsBuilder.UseSqlServer("server=DESKTOP-R84VEJN\\SQLEXPRESS;database=TestToeicDB;Trusted_Connection=true;");
             }
         }
 
@@ -48,6 +48,7 @@ namespace WebsiteTestToeic.Database.DatabaseContext
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
                 entity.Property(e => e.UserName)
                       .HasMaxLength(100)
+                      .HasColumnType("nvarchar")
                       .IsUnicode(false);
                 entity.Property(e => e.DateOfBirth)
                       .HasMaxLength(50)
@@ -114,6 +115,8 @@ namespace WebsiteTestToeic.Database.DatabaseContext
 
                 entity.Property(e => e.NumPart)
                       .IsUnicode(false);
+                entity.Property(e => e.AnswerDetail)
+                      .IsUnicode(false);
                 entity.HasOne(q => q.Quiz)
                       .WithMany(q1 => q1.QuestionsList)
                       .HasForeignKey(q1 => q1.QuizId)
@@ -178,9 +181,6 @@ namespace WebsiteTestToeic.Database.DatabaseContext
                       .WithMany(e => e.ResultDetailsList)
                       .HasForeignKey(e => e.AnswerSelectedId)
                       .HasConstraintName("FK__ResultDetail_Answer");
-
-                entity.Property(e => e.IsAnswerTrue)
-                      .IsUnicode(false);
             });
         }
     }

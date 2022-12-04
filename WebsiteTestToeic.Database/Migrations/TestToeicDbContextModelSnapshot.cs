@@ -24,23 +24,21 @@ namespace WebsiteTestToeic.Database.Migrations
 
             modelBuilder.Entity("WebsiteTestToeic.Domain.Models.Answer", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
 
                     b.Property<string>("ContentAnswer")
-                        .IsRequired()
                         .IsUnicode(false)
                         .HasColumnType("varchar(max)");
 
-                    b.Property<bool>("IsAnswer")
+                    b.Property<bool?>("IsAnswer")
                         .IsUnicode(false)
                         .HasColumnType("bit");
 
                     b.Property<int?>("QuestionId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -52,11 +50,14 @@ namespace WebsiteTestToeic.Database.Migrations
 
             modelBuilder.Entity("WebsiteTestToeic.Domain.Models.Question", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
+
+                    b.Property<string>("AnswerDetail")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("AudioFile")
                         .HasMaxLength(100)
@@ -76,12 +77,11 @@ namespace WebsiteTestToeic.Database.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(100)");
 
-                    b.Property<int>("NumPart")
+                    b.Property<int?>("NumPart")
                         .IsUnicode(false)
                         .HasColumnType("int");
 
                     b.Property<int?>("QuizId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -93,17 +93,16 @@ namespace WebsiteTestToeic.Database.Migrations
 
             modelBuilder.Entity("WebsiteTestToeic.Domain.Models.Quiz", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
 
                     b.Property<int?>("ActorId")
                         .HasColumnType("int");
 
                     b.Property<int?>("TestId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -128,24 +127,22 @@ namespace WebsiteTestToeic.Database.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<DateTime>("EndedAt")
+                    b.Property<DateTime?>("EndedAt")
                         .IsUnicode(false)
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("QuizId")
-                        .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<int>("Score")
+                    b.Property<int?>("Score")
                         .IsUnicode(false)
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("StartedAt")
+                    b.Property<DateTime?>("StartedAt")
                         .IsUnicode(false)
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("UserId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -159,18 +156,14 @@ namespace WebsiteTestToeic.Database.Migrations
 
             modelBuilder.Entity("WebsiteTestToeic.Domain.Models.ResultDetail", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
 
                     b.Property<int?>("AnswerSelectedId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("IsAnswerTrue")
-                        .IsUnicode(false)
-                        .HasColumnType("bit");
 
                     b.Property<int?>("QuestionId")
                         .HasColumnType("int");
@@ -191,11 +184,11 @@ namespace WebsiteTestToeic.Database.Migrations
 
             modelBuilder.Entity("WebsiteTestToeic.Domain.Models.Role", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
 
                     b.Property<string>("RoleName")
                         .HasMaxLength(50)
@@ -209,21 +202,20 @@ namespace WebsiteTestToeic.Database.Migrations
 
             modelBuilder.Entity("WebsiteTestToeic.Domain.Models.Test", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
 
                     b.Property<TimeSpan>("ExamTime")
                         .IsUnicode(false)
                         .HasColumnType("time");
 
-                    b.Property<int>("NumQuestion")
+                    b.Property<int?>("NumQuestion")
                         .HasColumnType("int");
 
                     b.Property<string>("TypeTest")
-                        .IsRequired()
                         .HasMaxLength(30)
                         .IsUnicode(false)
                         .HasColumnType("varchar(30)");
@@ -235,39 +227,34 @@ namespace WebsiteTestToeic.Database.Migrations
 
             modelBuilder.Entity("WebsiteTestToeic.Domain.Models.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"), 1L, 1);
 
                     b.Property<string>("DateOfBirth")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .IsUnicode(false)
                         .HasColumnType("varchar(100)");
 
                     b.Property<int?>("RoleId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("UserName")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -281,8 +268,6 @@ namespace WebsiteTestToeic.Database.Migrations
                     b.HasOne("WebsiteTestToeic.Domain.Models.Question", "Question")
                         .WithMany("Answers")
                         .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("FK__Answer_Question");
 
                     b.Navigation("Question");
@@ -293,8 +278,6 @@ namespace WebsiteTestToeic.Database.Migrations
                     b.HasOne("WebsiteTestToeic.Domain.Models.Quiz", "Quiz")
                         .WithMany("QuestionsList")
                         .HasForeignKey("QuizId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("FK__Question_Quiz");
 
                     b.Navigation("Quiz");
@@ -310,8 +293,6 @@ namespace WebsiteTestToeic.Database.Migrations
                     b.HasOne("WebsiteTestToeic.Domain.Models.Test", "Test")
                         .WithMany("QuizzesList")
                         .HasForeignKey("TestId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("FK__Quiz_Test");
 
                     b.Navigation("Test");
@@ -324,15 +305,11 @@ namespace WebsiteTestToeic.Database.Migrations
                     b.HasOne("WebsiteTestToeic.Domain.Models.Quiz", "Quiz")
                         .WithMany("ResultsLists")
                         .HasForeignKey("QuizId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("FK__Result_Quiz");
 
                     b.HasOne("WebsiteTestToeic.Domain.Models.User", "User")
                         .WithMany("ResultsList")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("FK__Result_User");
 
                     b.Navigation("Quiz");
@@ -369,8 +346,6 @@ namespace WebsiteTestToeic.Database.Migrations
                     b.HasOne("WebsiteTestToeic.Domain.Models.Role", "Role")
                         .WithMany("Users")
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("FK__User_Role");
 
                     b.Navigation("Role");
