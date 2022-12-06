@@ -61,13 +61,7 @@ function Register() {
             refAlertRePassword.current.hidden = false;
         }
         e.preventDefault();
-        if (
-            username !== "" &&
-            email !== "" &&
-            password !== "" &&
-            password === rePassword &&
-            refAlertDuplicateEmail.current.hidden === true
-        ) {
+        if (username !== "" && email !== "" && password !== "" && password === rePassword && refAlertDuplicateEmail.current.hidden === true) {
             axios({
                 method: "post",
                 headers: {
@@ -116,9 +110,7 @@ function Register() {
                                 <div className="card-body p-5">
                                     <form className="mb-3 mt-md-4" onSubmit={submitRegister}>
                                         <h2 className="fw-bold text-uppercase mb-2 text-center">Đăng ký</h2>
-                                        <p className="text-black-50 text-center mb-5">
-                                            Vui lòng nhập thông tin tài khoản của bạn!
-                                        </p>
+                                        <p className="text-black-50 text-center mb-5">Vui lòng nhập thông tin tài khoản của bạn!</p>
                                         <div className="mb-3">
                                             <label htmlFor="username" className="form-label">
                                                 Tên tài khoản:
@@ -134,15 +126,9 @@ function Register() {
                                         </div>
                                         <div className="datepicker mb-3">
                                             <label htmlFor="dateOfBirth" className="form-label">
-                                                Date of Birth:
+                                                Ngày sinh:
                                             </label>
-                                            <input
-                                                type="date"
-                                                className="form-control"
-                                                id="dateOfBirth"
-                                                onChange={handleDateOfBirth}
-                                                required
-                                            />
+                                            <input type="date" className="form-control" id="dateOfBirth" onChange={handleDateOfBirth} required />
                                         </div>
                                         <div>
                                             <label htmlFor="email" className="form-label ">

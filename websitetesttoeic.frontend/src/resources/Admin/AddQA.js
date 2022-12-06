@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import xlsx from "xlsx";
+import "./AddQA.css";
 const { REACT_APP_SERVER } = process.env;
 
 function AddQA(props) {
@@ -265,7 +266,7 @@ function AddQA(props) {
                 </div>
                 {QA.length > 0 ? (
                     <div>
-                        <table className="table table-hover my-4 table-responsive" style={{ tableLayout: "fixed" }}>
+                        <table className="table table-hover my-4" style={{ tableLayout: "fixed" }}>
                             <thead className="table-light">
                                 <tr>
                                     <th>#</th>
