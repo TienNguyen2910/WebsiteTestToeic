@@ -81,7 +81,7 @@ function Home(props) {
                     {/* <video style={{ minWidth: "100%", minHeight: "100%" }} playsInline autoPlay muted loop>
                         <source className="h-100" src="https://mdbootstrap.com/img/video/Lines.mp4" type="video/mp4" />
                     </video> */}
-                    <img src="./background.jpg" alt="Girl in a jacket" style={{ backgroundSize: "cover" }} />
+                    <img src="./avatar2.png" alt="Girl in a jacket" style={{ backgroundSize: "cover" }} />
                     <div className="mask">
                         <div className="container d-flex align-items-center justify-content-center text-center h-100">
                             <div className="text-white">
