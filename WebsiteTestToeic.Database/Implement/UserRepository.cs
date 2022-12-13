@@ -57,7 +57,6 @@ namespace WebsiteTestToeic.Database.Implement
             return await _context.Users.Include(u => u.ResultsList)
                 .ThenInclude(resultsList => resultsList.Quiz)
                 .Include(u => u.QuizzesList)
-                .Where(u => u.Role.RoleName != "Admin")
                 .ToListAsync();
         }
 

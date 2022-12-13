@@ -58,7 +58,9 @@ function Admin() {
                         <tbody>
                             {listUser.map((user, index) => {
                                 let maxScore =
-                                    user.resultsList.length > 0 ? user.resultsList.reduce((a, b) => (a.startedAt > b.startedAt ? a : b)) : null;
+                                    user.resultsList.length > 0
+                                        ? user.resultsList.reduce((a, b) => (a.startedAt > b.startedAt ? a : b))
+                                        : null;
                                 return (
                                     <tr key={index}>
                                         <td scope="row">{index + 1}</td>
@@ -75,10 +77,13 @@ function Admin() {
                                                   }).format(new Date(maxScore.startedAt))
                                                 : null}
                                         </td>
+
                                         <td>
-                                            {user.resultsList.length > 0
-                                                ? user.resultsList.reduce((a, b) => (a.startedAt > b.startedAt ? a.score : b.score))
-                                                : ""}
+                                            {user.resultsList.length > 1
+                                                ? user.resultsList.reduce((a, b) =>
+                                                      a.startedAt > b.startedAt ? a.score : b.score
+                                                  )
+                                                : user.resultsList.length > 0 ? user.resultsList[0].score : null}
                                         </td>
                                         <td>
                                             <button className="btn btn-danger" onClick={() => DeleteUser(user.id)}>

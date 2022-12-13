@@ -266,7 +266,7 @@ function AddQA(props) {
                 </div>
                 {QA.length > 0 ? (
                     <div>
-                        <table className="table table-hover my-4" style={{ tableLayout: "fixed" }}>
+                        <table className="table table-hover my-4 addtable" style={{ tableLayout: "fixed" }}>
                             <thead className="table-light">
                                 <tr>
                                     <th>#</th>
@@ -294,7 +294,9 @@ function AddQA(props) {
                                             <td className={index}>{element.answers[0].contentAnswer}</td>
                                             <td className={index}>{element.answers[1].contentAnswer}</td>
                                             <td className={index}>{element.answers[2].contentAnswer}</td>
-                                            <td className={index}>{element.answers[3] ? element.answers[3].contentAnswer : ""}</td>
+                                            <td className={index}>
+                                                {element.answers[3] ? element.answers[3].contentAnswer : ""}
+                                            </td>
                                             <td className={index}>
                                                 {element.answers.map((element, index) => {
                                                     if (element.isAnswer) return element.contentAnswer.substring(0, 1);
@@ -302,7 +304,11 @@ function AddQA(props) {
                                             </td>
                                             <td className={index}>
                                                 {element.image ? (
-                                                    <img width={100} height={100} src={`${REACT_APP_SERVER + "/" + element.image}`}></img>
+                                                    <img
+                                                        width={100}
+                                                        height={100}
+                                                        src={`${REACT_APP_SERVER + "/" + element.image}`}
+                                                    ></img>
                                                 ) : null}
                                             </td>
                                             <td className={index}>{element.answerDetail}</td>
@@ -317,7 +323,14 @@ function AddQA(props) {
                                                         setQuestionEdit(JSON.parse(JSON.stringify(QA[index])));
                                                         QA[index].answers.map((element, indeX) => {
                                                             if (element.isAnswer) {
-                                                                var select = indeX === 0 ? "A" : indeX === 1 ? "B" : indeX === 2 ? "C" : "D";
+                                                                var select =
+                                                                    indeX === 0
+                                                                        ? "A"
+                                                                        : indeX === 1
+                                                                        ? "B"
+                                                                        : indeX === 2
+                                                                        ? "C"
+                                                                        : "D";
                                                                 document.getElementById("IsAnswer").value = select;
                                                             }
                                                         });
@@ -325,7 +338,11 @@ function AddQA(props) {
                                                 >
                                                     <i className="fa-solid fa-edit me-2"></i>
                                                 </a>
-                                                <a className="text-danger" to="#" onClick={() => deleteQuestion(element.id)}>
+                                                <a
+                                                    className="text-danger"
+                                                    to="#"
+                                                    onClick={() => deleteQuestion(element.id)}
+                                                >
                                                     <i className="fa-solid fa-trash me-2"></i>
                                                 </a>
                                             </td>
@@ -357,7 +374,13 @@ function AddQA(props) {
             </div>
 
             {/* Modal Update */}
-            <div className="modal fade" id="modalUpdate" tabIndex="-1" aria-labelledby="modalUpdateLabel" aria-hidden="true">
+            <div
+                className="modal fade"
+                id="modalUpdate"
+                tabIndex="-1"
+                aria-labelledby="modalUpdateLabel"
+                aria-hidden="true"
+            >
                 <div className="modal-dialog modal-dialog-centered modal-lg">
                     <div className="modal-content">
                         <div className="modal-header">
@@ -418,7 +441,9 @@ function AddQA(props) {
                                                 className="ContentAnswer w-100"
                                                 id="ContentAnswer"
                                                 required
-                                                value={questionEdit.answers ? questionEdit.answers[0].contentAnswer : ""}
+                                                value={
+                                                    questionEdit.answers ? questionEdit.answers[0].contentAnswer : ""
+                                                }
                                                 onChange={(e) => handleAnswerEdit(e, 0)}
                                             />
                                         </td>
@@ -431,7 +456,9 @@ function AddQA(props) {
                                                 className="ContentAnswer_1 w-100"
                                                 id="ContentAnswer_1"
                                                 required
-                                                value={questionEdit.answers ? questionEdit.answers[1].contentAnswer : ""}
+                                                value={
+                                                    questionEdit.answers ? questionEdit.answers[1].contentAnswer : ""
+                                                }
                                                 onChange={(e) => handleAnswerEdit(e, 1)}
                                             />
                                         </td>
@@ -444,7 +471,9 @@ function AddQA(props) {
                                                 className="ContentAnswer_2 w-100"
                                                 id="ContentAnswer_2"
                                                 required
-                                                value={questionEdit.answers ? questionEdit.answers[2].contentAnswer : ""}
+                                                value={
+                                                    questionEdit.answers ? questionEdit.answers[2].contentAnswer : ""
+                                                }
                                                 onChange={(e) => handleAnswerEdit(e, 2)}
                                             />
                                         </td>
@@ -505,7 +534,15 @@ function AddQA(props) {
                                             <button className="btn btn-danger mb-3 ml-2 btn-sm" onClick={deleteImage}>
                                                 <i className="fa-solid fa-trash"></i>
                                             </button>
-                                            <input type="file" id="inputImage" accept=".png" className="Image w-100" onChange={handleFileImage} />
+                                            <div className="d-block">
+                                                <input
+                                                    type="file"
+                                                    id="inputImage"
+                                                    accept=".png"
+                                                    className="Image w-100"
+                                                    onChange={handleFileImage}
+                                                />
+                                            </div>
                                         </td>
                                     </tr>
                                 </tbody>

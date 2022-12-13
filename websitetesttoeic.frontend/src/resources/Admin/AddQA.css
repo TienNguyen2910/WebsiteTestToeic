@@ -1,4 +1,4 @@
-tbody > tr > td {
+.addtable tbody > tr > td {
     max-width: 30px;
     white-space: nowrap;
     overflow: hidden;
